@@ -43,6 +43,91 @@ app.controller("mainCtrl", ['$scope', 'apiServices', function ($scope, apiServic
 }]);
 
 app.controller("homeCtrl", ['$scope', 'apiServices',function ($scope, apiServices) {
+    $scope.items2 = [
+            {
+               imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+               caption:"Caption"
+            },
+            {
+               imgurl:"http://desktop-backgrounds-org.s3.amazonaws.com/400x300/twitter-nature-high-definition.jpg",
+               caption:"Caption"
+            },
+             {
+              imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                caption:"Caption"
+               },
+               {
+                imgurl:"http://desktop-backgrounds-org.s3.amazonaws.com/400x300/twitter-nature-high-definition.jpg",
+                    caption:"Caption"
+                },
+               {
+                   imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                    caption:"Caption"
+               },
+               {
+                      imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                       caption:"Caption"
+                 },
+                  {
+                  imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                  caption:"Caption"
+                   },
+                   {
+                      imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                            caption:"Caption"
+                },
+                        {
+                        imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                        caption:"Caption"
+                         },
+                          {
+                         imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                             caption:"Caption"
+                        },
 
-}]);
+        ];
+          /*$scope.items2 = [1,2,3,4,5,6,7,8,9,10];*/
+}]).directive("owlCarousel", function() {
+   	return {
+   		restrict: 'E',
+   		transclude: false,
+   		link: function (scope) {
+   			scope.initCarousel = function(element) {
+   			  // provide any default options you want
+   				var defaultOptions = {
+   				lazyLoad: true,loop: true,margin: 20,
+   				animateOut: 'fadeOut',
+   				animateIn: 'fadeIn',
+   				 autoHeight: true,
+                 autoplayTimeout: 7000,
+                 smartSpeed: 800,
+                 nav: true,
+   				};
+   				var customOptions = scope.$eval($(element).attr('data-options'));
+   				// combine the two options objects
+   				for(var key in customOptions) {
+   					defaultOptions[key] = customOptions[key];
+   				}
+   				// init carousel
+   				var curOwl = $(element).data('owlCarousel');
+   				if(!angular.isDefined(curOwl)) {
+     				$(element).owlCarousel(defaultOptions);
+   				}
+   				scope.cnt++;
+   			};
+   		}
+   	};
+   })
+   .directive('owlCarouselItem', [function() {
+   	return {
+   		restrict: 'A',
+   		transclude: false,
+   		link: function(scope, element) {
+   		  // wait for the last item in the ng-repeat then call init
+   			if(scope.$last) {
+   				scope.initCarousel(element.parent());
+   			}
+   		}
+   	};
+   }]);
 
