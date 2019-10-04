@@ -102,6 +102,23 @@ app.controller("homeCtrl", ['$scope', 'apiServices',function ($scope, apiService
                  autoplayTimeout: 7000,
                  smartSpeed: 800,
                  nav: true,
+                 responsive: {
+                     0: {
+                       items: 1
+                     },
+
+                     600: {
+                       items: 3
+                     },
+
+                     1024: {
+                       items: 4
+                     },
+
+                     1366: {
+                       items: 4
+                     }
+                   }
    				};
    				var customOptions = scope.$eval($(element).attr('data-options'));
    				// combine the two options objects
