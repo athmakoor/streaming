@@ -46,3 +46,11 @@ app.controller("homeCtrl", ['$scope', 'apiServices',function ($scope, apiService
 
 }]);
 
+app.controller("playCtrl", ['$scope', 'apiServices',function ($scope, apiServices) {
+    $('#playModel').on('shown.bs.modal', function (e) {
+      $('.video').bind('contextmenu', function(e) {
+          return false;
+      });
+    });
+}]);
+

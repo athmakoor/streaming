@@ -28,6 +28,12 @@ public class WebController {
         return "home";
     }
 
+    @GetMapping("/play")
+    public String play(final Map<String, Object> model) {
+        webService.updateDefaultModel(model);
+        return "play";
+    }
+
     @GetMapping("/views/**")
     public String others(final Map<String, Object> model) {
         webService.updateDefaultModel(model);

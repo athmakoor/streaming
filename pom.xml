@@ -188,7 +188,7 @@
 						<artifactId>spring-boot-maven-plugin</artifactId>
 						<configuration>
 							<executable>true</executable>
-							<outputDirectory>/var/default</outputDirectory>
+							<outputDirectory>/var/streaming</outputDirectory>
 						</configuration>
 					</plugin>
 				</plugins>
