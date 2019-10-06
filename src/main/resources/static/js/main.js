@@ -42,8 +42,8 @@ app.controller("mainCtrl", ['$scope', 'apiServices', function ($scope, apiServic
 
 }]);
 
-app.controller("homeCtrl", ['$scope', 'apiServices',function ($scope, apiServices) {
-    $scope.items2 = [
+app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope, apiServices, $timeout) {
+    $scope.items2 = {"CATEGORY 1":[
             {
                imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
                caption:"Caption"
@@ -85,8 +85,113 @@ app.controller("homeCtrl", ['$scope', 'apiServices',function ($scope, apiService
                              caption:"Caption"
                         },
 
-        ];
-          /*$scope.items2 = [1,2,3,4,5,6,7,8,9,10];*/
+        ],
+        "CATEGORY 2":[
+                    {
+                       imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                       caption:"Caption"
+                    },
+                    {
+                       imgurl:"http://desktop-backgrounds-org.s3.amazonaws.com/400x300/twitter-nature-high-definition.jpg",
+                       caption:"Caption"
+                    },
+                     {
+                      imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                        caption:"Caption"
+                       },
+                       {
+                        imgurl:"http://desktop-backgrounds-org.s3.amazonaws.com/400x300/twitter-nature-high-definition.jpg",
+                            caption:"Caption"
+                        },
+                       {
+                           imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                            caption:"Caption"
+                       },
+                       {
+                              imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                               caption:"Caption"
+                         },
+                          {
+                          imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                          caption:"Caption"
+                           },
+                           {
+                              imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                                    caption:"Caption"
+                        },
+                                {
+                                imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                                caption:"Caption"
+                                 },
+                                  {
+                                 imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                                     caption:"Caption"
+                                },
+
+                ],
+                "CATEGORY 3":[
+                            {
+                               imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                               caption:"Caption"
+                            },
+                            {
+                               imgurl:"http://desktop-backgrounds-org.s3.amazonaws.com/400x300/twitter-nature-high-definition.jpg",
+                               caption:"Caption"
+                            },
+                             {
+                              imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                                caption:"Caption"
+                               },
+                               {
+                                imgurl:"http://desktop-backgrounds-org.s3.amazonaws.com/400x300/twitter-nature-high-definition.jpg",
+                                    caption:"Caption"
+                                },
+                               {
+                                   imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                                    caption:"Caption"
+                               },
+                               {
+                                      imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                                       caption:"Caption"
+                                 },
+                                  {
+                                  imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                                  caption:"Caption"
+                                   },
+                                   {
+                                      imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                                            caption:"Caption"
+                                },
+                                        {
+                                        imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                                        caption:"Caption"
+                                         },
+                                          {
+                                         imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                                             caption:"Caption"
+                                        },
+
+                        ]};
+    $scope.playVideo = function (val) {
+
+         $timeout(function () {
+             $scope.currentSelected = val;
+             $("video source").attr("src", "/videos/movie.mp4");
+             $("video").attr("src", "/videos/movie.mp4");
+             $('#playModel').modal('show');
+             $scope.$apply();
+         }, 500);
+
+    }
+    $('#playModel').on('shown.bs.modal', function (e) {
+      $('.video').bind('contextmenu', function(e) {
+          return false;
+      });
+    });
+
+    $('#playModel').on('hidden.bs.modal', function () {
+        $("video").each(function () { this.pause() });
+    });
 }]).directive("owlCarousel", function() {
    	return {
    		restrict: 'E',
@@ -95,7 +200,7 @@ app.controller("homeCtrl", ['$scope', 'apiServices',function ($scope, apiService
    			scope.initCarousel = function(element) {
    			  // provide any default options you want
    				var defaultOptions = {
-   				lazyLoad: true,loop: true,margin: 20,
+   				lazyLoad: true,loop: true,margin: 0,
    				animateOut: 'fadeOut',
    				animateIn: 'fadeIn',
    				 autoHeight: true,
@@ -149,10 +254,6 @@ app.controller("homeCtrl", ['$scope', 'apiServices',function ($scope, apiService
    }]);
 
 app.controller("playCtrl", ['$scope', 'apiServices',function ($scope, apiServices) {
-    $('#playModel').on('shown.bs.modal', function (e) {
-      $('.video').bind('contextmenu', function(e) {
-          return false;
-      });
-    });
+
 }]);
 

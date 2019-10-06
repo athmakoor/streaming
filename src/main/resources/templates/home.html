@@ -5,15 +5,51 @@
 <title layout:fragment="title">Home</title>
 <div layout:fragment="content" id="app" class="off-canvas-content"  ng-controller="homeCtrl">
     <div class="carousel-set" >
-        <div class="carousel-header">
-            Carousel 1
+        <div ng-repeat="(category, videoGroups) in items2">
+            <h3 class="carousel-header"> {{category}}</h3>
+            <data-owl-carousel class="owl-carousel" data-options="{navigation: false, pagination: true, rewindNav : false}">
+                <div ng-click="playVideo(item)" owl-carousel-item="" ng-repeat="item in videoGroups track by $index" class="item">
+                    <div class="carousal-data">
+                        <div class="carousal-img">
+                            <img ng-src="{{item.imgurl}}"/>
+                        </div>
+                        <div class="carousal-hover">
+                            <div>
+                                PLAY
+                            </div>
+
+                        </div>
+                    </div>
+                    <p class="caption">{{item.caption}}</p>
+                </div>
+            </data-owl-carousel>
+            <hr class="carousal-hr">
         </div>
-        <data-owl-carousel class="owl-carousel" data-options="{navigation: false, pagination: true, rewindNav : false}">
-            <div owl-carousel-item="" ng-repeat="item in items2 track by $index" class="item">
-                <img ng-src="{{item.imgurl}}"/>
-                <p class="caption">{{item.caption}}</p>
+
+    </div>
+
+    <div class="modal fade" id="playModel" role="dialog" tabindex='-1'>
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content transparent-model">
+                <div class="modal-header">
+                    <button type="button" class="playClose close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">{{currentSelected.caption}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="video col-md-4 col-xs-12">
+                        <video width="100%" controls controlsList="nodownload">
+                            <!--<source ng-src="{{/videos/movie.mp4}}" type="video/mp4">-->
+                        </video>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                </div>
             </div>
-        </data-owl-carousel>
+
+        </div>
     </div>
 
 </div>
