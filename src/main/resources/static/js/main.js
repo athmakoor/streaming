@@ -180,7 +180,7 @@ app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
              $("video").attr("src", "/videos/movie.mp4");
              $('#playModel').modal('show');
              $scope.$apply();
-         }, 500);
+         }, 100);
 
     }
     $('#playModel').on('shown.bs.modal', function (e) {
@@ -200,16 +200,14 @@ app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
    			scope.initCarousel = function(element) {
    			  // provide any default options you want
    				var defaultOptions = {
-   				lazyLoad: true,loop: true,margin: 0,
+   				margin: 0,
    				animateOut: 'fadeOut',
    				animateIn: 'fadeIn',
-   				 autoHeight: true,
-                 autoplayTimeout: 7000,
                  smartSpeed: 800,
                  nav: true,
                  responsive: {
                      0: {
-                       items: 1
+                       items: 3
                      },
 
                      600: {

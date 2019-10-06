@@ -5,11 +5,11 @@
 <title layout:fragment="title">Home</title>
 <div layout:fragment="content" id="app" class="off-canvas-content"  ng-controller="homeCtrl">
     <div class="carousel-set" >
-        <div ng-repeat="(category, videoGroups) in items2">
+        <div ng-cloak ng-repeat="(category, videoGroups) in items2">
             <h3 class="carousel-header"> {{category}}</h3>
             <data-owl-carousel class="owl-carousel" data-options="{navigation: false, pagination: true, rewindNav : false}">
                 <div ng-click="playVideo(item)" owl-carousel-item="" ng-repeat="item in videoGroups track by $index" class="item">
-                    <div class="carousal-data">
+                    <div ng-cloak class="carousal-data">
                         <div class="carousal-img">
                             <img ng-src="{{item.imgurl}}"/>
                         </div>
