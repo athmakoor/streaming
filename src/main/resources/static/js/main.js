@@ -246,6 +246,7 @@ app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
    				margin: 0,
    				animateOut: 'fadeOut',
    				animateIn: 'fadeIn',
+   				lazyLoad: true,
                  smartSpeed: 800,
                  nav: true,
                  responsive: {
