@@ -4,6 +4,7 @@
       layout:decorate="~{base}">
 <title layout:fragment="title">Subscribe</title>
 <div layout:fragment="content" id="app" class="off-canvas-content"  ng-controller="subscribeCtrl">
+    <div th:replace="widgets/fragments :: sideNav">...</div>
     <div style="text-align: center">
         <img src="/images/banner.png" style="width: 100%" alt="banner" />
         <br/><br/>
@@ -13,19 +14,18 @@
     </div>
     <br/>
     <center><font style="color:black;font-family:Verdana;font-size:12px;">1.250 OMR/week (or proportionally as per your balance)</font><br/>
-        <font style="color:black;font-family:Verdana;font-size:12px;">(This is an auto renewal service.)</font>
+        <div style="color:black;font-family:Verdana;font-size:12px;">(This is an auto renewal service.)</div>
     </center>
     <br/><br/>
-    <font style="color:crimson;font-family:Verdana;font-size:14px;">Watch Videos on your mobile.</font>
+    <div style="color:crimson;font-family:Verdana;font-size:14px;">Watch Videos on your mobile.</div>
     <br/>
-    <font style="color:black;font-family:Verdana;font-size:12px;">Welcome to Sheeez!. Subscribers of this service enjoy videos for Cooking, Makeup, Health & more.
-    </font>
-    <ul>
-        <li><font style="color:black;font-family:Verdana;font-size:12px;">To unsubscribe anytime send unsub 5 or STOP to 92022</font>
-        </li>
-    </ul>
+    <div style="color:black;font-family:Verdana;font-size:12px;">You will subscribe to the Femvideos premium content service. Enjoy host of Cooking, Makeup, Health & more videos with
+        Femvideos Premium. If u are first time user 2 days will be free. The subscription will be auto renewed at 1.250 OMR/week after free trial is over and it will be active until you send UNSUB
+        to 90089(Omantel) & UNSUB FEMV to 91998(Ooredoo Oman). You must be more than 18 years or have the permission from the person who pays your bill to use this service.
+    </div>
 
 </div>
 
+<div layout:fragment="scripts"></div>
 
 </html>

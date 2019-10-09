@@ -46,6 +46,22 @@ public class WebController {
         return "confirmation";
     }
 
+    @GetMapping("/info/faq")
+    public String faq() {
+        return "info/faq";
+    }
+
+    @GetMapping("/info/tnc")
+    public String tnc() {
+        return "info/tnc";
+    }
+
+    @GetMapping("/info/privacy")
+    public String privacy() {
+        return "info/privacy";
+    }
+
+
     @GetMapping("/views/**")
     public String others(final Map<String, Object> model) {
         webService.updateDefaultModel(model);

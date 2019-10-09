@@ -219,8 +219,8 @@ app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
 
          $timeout(function () {
              $scope.currentSelected = val;
-             $("video source").attr("src", "/videos/movie.mp4");
-             $("video").attr("src", "/videos/movie.mp4");
+             $("video source").attr("src", "/videos/sample.mp4");
+             $("video").attr("src", "/videos/sample.mp4");
              $('#playModel').modal('show');
              $scope.$apply();
          }, 100);
@@ -299,5 +299,7 @@ app.controller("playCtrl", ['$scope', 'apiServices',function ($scope, apiService
 }]);
 
 app.controller("subscribeCtrl", ['$scope', 'apiServices',function ($scope, apiServices) {
+    $scope.confirmSubscription = function () {
 
+    };
 }]);
