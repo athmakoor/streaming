@@ -172,6 +172,49 @@ app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
                                         },
 
                         ]};
+    $scope.recommendedVideos = [
+                                                           {
+                                                              imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                                                              caption:"Caption"
+                                                           },
+                                                           {
+                                                              imgurl:"http://desktop-backgrounds-org.s3.amazonaws.com/400x300/twitter-nature-high-definition.jpg",
+                                                              caption:"Caption"
+                                                           },
+                                                            {
+                                                             imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                                                               caption:"Caption"
+                                                              },
+                                                              {
+                                                               imgurl:"http://desktop-backgrounds-org.s3.amazonaws.com/400x300/twitter-nature-high-definition.jpg",
+                                                                   caption:"Caption"
+                                                               },
+                                                              {
+                                                                  imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                                                                   caption:"Caption"
+                                                              },
+                                                              {
+                                                                     imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                                                                      caption:"Caption"
+                                                                },
+                                                                 {
+                                                                 imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                                                                 caption:"Caption"
+                                                                  },
+                                                                  {
+                                                                     imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                                                                           caption:"Caption"
+                                                               },
+                                                                       {
+                                                                       imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                                                                       caption:"Caption"
+                                                                        },
+                                                                         {
+                                                                        imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
+                                                                            caption:"Caption"
+                                                                       },
+
+                                                       ];
     $scope.playVideo = function (val) {
 
          $timeout(function () {
@@ -255,3 +298,6 @@ app.controller("playCtrl", ['$scope', 'apiServices',function ($scope, apiService
 
 }]);
 
+app.controller("subscribeCtrl", ['$scope', 'apiServices',function ($scope, apiServices) {
+
+}]);

@@ -16,6 +16,9 @@ video {
 .content {
   padding: 16px;
 }
+.modal-footer {
+    text-align: left;
+}
 
 .sticky {
   position: fixed;

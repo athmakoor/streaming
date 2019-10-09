@@ -34,6 +34,18 @@ public class WebController {
         return "play";
     }
 
+    @GetMapping("/subscribe")
+    public String subscribe(final Map<String, Object> model) {
+        webService.updateDefaultModel(model);
+        return "subscribe";
+    }
+
+    @GetMapping("/confirmation")
+    public String confirmation(final Map<String, Object> model) {
+        webService.updateDefaultModel(model);
+        return "confirmation";
+    }
+
     @GetMapping("/views/**")
     public String others(final Map<String, Object> model) {
         webService.updateDefaultModel(model);
