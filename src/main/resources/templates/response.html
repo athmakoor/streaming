@@ -1,0 +1,22 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{base}">
+<title layout:fragment="title">Response</title>
+<div layout:fragment="content" id="app" class="off-canvas-content"  ng-controller="responseCtrl">
+
+
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    window.error = /*[[${error}]]*/ null;
+    window.msisdn = /*[[${msisdn}]]*/ null;
+
+    /*]]>*/
+</script>
+
+<div layout:fragment="scripts"></div>
+
+</html>

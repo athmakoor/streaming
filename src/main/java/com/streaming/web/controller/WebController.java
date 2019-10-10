@@ -7,7 +7,9 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.streaming.service.HeaderEnrichmentService;
 import com.streaming.web.service.WebService;
 
 @Controller
@@ -15,6 +17,8 @@ import com.streaming.web.service.WebService;
 public class WebController {
     @Resource
     private WebService webService;
+    @Resource
+    private HeaderEnrichmentService headerEnrichmentService;
 
     @GetMapping("/")
     public String base(final Map<String, Object> model) {
@@ -44,6 +48,17 @@ public class WebController {
     public String confirmation(final Map<String, Object> model) {
         webService.updateDefaultModel(model);
         return "confirmation";
+    }
+
+    @GetMapping("/redirect")
+    public String redirect(final Map<String, Object> model,
+                           @RequestParam(value = "correlatorId", required = false) final String correlatorId,
+                           @RequestParam(value = "token", required = false) final String token,
+                           @RequestParam(value = "statusCode", required = false) final Integer statusCode) {
+        webService.updateDefaultModel(model);
+        headerEnrichmentService.updateModel(model, correlatorId, token, statusCode);
+
+        return "response";
     }
 
     @GetMapping("/info/faq")
