@@ -36,6 +36,23 @@ app.service('apiServices', function () {
         request.error = errCb;
         $.ajax(request);
     };*/
+
+    this.getGamesByCategory = function (callback) {
+        var request = {}, errCb, successCb;
+        errCb = function (error) {
+            callback(error);
+        };
+
+        successCb = function (data) {
+            callback(null, data);
+        };
+
+        request.type = "get";
+        request.url = "/api/video/home";
+        request.success = successCb;
+        request.error = errCb;
+        $.ajax(request);
+    };
 });
 
 app.controller("mainCtrl", ['$scope', 'apiServices', function ($scope, apiServices) {
@@ -215,8 +232,11 @@ app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
                                                                        },
 
                                                        ];
+    apiServices.getGamesByCategory(function (error, data) {
+        $scope.videosByCategory = data;
+        $scope.$apply();
+    });
     $scope.playVideo = function (val) {
-
          $timeout(function () {
              $scope.currentSelected = val;
              $("video source").attr("src", "/videos/sample.mp4");
@@ -303,4 +323,9 @@ app.controller("subscribeCtrl", ['$scope', 'apiServices',function ($scope, apiSe
     $scope.confirmSubscription = function () {
 
     };
+}]);
+
+app.controller("responseCtrl", ['$scope', 'apiServices', '$timeout',function ($scope, apiServices, $timeout) {
+    console.log(window.msisdn);
+    console.log(window.error);
 }]);

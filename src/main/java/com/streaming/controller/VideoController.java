@@ -15,7 +15,7 @@ import com.streaming.bean.Video;
 import com.streaming.service.VideoService;
 
 @RestController
-@RequestMapping("/video")
+@RequestMapping("/api/video")
 public class VideoController {
     @Resource
     private VideoService videoService;

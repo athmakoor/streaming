@@ -6,13 +6,13 @@
 <div layout:fragment="content" id="app" class="off-canvas-content"  ng-controller="homeCtrl">
     <div th:replace="widgets/fragments :: sideNav">...</div>
     <div class="carousel-set" >
-        <div ng-cloak ng-repeat="(category, videoGroups) in items2">
+        <div ng-cloak ng-repeat="(category, videoGroups) in videosByCategory">
             <h3 class="carousel-header"> {{category}}</h3>
             <data-owl-carousel class="owl-carousel" data-options="{navigation: false, pagination: true, rewindNav : false}">
                 <div ng-click="playVideo(item)" owl-carousel-item="" ng-repeat="item in videoGroups track by $index" class="item">
                     <div ng-cloak class="carousal-data">
                         <div class="carousal-img">
-                            <img ng-src="{{item.imgurl}}"/>
+                            <img ng-src="{{item.imageUrl}}"/>
                         </div>
                         <div class="carousal-hover">
                             <div>
@@ -21,7 +21,7 @@
 
                         </div>
                     </div>
-                    <p class="caption">{{item.caption}}</p>
+                    <p class="caption">{{item.displayName}}</p>
                 </div>
             </data-owl-carousel>
             <hr class="carousal-hr">
