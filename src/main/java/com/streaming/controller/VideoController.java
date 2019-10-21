@@ -1,5 +1,6 @@
 package com.streaming.controller;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,11 @@ public class VideoController {
     @GetMapping("/category/{category}")
     public List<Video> findByCategory(@PathVariable("category") final String category) {
         return videoService.findByCategoryActiveTrue(category);
+    }
+
+    @GetMapping("/createImages")
+    public void createImages() throws IOException {
+        videoService.createVideoImages();
     }
 
     @GetMapping("/all")
