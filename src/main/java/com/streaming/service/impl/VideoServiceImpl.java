@@ -1,6 +1,5 @@
 package com.streaming.service.impl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +7,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import com.streaming.utils.VideoPosterCreator;
 import org.springframework.stereotype.Component;
 
 import com.streaming.bean.Video;
@@ -64,16 +62,5 @@ public class VideoServiceImpl implements VideoService {
         }
 
         return map;
-    }
-
-    @Override
-    public void createVideoImages() throws IOException {
-        Iterable<VideoEntity> allVideos = videoRepository.findAll();
-
-        for (VideoEntity video : allVideos) {
-            if (video.getImageUrl() == null || video.getImageUrl().equals("404.png")) {
-                VideoPosterCreator.createPoster("sample", "sample");
-            }
-        }
     }
 }

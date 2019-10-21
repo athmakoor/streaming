@@ -1,6 +1,5 @@
 package com.streaming.service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +12,4 @@ public interface VideoService {
     Map<String, List<Video>> findByCategoriesActiveTrue(List<String> categories);
 
     Map<String, List<Video>> findByCategoriesGroupByCategory();
-
-    void createVideoImages() throws IOException;
 }
