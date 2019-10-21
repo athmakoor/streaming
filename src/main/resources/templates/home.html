@@ -6,14 +6,14 @@
 <div layout:fragment="content" id="app" class="off-canvas-content"  ng-controller="homeCtrl">
     <div th:replace="widgets/fragments :: sideNav">...</div>
     <div>
-        <data-owl-carousel class="owl-carousel" data-options="{dots: true,smartSpeed: 2000, nav: false, responsive:{0:{items:1}}}">
-            <div ng-click="playVideo(item)" owl-carousel-item="" ng-repeat="item in bannerImages track by $index" class="item">
+        <data-owl-carousel class="owl-carousel"
+                           data-options="{lazyLoad: false, loop:true, dots: true, smartSpeed: 0, nav: false, responsive:{0:{items:1}}}">
+            <div owl-carousel-item="" ng-repeat="item in bannerImages track by $index" class="item">
                 <div ng-cloak class="carousal-data">
                     <div class="carousal-img">
                         <img ng-src="/images/{{item}}">
                     </div>
                 </div>
-                <p class="caption">{{item.displayName}}</p>
             </div>
         </data-owl-carousel>
     </div>

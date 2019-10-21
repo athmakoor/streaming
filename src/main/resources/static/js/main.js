@@ -97,10 +97,11 @@ app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
    			scope.initCarousel = function(element) {
    			  // provide any default options you want
    				var defaultOptions = {
-   				margin: 0,
+   				margin: 5,
    				animateOut: 'fadeOut',
    				animateIn: 'fadeIn',
    				lazyLoad: true,
+   				dots: false,
                  smartSpeed: 800,
                  nav: true,
                  navigation: false,
