@@ -60,178 +60,8 @@ app.controller("mainCtrl", ['$scope', 'apiServices', function ($scope, apiServic
 }]);
 
 app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope, apiServices, $timeout) {
-    $scope.items2 = {"CATEGORY 1":[
-            {
-               imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-               caption:"Caption"
-            },
-            {
-               imgurl:"http://desktop-backgrounds-org.s3.amazonaws.com/400x300/twitter-nature-high-definition.jpg",
-               caption:"Caption"
-            },
-             {
-              imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                caption:"Caption"
-               },
-               {
-                imgurl:"http://desktop-backgrounds-org.s3.amazonaws.com/400x300/twitter-nature-high-definition.jpg",
-                    caption:"Caption"
-                },
-               {
-                   imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                    caption:"Caption"
-               },
-               {
-                      imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                       caption:"Caption"
-                 },
-                  {
-                  imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                  caption:"Caption"
-                   },
-                   {
-                      imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                            caption:"Caption"
-                },
-                        {
-                        imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                        caption:"Caption"
-                         },
-                          {
-                         imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                             caption:"Caption"
-                        },
+    $scope.bannerImages = ["Banner1.jpg", "Banner2.jpg"]
 
-        ],
-        "CATEGORY 2":[
-                    {
-                       imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                       caption:"Caption"
-                    },
-                    {
-                       imgurl:"http://desktop-backgrounds-org.s3.amazonaws.com/400x300/twitter-nature-high-definition.jpg",
-                       caption:"Caption"
-                    },
-                     {
-                      imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                        caption:"Caption"
-                       },
-                       {
-                        imgurl:"http://desktop-backgrounds-org.s3.amazonaws.com/400x300/twitter-nature-high-definition.jpg",
-                            caption:"Caption"
-                        },
-                       {
-                           imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                            caption:"Caption"
-                       },
-                       {
-                              imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                               caption:"Caption"
-                         },
-                          {
-                          imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                          caption:"Caption"
-                           },
-                           {
-                              imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                                    caption:"Caption"
-                        },
-                                {
-                                imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                                caption:"Caption"
-                                 },
-                                  {
-                                 imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                                     caption:"Caption"
-                                },
-
-                ],
-                "CATEGORY 3":[
-                            {
-                               imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                               caption:"Caption"
-                            },
-                            {
-                               imgurl:"http://desktop-backgrounds-org.s3.amazonaws.com/400x300/twitter-nature-high-definition.jpg",
-                               caption:"Caption"
-                            },
-                             {
-                              imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                                caption:"Caption"
-                               },
-                               {
-                                imgurl:"http://desktop-backgrounds-org.s3.amazonaws.com/400x300/twitter-nature-high-definition.jpg",
-                                    caption:"Caption"
-                                },
-                               {
-                                   imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                                    caption:"Caption"
-                               },
-                               {
-                                      imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                                       caption:"Caption"
-                                 },
-                                  {
-                                  imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                                  caption:"Caption"
-                                   },
-                                   {
-                                      imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                                            caption:"Caption"
-                                },
-                                        {
-                                        imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                                        caption:"Caption"
-                                         },
-                                          {
-                                         imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                                             caption:"Caption"
-                                        },
-
-                        ]};
-    $scope.recommendedVideos = [
-                                                           {
-                                                              imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                                                              caption:"Caption"
-                                                           },
-                                                           {
-                                                              imgurl:"http://desktop-backgrounds-org.s3.amazonaws.com/400x300/twitter-nature-high-definition.jpg",
-                                                              caption:"Caption"
-                                                           },
-                                                            {
-                                                             imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                                                               caption:"Caption"
-                                                              },
-                                                              {
-                                                               imgurl:"http://desktop-backgrounds-org.s3.amazonaws.com/400x300/twitter-nature-high-definition.jpg",
-                                                                   caption:"Caption"
-                                                               },
-                                                              {
-                                                                  imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                                                                   caption:"Caption"
-                                                              },
-                                                              {
-                                                                     imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                                                                      caption:"Caption"
-                                                                },
-                                                                 {
-                                                                 imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                                                                 caption:"Caption"
-                                                                  },
-                                                                  {
-                                                                     imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                                                                           caption:"Caption"
-                                                               },
-                                                                       {
-                                                                       imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                                                                       caption:"Caption"
-                                                                        },
-                                                                         {
-                                                                        imgurl:"https://i.pinimg.com/originals/84/67/26/846726299dc5abbeb5d60016f0fb32e9.jpg",
-                                                                            caption:"Caption"
-                                                                       },
-
-                                                       ];
     apiServices.getGamesByCategory(function (error, data) {
         $scope.videosByCategory = data;
         $scope.$apply();
@@ -239,10 +69,14 @@ app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
     $scope.playVideo = function (val) {
          $timeout(function () {
              $scope.currentSelected = val;
-             $("video source").attr("src", "/videos/sample.mp4");
-             $("video").attr("src", "/videos/sample.mp4");
-             $('#playModel').modal('show');
+             if ($scope.recommendedVideos === undefined) {
+                $scope.recommendedVideos = $scope.videosByCategory[val.category];
+             }
+
              $scope.$apply();
+             $(".video video source").attr("src", "/videos/" + val.videoUrl);
+             $(".video video").attr("src", "/videos/" + val.videoUrl);
+             $('#playModel').modal('show');
          }, 100);
 
     }
@@ -253,7 +87,7 @@ app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
     });
 
     $('#playModel').on('hidden.bs.modal', function () {
-        $("video").each(function () { this.pause() });
+        $(".video video").each(function () { this.pause() });
     });
 }]).directive("owlCarousel", function() {
    	return {
@@ -269,6 +103,9 @@ app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
    				lazyLoad: true,
                  smartSpeed: 800,
                  nav: true,
+                 navigation: false,
+                pagination: true,
+                 rewindNav : false,
                  responsive: {
                      0: {
                        items: 3

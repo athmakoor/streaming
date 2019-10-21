@@ -5,20 +5,28 @@
 <title layout:fragment="title">Home</title>
 <div layout:fragment="content" id="app" class="off-canvas-content"  ng-controller="homeCtrl">
     <div th:replace="widgets/fragments :: sideNav">...</div>
+    <div>
+        <data-owl-carousel class="owl-carousel" data-options="{dots: true,smartSpeed: 2000, nav: false, responsive:{0:{items:1}}}">
+            <div ng-click="playVideo(item)" owl-carousel-item="" ng-repeat="item in bannerImages track by $index" class="item">
+                <div ng-cloak class="carousal-data">
+                    <div class="carousal-img">
+                        <img ng-src="/images/{{item}}">
+                    </div>
+                </div>
+                <p class="caption">{{item.displayName}}</p>
+            </div>
+        </data-owl-carousel>
+    </div>
     <div class="carousel-set" >
         <div ng-cloak ng-repeat="(category, videoGroups) in videosByCategory">
             <h3 class="carousel-header"> {{category}}</h3>
-            <data-owl-carousel class="owl-carousel" data-options="{navigation: false, pagination: true, rewindNav : false}">
+            <data-owl-carousel class="owl-carousel" data-options="{}">
                 <div ng-click="playVideo(item)" owl-carousel-item="" ng-repeat="item in videoGroups track by $index" class="item">
                     <div ng-cloak class="carousal-data">
                         <div class="carousal-img">
-                            <img ng-src="{{item.imageUrl}}"/>
-                        </div>
-                        <div class="carousal-hover">
-                            <div>
-                                PLAY
-                            </div>
-
+                            <video width="100%">
+                                <source ng-src="/videos/{{item.videoUrl}}#t=3" type="video/mp4">
+                            </video>
                         </div>
                     </div>
                     <p class="caption">{{item.displayName}}</p>
@@ -36,7 +44,7 @@
             <div class="modal-content transparent-model">
                 <div class="modal-header">
                     <button type="button" class="playClose close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">{{currentSelected.caption}}</h4>
+                    <h4 class="modal-title">{{currentSelected.displayName}}</h4>
                 </div>
                 <div class="modal-body">
                     <div class="video col-md-12 no-padding">
@@ -46,23 +54,19 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <div>Video description for {{currentSelected.caption}} goes here.</div>
+                    <!--<h2>{{currentSelected.displayName}}</h2>-->
                     <div>
                         <h2 class="no-padding"> Recommended Videos</h2>
-                        <data-owl-carousel class="owl-carousel" data-options="{navigation: false, pagination: true, rewindNav : false}">
+                        <data-owl-carousel class="owl-carousel" data-options="{}">
                             <div ng-click="playVideo(item)" owl-carousel-item="" ng-repeat="item in recommendedVideos track by $index" class="item">
                                 <div ng-cloak class="carousal-data">
                                     <div class="carousal-img">
-                                        <img ng-src="{{item.imgurl}}"/>
-                                    </div>
-                                    <div class="carousal-hover">
-                                        <div>
-                                            PLAY
-                                        </div>
-
+                                        <video width="100%">
+                                            <source ng-src="/videos/{{item.videoUrl}}#t=3" type="video/mp4">
+                                        </video>
                                     </div>
                                 </div>
-                                <p class="caption">{{item.caption}}</p>
+                                <p class="caption">{{item.displayName}}</p>
                             </div>
                         </data-owl-carousel>
                     </div>

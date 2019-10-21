@@ -23,7 +23,7 @@ video {
 .sticky {
   position: fixed;
   top: 0;
-  width: inherit;
+  width: 100%;
   z-index: 10;
 }
 
@@ -110,9 +110,9 @@ h2 span{
      height: 400px;
  }
  .caption{
- font-size: 20px;
+ font-size: 12px;
      text-align: center;
-     padding: 7px;
+     padding: 4px;
  }
  .carousel-header{
      padding: 0;
