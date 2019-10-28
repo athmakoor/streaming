@@ -60,7 +60,7 @@ app.controller("mainCtrl", ['$scope', 'apiServices', function ($scope, apiServic
 }]);
 
 app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope, apiServices, $timeout) {
-    $scope.bannerImages = ["Banner1.jpg", "Banner2.jpg"]
+    $scope.bannerImages = ["cooking Tips.jpg", "cooking-tips-copied-2.jpg", "Health tips.jpg", "makeup tips.jpg"]
 
     apiServices.getGamesByCategory(function (error, data) {
         $scope.videosByCategory = data;
