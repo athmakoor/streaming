@@ -1,3 +1,7 @@
+body {
+    background: black;
+    color: white;
+}
 .top-container {
   background-color: #f1f1f1;
   text-align: center;
@@ -54,11 +58,11 @@ video {
   height: 15px;
   border-radius: 50%;
   display: inline-block;
-  background: #ccc;
+  background: #a0a0a0;
   margin: 0 3px;
 }
 .owl-dots button.owl-dot.active {
-  background-color: #000;
+  background-color: #fff;
 }
 .owl-dots button.owl-dot:focus {
   outline: none;
@@ -110,9 +114,10 @@ h2 span{
      height: 400px;
  }
  .caption{
- font-size: 12px;
-     text-align: center;
-     padding: 4px;
+    height: 2em;
+    line-height: 1em;
+    overflow: hidden;
+    text-align: center;
  }
  .carousel-header{
      padding: 0;
