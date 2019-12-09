@@ -10,7 +10,6 @@ public class HeaderEnrichmentUtil {
     private static final String key = "aesEncryptionKey";
     private static final String initVector = "encryptionIntVec";
 
-
     public static String decryptMsisdn(String token) {
         try {
             IvParameterSpec iv = new IvParameterSpec(initVector.getBytes("UTF-8"));

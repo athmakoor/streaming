@@ -24,9 +24,7 @@
                 <div ng-click="playVideo(item)" owl-carousel-item="" ng-repeat="item in videoGroups track by $index" class="item">
                     <div ng-cloak class="carousal-data">
                         <div class="carousal-img">
-                            <video width="100%">
-                                <source ng-src="https://femvideos.s3.us-east-2.amazonaws.com/{{item.videoUrl}}#t=3" type="video/mp4">
-                            </video>
+                            <img ng-src="https://femvideos.s3.us-east-2.amazonaws.com/icons/{{item.imageUrl}}">
                         </div>
                     </div>
                     <p class="caption">{{item.displayName}}</p>
@@ -61,9 +59,7 @@
                             <div ng-click="playVideo(item)" owl-carousel-item="" ng-repeat="item in recommendedVideos track by $index" class="item">
                                 <div ng-cloak class="carousal-data">
                                     <div class="carousal-img">
-                                        <video width="100%">
-                                            <source ng-src="https://femvideos.s3.us-east-2.amazonaws.com/{{item.videoUrl}}#t=3" type="video/mp4">
-                                        </video>
+                                        <img ng-src="https://femvideos.s3.us-east-2.amazonaws.com/icons/{{item.imageUrl}}">
                                     </div>
                                 </div>
                                 <p class="caption">{{item.displayName}}</p>
