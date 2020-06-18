@@ -74,8 +74,8 @@ app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
              }
 
              $scope.$apply();
-             $(".video video source").attr("src", "https://mooddit.s3.us-east-2.amazonaws.com/" + val.videoUrl);
-             $(".video video").attr("src", "https://mooddit.s3.us-east-2.amazonaws.com/" + val.videoUrl);
+             $(".video video source").attr("src", "https://mooddit.s3.ap-south-1.amazonaws.com/" + val.videoUrl);
+             $(".video video").attr("src", "https://mooddit.s3.ap-south-1.amazonaws.com/" + val.videoUrl);
              $('#playModel').modal('show');
          }, 100);
 
