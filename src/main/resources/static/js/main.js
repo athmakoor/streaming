@@ -94,7 +94,13 @@ app.controller("mainCtrl", ['$scope', 'apiServices', function ($scope, apiServic
 }]);
 
 app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope, apiServices, $timeout) {
-    $scope.bannerImages = ["soccer.jpg"];
+    $scope.bannerImages = ["banner-2.png", "banner-1.jpg"];
+    $scope.quickLinks = [
+        {value: "English League", color: "rgb(0, 150, 136)"},
+        {value: "Spanish League", color: "rgb(0, 188, 212)"},
+        {value: "Italian League", color: "rgb(63, 81, 181)"},
+        {value: "Champions League", color: "rgb(102, 0, 153)"}
+    ]
     document.getElementById("back-btn").classList.add("no-visibility");
     //element.classList.remove("no-display");
 
@@ -133,31 +139,18 @@ app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
    			scope.initCarousel = function(element) {
    			  // provide any default options you want
    				var defaultOptions = {
-   				margin: 5,
-   				animateOut: 'fadeOut',
-   				animateIn: 'fadeIn',
-   				lazyLoad: true,
-   				dots: false,
-                 smartSpeed: 800,
-                 nav: true,
+   				lazyLoad: false,
+   				dots: true,
+   				loop: true,
+                 autoplay:true,
+                 autoplayTimeout:3000,
+                 nav: false,
                  navigation: false,
-                pagination: true,
+                pagination: false,
                  rewindNav : false,
                  responsive: {
                      0: {
-                       items: 3
-                     },
-
-                     600: {
-                       items: 3
-                     },
-
-                     1024: {
-                       items: 4
-                     },
-
-                     1366: {
-                       items: 4
+                       items: 1
                      }
                    }
    				};

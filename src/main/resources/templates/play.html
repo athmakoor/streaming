@@ -17,7 +17,10 @@
             <div>
                 <div ng-cloak ng-repeat="item in videos" class="item">
                     <a ng-href="/play?cat={{item.category}}&view={{item.id}}">
-                        <img ng-src="https://mooddit.s3.ap-south-1.amazonaws.com/icons/{{item.imageUrl}}">
+                        <div style="position: relative">
+                            <img class="play-icon" src="/images/video.png">
+                            <img ng-src="https://mooddit.s3.ap-south-1.amazonaws.com/icons/{{item.imageUrl}}">
+                        </div>
                         <p class="caption">{{item.displayName}}</p>
                     </a>
                 </div>

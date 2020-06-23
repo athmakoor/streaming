@@ -5,9 +5,8 @@
 <title layout:fragment="title">Home</title>
 <div layout:fragment="content" id="app" class="off-canvas-content"  ng-controller="homeCtrl">
     <div th:replace="widgets/fragments :: sideNav">...</div>
-    <div>
-        <data-owl-carousel class="owl-carousel"
-                           data-options="{lazyLoad: false, loop:true, dots: true, smartSpeed: 0, nav: false, responsive:{0:{items:1}}}">
+    <div style="position: relative">
+        <data-owl-carousel class="owl-carousel">
             <div owl-carousel-item="" ng-repeat="item in bannerImages track by $index" class="">
                 <div ng-cloak class="carousal-data">
                     <div class="carousal-img">
@@ -16,6 +15,11 @@
                 </div>
             </div>
         </data-owl-carousel>
+    </div>
+    <div class="quick-links roller">
+        <a ng-href="/category/{{quickLink.value}}" ng-repeat="quickLink in quickLinks" class="quick-link" ng-style="{'background-color': quickLink.color}">
+            {{quickLink.value}}
+        </a>
     </div>
     <div class="carousel-set" >
         <div ng-cloak ng-repeat="(category, videoGroups) in videosByCategory">
@@ -26,7 +30,10 @@
             <div>
                 <div ng-cloak ng-repeat="item in videoGroups" class="item">
                     <a ng-href="/play?cat={{category}}&view={{item.id}}">
-                        <img ng-src="https://mooddit.s3.ap-south-1.amazonaws.com/icons/{{item.imageUrl}}">
+                        <div style="position: relative">
+                            <img class="play-icon" src="/images/video.png">
+                            <img ng-src="https://mooddit.s3.ap-south-1.amazonaws.com/icons/{{item.imageUrl}}">
+                        </div>
                         <p class="caption">{{item.displayName}}</p>
                     </a>
 
