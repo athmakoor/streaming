@@ -39,4 +39,9 @@ public class VideoController {
     public Map<String, List<Video>> findByCategories(@PathVariable("categories") final String categories) {
         return videoService.findByCategoriesActiveTrue(Arrays.asList(categories.split(",")));
     }
+
+    @GetMapping("/id/{id}")
+    public Video findById(@PathVariable("id") final Integer id) {
+        return videoService.findById(id);
+    }
 }

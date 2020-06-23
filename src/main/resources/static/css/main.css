@@ -1,24 +1,30 @@
 body {
-    background: black;
-    color: white;
+    background: #EEEEEE;
+    color: black;
+}
+a {
+    color: black;
+}
+.green{
+    color: #81c341;
 }
 .top-container {
   background-color: #f1f1f1;
   text-align: center;
 }
 #pageHeader {
-    color: rgb(255, 123, 26);
+    color: #81c341;
 }
 video {
   object-fit: fill;
 }
 .header {
-  background: #555;
+  background: white;
   color: #f1f1f1;
 }
 
 .content {
-  padding: 16px;
+  padding: 5px;
 }
 .modal-footer {
     text-align: left;
@@ -94,13 +100,21 @@ h2 span{
 
 
 .headercontent{
-   height: 81px;
-   background-color: #FFF579;
-   border: #FFF579;
+   height: 70px;
+   background-color: white;
+   border: white;
    border-style: solid;
    border-width: 1.5px;
 }
-
+.vertical-strip {
+    background-color: #81c341;
+    width: 5px;
+    display: inline-block;
+    float: left;
+    margin: 10px 2px;
+    height: 22px;
+    box-sizing: border-box;
+}
 .banner{
    height:289px;
     background-color: #FFFFFF;
@@ -121,17 +135,17 @@ h2 span{
  }
  .carousel-header{
      padding: 0;
-     margin: 10px 0;
+     margin: 10px;
      font-size: 24px;
      font-weight: bold;
-     color: rgb(255, 123, 26);
+     color: #81c341;
  }
 
  .carousal-hr {
     display: block;
         height: 1px;
         border: 0;
-        border-top: 1px solid rgb(255, 123, 26);
+        border-top: 1px solid #81c341;
         padding: 0;
         margin: 0;
  }
@@ -174,7 +188,7 @@ h2 span{
     width: 100%;
     height: 100%;
     color: white;
-    background-color: rgb(255, 123, 26);
+    background-color: #81c341;
     display: none;
 }
 .carousal-data:hover > .carousal-hover {
@@ -195,21 +209,18 @@ h2 span{
   transition: 0.5s;
   padding-top: 60px;
   text-align: center;
-  background: black;
-  color: white;
+  background: white;
+  color: #81c341;
   right: 0;
 }
 
 .sidenav a {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
-  font-size: 25px;
+  font-size: 15px;
   display: block;
   transition: 0.3s;
-}
-
-.sidenav a:hover {
-  color: #f1f1f1;
+  color: #81c341;
 }
 
 .sidenav .closebtn {
@@ -218,6 +229,61 @@ h2 span{
   right: 25px;
   font-size: 36px;
   margin-left: 50px;
+}
+
+.item {
+    background: white;
+    width: 48%;
+    display:inline-block;
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+    padding: 6px;
+    grid-gap: 15px 4%;
+    margin: 0 1% 15px 1%;
+}
+.shadow-border {
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+    grid-gap: 15px 4%;
+    margin: 0 1% 15px 1%;
+    padding: 6px;
+}
+.item img {
+    width: 100%;
+}
+.category-heading div,h3{
+    display:inline-block;
+}
+.view-more {
+    color: #81c341;
+    float: right;
+    margin: 10px 0;
+}
+.view-more img {
+    width: 12px;
+    padding-left: 2px;
+    margin-top: -3px;
+}
+.no-display {
+    display: none !important;
+}
+.no-visibility {
+    visibility: hidden !important;
+}
+#back-btn {
+    display: inline-block;
+}
+.header-logo {
+    display: inline-block;
+    margin-left: 10%;
+}
+.back-button{
+    width: 30px;
+    margin: 10px 0 0 10px;
+    display: block;
+    height: 30px;
+    background-image: url(/images/ic-back.png)!important;
+    background-size: cover;
+    background-position: center;
+    top: 0;
 }
 
 @media screen and (max-height: 450px) {

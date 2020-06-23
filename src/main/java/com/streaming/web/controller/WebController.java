@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -23,13 +24,22 @@ public class WebController {
     @GetMapping("/")
     public String base(final Map<String, Object> model) {
         webService.updateDefaultModel(model);
+        model.put("HOME", true);
         return "home";
     }
 
     @GetMapping("/home")
     public String home(final Map<String, Object> model) {
         webService.updateDefaultModel(model);
+        model.put("HOME", true);
         return "home";
+    }
+
+    @GetMapping("/category/{category}")
+    public String category(@PathVariable("category") final String category, final Map<String, Object> model) {
+        webService.updateDefaultModel(model);
+        model.put("CATEGORY", category);
+        return "category";
     }
 
     @GetMapping("/play")

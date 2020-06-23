@@ -31,14 +31,27 @@ public final class PropertyManager {
         return "";
     }
 
-    public static String getDdlType() {
-        return getProperty("spring.jpa.hibernate.ddl-auto");
+    public static String getOTPIP() {
+        return getProperty("config.otp.ip");
     }
 
-    public static String getAuthenticationScheme() {
-        return getProperty("server.auth.scheme");
+    public static String getOTPPort() {
+        return getProperty("config.otp.port");
     }
 
+    public static String getOTPGenerateUrl() {
+        return getProperty("config.otp.generate");
+    }
 
+    public static String getOTPVerifyUrl() {
+        return getProperty("config.otp.verify");
+    }
 
+    public static String getOTPPublisherId() {
+        return getProperty("config.otp.publisher-id");
+    }
+
+    public static String getOTPTenantId() {
+        return getProperty("config.otp.tenant-id");
+    }
 }

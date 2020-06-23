@@ -12,4 +12,6 @@ public interface VideoService {
     Map<String, List<Video>> findByCategoriesActiveTrue(List<String> categories);
 
     Map<String, List<Video>> findByCategoriesGroupByCategory();
+
+    Video findById(Integer id);
 }

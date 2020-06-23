@@ -8,7 +8,7 @@
     <div>
         <data-owl-carousel class="owl-carousel"
                            data-options="{lazyLoad: false, loop:true, dots: true, smartSpeed: 0, nav: false, responsive:{0:{items:1}}}">
-            <div owl-carousel-item="" ng-repeat="item in bannerImages track by $index" class="item">
+            <div owl-carousel-item="" ng-repeat="item in bannerImages track by $index" class="">
                 <div ng-cloak class="carousal-data">
                     <div class="carousal-img">
                         <img ng-src="/images/{{item}}">
@@ -19,96 +19,25 @@
     </div>
     <div class="carousel-set" >
         <div ng-cloak ng-repeat="(category, videoGroups) in videosByCategory">
-            <h3 class="carousel-header"> {{category}}</h3>
-            <data-owl-carousel class="owl-carousel" data-options="{}">
-                <div ng-click="playVideo(item)" owl-carousel-item="" ng-repeat="item in videoGroups track by $index" class="item">
-                    <div ng-cloak class="carousal-data">
-                        <div class="carousal-img">
-                            <img ng-src="https://mooddit.s3.ap-south-1.amazonaws.com/icons/{{item.imageUrl}}">
-                        </div>
-                    </div>
-                    <p class="caption">{{item.displayName}}</p>
-                </div>
-            </data-owl-carousel>
-            <hr class="carousal-hr">
-        </div>
+            <div class="category-heading">
+                <div class="vertical-strip">&nbsp</div><h3 class="carousel-header"> {{category}}</h3>
+                <a class="view-more" ng-href="/category/{{category}}">More<img src="/images/Icon-9.png"></a>
+            </div>
+            <div>
+                <div ng-cloak ng-repeat="item in videoGroups" class="item">
+                    <a ng-href="/play?cat={{category}}&view={{item.id}}">
+                        <img ng-src="https://mooddit.s3.ap-south-1.amazonaws.com/icons/{{item.imageUrl}}">
+                        <p class="caption">{{item.displayName}}</p>
+                    </a>
 
-    </div>
-
-    <div class="modal fade col-xs-12 col-md-6 col-md-offset-3 col-sm-offset-0" id="playModel" role="dialog" tabindex='-1'>
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content transparent-model">
-                <div class="modal-header">
-                    <button type="button" class="playClose close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">{{currentSelected.displayName}}</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="video col-md-12 no-padding">
-                        <video width="100%" controls autoplay controlsList="nodownload">
-                            <!--<source ng-src="{{/videos/movie.mp4}}" type="video/mp4">-->
-                        </video>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <!--<h2>{{currentSelected.displayName}}</h2>-->
-                    <div>
-                        <h2 class="no-padding"> Recommended Videos</h2>
-                        <data-owl-carousel class="owl-carousel" data-options="{}">
-                            <div ng-click="playVideo(item)" owl-carousel-item="" ng-repeat="item in recommendedVideos track by $index" class="item">
-                                <div ng-cloak class="carousal-data">
-                                    <div class="carousal-img">
-                                        <img ng-src="https://mooddit.s3.ap-south-1.amazonaws.com/icons/{{item.imageUrl}}">
-                                    </div>
-                                </div>
-                                <p class="caption">{{item.displayName}}</p>
-                            </div>
-                        </data-owl-carousel>
-                    </div>
                 </div>
             </div>
-
         </div>
-    </div>
 
+    </div>
 </div>
 
 <div layout:fragment="scripts">
-    <!--<script>
-        $("#carousel").owlCarousel({
-  autoplay: true,
-  lazyLoad: true,
-  loop: true,
-  margin: 20,
-   /*
-  animateOut: 'fadeOut',
-  animateIn: 'fadeIn',
-  */
-  responsiveClass: true,
-  autoHeight: true,
-  autoplayTimeout: 7000,
-  smartSpeed: 800,
-  nav: true,
-  responsive: {
-    0: {
-      items: 1
-    },
-
-    600: {
-      items: 3
-    },
-
-    1024: {
-      items: 4
-    },
-
-    1366: {
-      items: 4
-    }
-  }
-});
-    </script>-->
 </div>
 
 </html>

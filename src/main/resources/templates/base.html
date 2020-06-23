@@ -28,14 +28,17 @@
 </head>
 <body class="main container no-padding" ng-app="main-app" ng-controller="mainCtrl">
 <div>
-    <script src="js/main.js"></script>
-    <link rel="stylesheet" href="css/main.css" type="text/css"/>
+    <script src="/js/main.js"></script>
+    <link rel="stylesheet" href="/css/main.css" type="text/css"/>
 
 </div>
 
 <div class="col-md-offset-3 col-sm-offset-0 col-md-6 sol-sm-12 no-padding">
     <div id="pageHeader" class="headercontent header">
-        <div><a href="/"><img src="/images/live tv.png" style="width: 100px;"></a></div>
+        <div>
+            <a id="back-btn" href="/"><span class="back-button"></span></a>
+            <div class="header-logo"><a href="/"><img src="/images/live tv.png" style="width: 100px;"></a></div>
+        </div>
     </div>
     <div class="content">
         <div layout:fragment="content">...</div>
@@ -60,5 +63,13 @@ function myFunction() {
     </script>
     </div>
 </div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    window.category = /*[[${CATEGORY}]]*/ null;
+    window.isHome = /*[[${HOME}]]*/ null;
+
+    /*]]>*/
+</script>
 </body>
 </html>

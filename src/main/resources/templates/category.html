@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{base}">
+<title layout:fragment="title">Home</title>
+<div layout:fragment="content" id="app" class="off-canvas-content"  ng-controller="categoryCtrl">
+    <div th:replace="widgets/fragments :: sideNav">...</div>
+    <div class="green">
+        <h4 style="margin-top:25px" >
+            {{category}}
+        </h4>
+    </div>
+    <div>
+        <div ng-cloak ng-repeat="item in videos" class="item">
+            <a ng-href="/play?cat={{category}}&view={{item.id}}">
+                <img ng-src="https://mooddit.s3.ap-south-1.amazonaws.com/icons/{{item.imageUrl}}">
+                <p class="caption">{{item.displayName}}</p>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<div layout:fragment="scripts">
+
+</div>
+
+
+</html>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 
@@ -53,14 +54,28 @@ public class VideoServiceImpl implements VideoService {
         Map<String,List<Video>> map =new HashMap<>();
         String category;
 
-        List<Video> games = videoMapper.mapEntitiesToDTOs(videoRepository.findAll(), Video.class);
+        List<Video> videos = videoMapper.mapEntitiesToDTOs(videoRepository.findByActiveTrue(), Video.class);
 
-        for (Video game : games) {
-            category = game.getCategory();
+        for (Video video : videos) {
+            category = video.getCategory();
             map.putIfAbsent(category, new ArrayList<>());
-            map.get(category).add(game);
+
+            if (map.get(category).size() < 6) {
+                map.get(category).add(video);
+            }
         }
 
         return map;
+    }
+
+    @Override
+    public Video findById(Integer id) {
+        Optional<VideoEntity> videoEntityOptional = videoRepository.findById(id);
+
+        if (videoEntityOptional.isPresent()) {
+            return videoMapper.mapEntityToDTO(videoEntityOptional.get(), Video.class);
+        }
+
+        return null;
     }
 }

@@ -37,7 +37,7 @@ app.service('apiServices', function () {
         $.ajax(request);
     };*/
 
-    this.getGamesByCategory = function (callback) {
+    this.getGamesForHomePage = function (callback) {
         var request = {}, errCb, successCb;
         errCb = function (error) {
             callback(error);
@@ -53,6 +53,40 @@ app.service('apiServices', function () {
         request.error = errCb;
         $.ajax(request);
     };
+
+    this.getGamesByCategory = function (category, callback) {
+        var request = {}, errCb, successCb;
+        errCb = function (error) {
+            callback(error);
+        };
+
+        successCb = function (data) {
+            callback(null, data);
+        };
+
+        request.type = "get";
+        request.url = "/api/video/category/" + category;
+        request.success = successCb;
+        request.error = errCb;
+        $.ajax(request);
+    };
+
+    this.getGamesDetailsById = function (id, callback) {
+        var request = {}, errCb, successCb;
+        errCb = function (error) {
+            callback(error);
+        };
+
+        successCb = function (data) {
+            callback(null, data);
+        };
+
+        request.type = "get";
+        request.url = "/api/video/id/" + id;
+        request.success = successCb;
+        request.error = errCb;
+        $.ajax(request);
+    };
 });
 
 app.controller("mainCtrl", ['$scope', 'apiServices', function ($scope, apiServices) {
@@ -60,9 +94,11 @@ app.controller("mainCtrl", ['$scope', 'apiServices', function ($scope, apiServic
 }]);
 
 app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope, apiServices, $timeout) {
-    $scope.bannerImages = ["soccer.jpg"]
+    $scope.bannerImages = ["soccer.jpg"];
+    document.getElementById("back-btn").classList.add("no-visibility");
+    //element.classList.remove("no-display");
 
-    apiServices.getGamesByCategory(function (error, data) {
+    apiServices.getGamesForHomePage(function (error, data) {
         $scope.videosByCategory = data;
         $scope.$apply();
     });
@@ -154,7 +190,24 @@ app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
    }]);
 
 app.controller("playCtrl", ['$scope', 'apiServices',function ($scope, apiServices) {
+    var id = getParameterByName("view");
+    var category = getParameterByName("cat");
 
+    apiServices.getGamesDetailsById(id, function (error, data) {
+        $scope.currentSelected = data;
+        apiServices.getGamesByCategory(category, function (error, data) {
+            $scope.videos = data;
+            $scope.$apply();
+        });
+    });
+}]);
+
+app.controller("categoryCtrl", ['$scope', 'apiServices',function ($scope, apiServices) {
+    $scope.category = window.category;
+    apiServices.getGamesByCategory(window.category, function (error, data) {
+        $scope.videos = data;
+        $scope.$apply();
+    });
 }]);
 
 app.controller("subscribeCtrl", ['$scope', 'apiServices',function ($scope, apiServices) {
