@@ -96,10 +96,10 @@ app.controller("mainCtrl", ['$scope', 'apiServices', function ($scope, apiServic
 app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope, apiServices, $timeout) {
     $scope.bannerImages = ["banner-2.png", "banner-1.jpg"];
     $scope.quickLinks = [
-        {value: "English League", color: "rgb(0, 150, 136)"},
-        {value: "Spanish League", color: "rgb(0, 188, 212)"},
-        {value: "Italian League", color: "rgb(63, 81, 181)"},
-        {value: "Champions League", color: "rgb(102, 0, 153)"}
+        {value: "ENGLISH LEAGUE", color: "rgb(0, 150, 136)"},
+        {value: "SPANISH LEAGUE", color: "rgb(0, 188, 212)"},
+        {value: "ITALIAN LEAGUE", color: "rgb(63, 81, 181)"},
+        {value: "CHAMPIONS LEAGUE", color: "rgb(102, 0, 153)"}
     ]
     document.getElementById("back-btn").classList.add("no-visibility");
     //element.classList.remove("no-display");
