@@ -98,6 +98,12 @@ h2 span{
   position: initial;
 }
 
+.play-icon {
+    bottom: 10px;
+    position: absolute;
+    width: 20px !important;
+    right: 10px;
+}
 
 .headercontent{
    height: 70px;
@@ -232,6 +238,7 @@ h2 span{
 }
 
 .item {
+    position: relative;
     background: white;
     width: 48%;
     display:inline-block;
