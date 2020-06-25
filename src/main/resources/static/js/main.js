@@ -122,15 +122,6 @@ app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
          }, 100);
 
     }
-    $('#playModel').on('shown.bs.modal', function (e) {
-      $('.video').bind('contextmenu', function(e) {
-          return false;
-      });
-    });
-
-    $('#playModel').on('hidden.bs.modal', function () {
-        $(".video video").each(function () { this.pause() });
-    });
 }]).directive("owlCarousel", function() {
    	return {
    		restrict: 'E',

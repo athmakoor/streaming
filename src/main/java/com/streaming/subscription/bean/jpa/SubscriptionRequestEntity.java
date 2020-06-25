@@ -1,13 +1,17 @@
 package com.streaming.subscription.bean.jpa;
 
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.streaming.UTCDateTimeConverter;
 
 @Entity
 @Table(name = "subscription_request")
@@ -24,6 +28,13 @@ public class SubscriptionRequestEntity implements Serializable {
 
     @Column(name = "response_message")
     private String responseMessage;
+
+    @Column(name = "is_regenerate")
+    private Boolean regenerate;
+
+    @Column(name = "created_at")
+    @Convert(converter = UTCDateTimeConverter.class)
+    private ZonedDateTime createdAt;
 
     public Integer getId() {
         return id;
@@ -47,5 +58,21 @@ public class SubscriptionRequestEntity implements Serializable {
 
     public void setResponseMessage(String responseMessage) {
         this.responseMessage = responseMessage;
+    }
+
+    public ZonedDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(ZonedDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Boolean getRegenerate() {
+        return regenerate;
+    }
+
+    public void setRegenerate(Boolean regenerate) {
+        this.regenerate = regenerate;
     }
 }

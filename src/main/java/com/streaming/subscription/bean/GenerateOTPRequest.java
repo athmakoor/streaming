@@ -10,8 +10,6 @@ public class GenerateOTPRequest {
     private String transactionId;
     @NotNull
     private String packId;
-    @NotNull
-    private String interfaceId;
 
     public String getMsisdn() {
         return msisdn;
@@ -43,13 +41,5 @@ public class GenerateOTPRequest {
 
     public void setPackId(String packId) {
         this.packId = packId;
-    }
-
-    public String getInterfaceId() {
-        return interfaceId;
-    }
-
-    public void setInterfaceId(String interfaceId) {
-        this.interfaceId = interfaceId;
     }
 }

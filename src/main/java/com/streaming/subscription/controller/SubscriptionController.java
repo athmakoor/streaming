@@ -29,7 +29,7 @@ public class SubscriptionController {
         return subscriptionService.generateOtp(data);
     }
 
-    @GetMapping("/generateOTP/{msisdn}")
+    @GetMapping("/regenerateOTP")
     public GenerateOTPResponse regenerateOTP(@Valid @RequestBody final GenerateOTPRequest data) throws IOException {
         return subscriptionService.regenerateOTP(data);
     }
