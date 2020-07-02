@@ -13,13 +13,13 @@ import com.streaming.utils.request.RequestUtils;
 public class SubscriptionUtils {
     public static GenerateOTPResponse generateOTP(GenerateOTPRequest data) {
         Request request = new Request();
-        String url = PropertyManager.getOTPGenerateUrl();
+        String url = PropertyManager.getOTPGenerateUrl(data.getProvider());
 
-        url = url.replace("{PUBLISHER_ID}", PropertyManager.getOTPPublisherId());
         url = url.replace("{CLICK_ID}", data.getClickId());
         url = url.replace("{PACK_ID}", data.getPackId());
-        url = url.replace("{TENANT_ID}", PropertyManager.getOTPTenantId());
         url = url.replace("{MSISDN}", data.getMsisdn());
+        url = url.replace("{PACK_PRICE}", data.getPackPrice());
+        url = url.replace("{PACK_VALIDITY}", data.getPackValidity());
         url = url.replace("{TRANSACTION_ID}", "");
         url = url.replace("{REQUEST_TYPE}", "" + 1);
 
@@ -38,14 +38,14 @@ public class SubscriptionUtils {
 
     public static GenerateOTPResponse regenerateOTP(GenerateOTPRequest data) {
         Request request = new Request();
-        String url = PropertyManager.getOTPGenerateUrl();
+        String url = PropertyManager.getOTPGenerateUrl(data.getProvider());
 
-        url = url.replace("{PUBLISHER_ID}", PropertyManager.getOTPPublisherId());
         url = url.replace("{CLICK_ID}", data.getClickId());
         url = url.replace("{PACK_ID}", data.getPackId());
-        url = url.replace("{TENANT_ID}", PropertyManager.getOTPTenantId());
         url = url.replace("{MSISDN}", data.getMsisdn());
         url = url.replace("{TRANSACTION_ID}", data.getTransactionId());
+        url = url.replace("{PACK_PRICE}", data.getPackPrice());
+        url = url.replace("{PACK_VALIDITY}", data.getPackValidity());
         url = url.replace("{REQUEST_TYPE}", "" + 2);
 
         try {
@@ -63,11 +63,12 @@ public class SubscriptionUtils {
 
     public static VerifyOTPResponse verifyOtp(VerifyOTPRequest data) {
         Request request = new Request();
-        String url = PropertyManager.getOTPVerifyUrl();
+        String url = PropertyManager.getOTPVerifyUrl(data.getProvider());
 
-        url = url.replace("{PUBLISHER_ID}", PropertyManager.getOTPPublisherId());
         url = url.replace("{TRANSACTION_ID}", data.getTransactionId());
         url = url.replace("{OTP_TEXT}", data.getOtpText());
+        url = url.replace("{PACK_PRICE}", data.getPackPrice());
+        url = url.replace("{PACK_VALIDITY}", data.getPackValidity());
 
         try {
             request.setMethod("GET");

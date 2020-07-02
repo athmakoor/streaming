@@ -35,23 +35,17 @@ public final class PropertyManager {
         return getProperty("config.otp.ip");
     }
 
-    public static String getOTPPort() {
-        return getProperty("config.otp.port");
+    public static String getOTPGenerateUrl(String provider) {
+        if (provider.equals("zain")) {
+            return getProperty("config.otp.generate.zain");
+        }
+        return getProperty("config.otp.generate.ooredoo");
     }
 
-    public static String getOTPGenerateUrl() {
-        return getProperty("config.otp.generate");
-    }
-
-    public static String getOTPVerifyUrl() {
-        return getProperty("config.otp.verify");
-    }
-
-    public static String getOTPPublisherId() {
-        return getProperty("config.otp.publisher-id");
-    }
-
-    public static String getOTPTenantId() {
-        return getProperty("config.otp.tenant-id");
+    public static String getOTPVerifyUrl(String provider) {
+        if (provider.equals("zain")) {
+            return getProperty("config.otp.verify.zain");
+        }
+        return getProperty("config.otp.verify.ooredoo");
     }
 }

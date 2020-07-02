@@ -7,9 +7,12 @@ public class GenerateOTPRequest {
     private String msisdn;
     @NotNull
     private String clickId;
-    private String transactionId;
     @NotNull
-    private String packId;
+    private String provider;
+    private String transactionId = "";
+    private String packId = "";
+    private String packPrice = "";
+    private String packValidity = "";
 
     public String getMsisdn() {
         return msisdn;
@@ -27,6 +30,14 @@ public class GenerateOTPRequest {
         this.clickId = clickId;
     }
 
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+
     public String getTransactionId() {
         return transactionId;
     }
@@ -41,5 +52,21 @@ public class GenerateOTPRequest {
 
     public void setPackId(String packId) {
         this.packId = packId;
+    }
+
+    public String getPackPrice() {
+        return packPrice;
+    }
+
+    public void setPackPrice(String packPrice) {
+        this.packPrice = packPrice;
+    }
+
+    public String getPackValidity() {
+        return packValidity;
+    }
+
+    public void setPackValidity(String packValidity) {
+        this.packValidity = packValidity;
     }
 }
