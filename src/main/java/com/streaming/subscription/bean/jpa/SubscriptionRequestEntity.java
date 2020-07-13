@@ -32,6 +32,9 @@ public class SubscriptionRequestEntity implements Serializable {
     @Column(name = "is_regenerate")
     private Boolean regenerate;
 
+    @Column(name = "click_id")
+    private String clickId;
+
     @Column(name = "created_at")
     @Convert(converter = UTCDateTimeConverter.class)
     private ZonedDateTime createdAt;
@@ -74,5 +77,13 @@ public class SubscriptionRequestEntity implements Serializable {
 
     public void setRegenerate(Boolean regenerate) {
         this.regenerate = regenerate;
+    }
+
+    public String getClickId() {
+        return clickId;
+    }
+
+    public void setClickId(String clickId) {
+        this.clickId = clickId;
     }
 }

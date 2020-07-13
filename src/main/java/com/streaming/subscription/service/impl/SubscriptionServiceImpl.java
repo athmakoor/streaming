@@ -1,9 +1,12 @@
 package com.streaming.subscription.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.streaming.exception.ConstraintViolationException;
 import com.streaming.subscription.SubscriptionUtils;
 import com.streaming.subscription.bean.GenerateOTPRequest;
 import com.streaming.subscription.bean.GenerateOTPResponse;
@@ -25,6 +28,12 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public GenerateOTPResponse generateOtp(final GenerateOTPRequest data) {
+        List<SubscriptionRequestEntity> subscriptionRequestEntities = subscriptionRequestRepository.findByClickId(data.getClickId());
+
+        if (!subscriptionRequestEntities.isEmpty()) {
+            throw new ConstraintViolationException("Duplicate click id");
+        }
+
         GenerateOTPResponse response = SubscriptionUtils.generateOTP(data);
 
         SubscriptionRequestEntity entity = new SubscriptionRequestEntity();
@@ -33,6 +42,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         entity.setResponseMessage(response.toString());
         entity.setCreatedAt(TimeUtil.getCurrentUTCTime());
         entity.setRegenerate(false);
+        entity.setClickId(data.getClickId());
 
         subscriptionRequestRepository.save(entity);
         return response;
