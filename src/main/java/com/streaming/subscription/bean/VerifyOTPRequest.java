@@ -2,7 +2,7 @@ package com.streaming.subscription.bean;
 
 public class VerifyOTPRequest {
     private String transactionId;
-    private String provider;
+    private String provider = "";
     private String otpText;
     private String packPrice = "";
     private String packValidity = "";

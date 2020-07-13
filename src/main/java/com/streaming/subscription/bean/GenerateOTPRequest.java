@@ -8,7 +8,7 @@ public class GenerateOTPRequest {
     @NotNull
     private String clickId;
     @NotNull
-    private String provider;
+    private String provider = "";
     private String transactionId = "";
     private String packId = "";
     private String packPrice = "";
