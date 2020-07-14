@@ -4,6 +4,7 @@ public class CgResponse {
     private String error_code;
     private String errorDesc;
     private String cgId;
+    private String transId;
 
     public String getError_code() {
         return error_code;
@@ -27,5 +28,13 @@ public class CgResponse {
 
     public void setCgId(String cgId) {
         this.cgId = cgId;
+    }
+
+    public String getTransId() {
+        return transId;
+    }
+
+    public void setTransId(String transId) {
+        this.transId = transId;
     }
 }
