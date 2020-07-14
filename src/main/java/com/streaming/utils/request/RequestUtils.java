@@ -61,6 +61,17 @@ public final class RequestUtils {
                 JSONObject jsonObject1 = new JSONObject(sb.toString());
 
                 throw new RequestException("403 Exception " + jsonObject1.getString("result"));
+            } else if (connection.getResponseCode() == HttpStatus.BAD_REQUEST.value()) {
+                br = new BufferedReader(new InputStreamReader((connection.getErrorStream())));
+                String output;
+
+                while ((output = br.readLine()) != null) {
+                    sb.append(output);
+                }
+
+                JSONObject jsonObject1 = new JSONObject(sb.toString());
+
+                throw new RequestException("400 Exception " + jsonObject1.getString("result"));
             }
 
         } catch (IOException e) {
