@@ -1,11 +1,15 @@
 package com.streaming.subscription;
 
+import java.io.IOException;
+
 import com.google.gson.Gson;
 import com.streaming.properties.PropertyManager;
+import com.streaming.subscription.bean.CgResponse;
 import com.streaming.subscription.bean.GenerateOTPRequest;
 import com.streaming.subscription.bean.GenerateOTPResponse;
 import com.streaming.subscription.bean.VerifyOTPRequest;
 import com.streaming.subscription.bean.VerifyOTPResponse;
+import com.streaming.utils.XMLToJSONConverter;
 import com.streaming.utils.request.Request;
 import com.streaming.utils.request.RequestException;
 import com.streaming.utils.request.RequestUtils;
@@ -27,10 +31,15 @@ public class SubscriptionUtils {
             request.setMethod("GET");
             request.setPath(url);
             String response = RequestUtils.getResponse(request, null);
+            System.out.println(response);
+
+            if (data.getProvider().equals("zain")) {
+                return SubscriptionUtils.convertGenerateOTPXMLToJSON(response);
+            }
 
             Gson gson = new Gson();
             return gson.fromJson(response, GenerateOTPResponse.class);
-        } catch (RequestException e) {
+        } catch (RequestException | IOException e) {
             e.printStackTrace();
             throw new RequestException(e.getMessage());
         }
@@ -53,9 +62,15 @@ public class SubscriptionUtils {
             request.setPath(url);
             String response = RequestUtils.getResponse(request, null);
 
+            System.out.println(response);
+
+            if (data.getProvider().equals("zain")) {
+                return SubscriptionUtils.convertGenerateOTPXMLToJSON(response);
+            }
+
             Gson gson = new Gson();
             return gson.fromJson(response, GenerateOTPResponse.class);
-        } catch (RequestException e) {
+        } catch (RequestException | IOException e) {
             e.printStackTrace();
             throw new RequestException(e.getMessage());
         }
@@ -74,12 +89,48 @@ public class SubscriptionUtils {
             request.setMethod("GET");
             request.setPath(url);
             String response = RequestUtils.getResponse(request, null);
+            System.out.println(response);
 
             Gson gson = new Gson();
+
+            if (data.getProvider().equals("zain")) {
+                return SubscriptionUtils.convertVerifyOTPXMLToJSON(response);
+            }
+
             return gson.fromJson(response, VerifyOTPResponse.class);
-        } catch (RequestException e) {
+        } catch (RequestException | IOException e) {
             e.printStackTrace();
             throw new RequestException(e.getMessage());
         }
+    }
+
+    public static GenerateOTPResponse convertGenerateOTPXMLToJSON(String xml) throws IOException {
+        XMLToJSONConverter<CgResponse> converter = new XMLToJSONConverter<>();
+        xml = xml.replaceAll("<?xml version=\"1.0\" encoding=\"UTF8\"?>", "");
+        xml = xml.replaceAll("<cgResponse>", "<CgResponse>");
+        xml = xml.replaceAll("</cgResponse>", "</CgResponse>");
+        CgResponse response = converter.convert(xml, CgResponse.class);
+
+        GenerateOTPResponse otpResponse = new GenerateOTPResponse();
+        otpResponse.setErrCode(response.getError_code());
+        otpResponse.setErrMsg(response.getErrorDesc());
+        otpResponse.setTransactionId(response.getCgId());
+
+        return otpResponse;
+    }
+
+    public static VerifyOTPResponse convertVerifyOTPXMLToJSON(String xml) throws IOException {
+        XMLToJSONConverter<CgResponse> converter = new XMLToJSONConverter<>();
+        xml = xml.replaceAll("<?xml version=\"1.0\" encoding=\"UTF8\"?>", "");
+        xml = xml.replaceAll("<cgResponse>", "<CgResponse>");
+        xml = xml.replaceAll("</cgResponse>", "</CgResponse>");
+        CgResponse response = converter.convert(xml, CgResponse.class);
+
+        VerifyOTPResponse otpResponse = new VerifyOTPResponse();
+        otpResponse.setErrCode(response.getError_code());
+        otpResponse.setErrMsg(response.getErrorDesc());
+        otpResponse.setTransactionId(response.getCgId());
+
+        return otpResponse;
     }
 }
