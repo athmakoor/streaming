@@ -23,6 +23,7 @@ public class SubscriptionUtils {
     public static GenerateOTPResponse generateOTP(GenerateOTPRequest data) {
         Request request = new Request();
         String url = PropertyManager.getOTPGenerateUrl(data.getProvider());
+        LOGGER.debug("REQUEST SENT");
 
         url = url.replace("{CLICK_ID}", data.getClickId());
         url = url.replace("{PACK_ID}", data.getPackId());
