@@ -30,7 +30,7 @@ public class SubscriptionUtils {
         url = url.replace("{MSISDN}", data.getMsisdn());
         url = url.replace("{PACK_PRICE}", data.getPackPrice());
         url = url.replace("{PACK_VALIDITY}", data.getPackValidity());
-        url = url.replace("{TRANSACTION_ID}", "");
+        url = url.replace("{TRANSACTION_ID}", data.getTransactionId());
         url = url.replace("{REQUEST_TYPE}", "" + 1);
         url = url.replace("{USER_IP}", data.getUserIP());
 
