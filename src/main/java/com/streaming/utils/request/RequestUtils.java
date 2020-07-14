@@ -58,7 +58,7 @@ public final class RequestUtils {
                     sb.append(output);
                 }
 
-                throw new RequestException("403 Exception " + br.toString());
+                throw new RequestException("403 Exception " + sb.toString());
             } else if (connection.getResponseCode() == HttpStatus.BAD_REQUEST.value()) {
                 br = new BufferedReader(new InputStreamReader((connection.getErrorStream())));
                 String output;
@@ -67,7 +67,7 @@ public final class RequestUtils {
                     sb.append(output);
                 }
 
-                throw new RequestException("400 Exception " + br.toString());
+                throw new RequestException("400 Exception " + sb.toString());
             }
 
         } catch (IOException e) {
