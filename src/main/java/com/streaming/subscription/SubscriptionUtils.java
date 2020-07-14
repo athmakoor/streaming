@@ -2,6 +2,9 @@ package com.streaming.subscription;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.Gson;
 import com.streaming.properties.PropertyManager;
 import com.streaming.subscription.bean.CgResponse;
@@ -15,6 +18,8 @@ import com.streaming.utils.request.RequestException;
 import com.streaming.utils.request.RequestUtils;
 
 public class SubscriptionUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SubscriptionUtils.class);
+
     public static GenerateOTPResponse generateOTP(GenerateOTPRequest data) {
         Request request = new Request();
         String url = PropertyManager.getOTPGenerateUrl(data.getProvider());
@@ -31,7 +36,7 @@ public class SubscriptionUtils {
             request.setMethod("GET");
             request.setPath(url);
             String response = RequestUtils.getResponse(request, null);
-            System.out.println(response);
+            LOGGER.debug(response);
 
             if (data.getProvider().equals("zain")) {
                 return SubscriptionUtils.convertGenerateOTPXMLToJSON(response);
@@ -62,7 +67,7 @@ public class SubscriptionUtils {
             request.setPath(url);
             String response = RequestUtils.getResponse(request, null);
 
-            System.out.println(response);
+            LOGGER.debug(response);
 
             if (data.getProvider().equals("zain")) {
                 return SubscriptionUtils.convertGenerateOTPXMLToJSON(response);
@@ -89,7 +94,7 @@ public class SubscriptionUtils {
             request.setMethod("GET");
             request.setPath(url);
             String response = RequestUtils.getResponse(request, null);
-            System.out.println(response);
+            LOGGER.debug(response);
 
             Gson gson = new Gson();
 
