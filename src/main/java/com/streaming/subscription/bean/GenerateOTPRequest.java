@@ -13,6 +13,7 @@ public class GenerateOTPRequest {
     private String packId = "";
     private String packPrice = "";
     private String packValidity = "";
+    private String userIP = "";
 
     public String getMsisdn() {
         return msisdn;
@@ -68,5 +69,13 @@ public class GenerateOTPRequest {
 
     public void setPackValidity(String packValidity) {
         this.packValidity = packValidity;
+    }
+
+    public String getUserIP() {
+        return userIP;
+    }
+
+    public void setUserIP(String userIP) {
+        this.userIP = userIP;
     }
 }

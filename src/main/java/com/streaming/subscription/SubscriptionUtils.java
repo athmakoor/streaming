@@ -32,6 +32,7 @@ public class SubscriptionUtils {
         url = url.replace("{PACK_VALIDITY}", data.getPackValidity());
         url = url.replace("{TRANSACTION_ID}", "");
         url = url.replace("{REQUEST_TYPE}", "" + 1);
+        url = url.replace("{USER_IP}", data.getUserIP());
 
         try {
             request.setMethod("GET");
@@ -62,6 +63,7 @@ public class SubscriptionUtils {
         url = url.replace("{PACK_PRICE}", data.getPackPrice());
         url = url.replace("{PACK_VALIDITY}", data.getPackValidity());
         url = url.replace("{REQUEST_TYPE}", "" + 2);
+        url = url.replace("{USER_IP}", data.getUserIP());
 
         try {
             request.setMethod("GET");
