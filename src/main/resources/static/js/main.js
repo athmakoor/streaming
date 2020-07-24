@@ -108,20 +108,6 @@ app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
         $scope.videosByCategory = data;
         $scope.$apply();
     });
-    $scope.playVideo = function (val) {
-         $timeout(function () {
-             $scope.currentSelected = val;
-             if ($scope.recommendedVideos === undefined) {
-                $scope.recommendedVideos = $scope.videosByCategory[val.category];
-             }
-
-             $scope.$apply();
-             $(".video video source").attr("src", "https://mooddit.s3.ap-south-1.amazonaws.com/" + val.videoUrl);
-             $(".video video").attr("src", "https://mooddit.s3.ap-south-1.amazonaws.com/" + val.videoUrl);
-             $('#playModel').modal('show');
-         }, 100);
-
-    }
 }]).directive("owlCarousel", function() {
    	return {
    		restrict: 'E',

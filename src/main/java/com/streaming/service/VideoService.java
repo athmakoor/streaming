@@ -14,4 +14,6 @@ public interface VideoService {
     Map<String, List<Video>> findByCategoriesGroupByCategory();
 
     Video findById(Integer id);
+
+    void save(List<Video> videos);
 }

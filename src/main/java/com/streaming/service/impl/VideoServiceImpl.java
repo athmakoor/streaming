@@ -78,4 +78,18 @@ public class VideoServiceImpl implements VideoService {
 
         return null;
     }
+
+    @Override
+    public void save(List<Video> videos) {
+        List<VideoEntity> videoEntities = new ArrayList<>();
+        VideoEntity videoEntity;
+
+        for (Video video : videos) {
+            videoEntity = new VideoEntity();
+            videoMapper.mapDTOToEntity(video, videoEntity);
+            videoEntities.add(videoEntity);
+        }
+
+        this.videoRepository.saveAll(videoEntities);
+    }
 }
