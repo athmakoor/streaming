@@ -2,6 +2,8 @@ package com.streaming.properties;
 
 import java.util.Properties;
 
+import com.streaming.constant.Provider;
+
 /**
  * @author customfurnish.com
  */
@@ -36,14 +38,14 @@ public final class PropertyManager {
     }
 
     public static String getOTPGenerateUrl(String provider) {
-        if (provider.equals("zain")) {
+        if (provider.equals(Provider.ZAIN_KUWAIT)) {
             return getProperty("config.otp.generate.zain");
         }
         return getProperty("config.otp.generate.ooredoo");
     }
 
     public static String getOTPVerifyUrl(String provider) {
-        if (provider.equals("zain")) {
+        if (provider.equals(Provider.ZAIN_KUWAIT)) {
             return getProperty("config.otp.verify.zain");
         }
         return getProperty("config.otp.verify.ooredoo");

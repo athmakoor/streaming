@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
+import com.streaming.constant.Provider;
 import com.streaming.properties.PropertyManager;
 import com.streaming.subscription.bean.CgResponse;
 import com.streaming.subscription.bean.GenerateOTPRequest;
@@ -40,7 +41,7 @@ public class SubscriptionUtils {
             String response = RequestUtils.getResponse(request, null);
             LOGGER.debug(response);
 
-            if (data.getProvider().equals("zain")) {
+            if (data.getProvider().equals(Provider.ZAIN_KUWAIT)) {
                 return SubscriptionUtils.convertGenerateOTPXMLToJSON(response);
             }
 
@@ -72,7 +73,7 @@ public class SubscriptionUtils {
 
             LOGGER.debug(response);
 
-            if (data.getProvider().equals("zain")) {
+            if (data.getProvider().equals(Provider.ZAIN_KUWAIT)) {
                 return SubscriptionUtils.convertGenerateOTPXMLToJSON(response);
             }
 
@@ -101,7 +102,7 @@ public class SubscriptionUtils {
 
             Gson gson = new Gson();
 
-            if (data.getProvider().equals("zain")) {
+            if (data.getProvider().equals(Provider.ZAIN_KUWAIT)) {
                 return SubscriptionUtils.convertVerifyOTPXMLToJSON(response);
             }
 
