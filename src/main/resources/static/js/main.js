@@ -159,12 +159,19 @@ app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
    	};
    }]);
 
-app.controller("playCtrl", ['$scope', 'apiServices',function ($scope, apiServices) {
+app.controller("playCtrl", ['$scope', 'apiServices', '$timeout',function ($scope, apiServices, $timeout) {
     var id = getParameterByName("view");
     var category = getParameterByName("cat");
 
+
+
     apiServices.getGamesDetailsById(id, function (error, data) {
         $scope.currentSelected = data;
+        $timeout(function () {
+            var url = "https://mooddit.s3.ap-south-1.amazonaws.com/" + category + "/compressed/" + $scope.currentSelected.videoUrl;
+             $(".video video source").attr("src", url);
+             $(".video video").attr("src", url);
+         }, 100);
         apiServices.getGamesByCategory(category, function (error, data) {
             $scope.videos = data;
             $scope.$apply();
