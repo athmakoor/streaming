@@ -35,6 +35,8 @@ public class SubscriptionUtils {
         url = url.replace("{REQUEST_TYPE}", "" + 1);
         url = url.replace("{USER_IP}", data.getUserIP());
 
+        LOGGER.debug("GENERATE OTP REQUEST:" + url);
+
         try {
             request.setMethod("GET");
             request.setPath(url);
@@ -66,6 +68,8 @@ public class SubscriptionUtils {
         url = url.replace("{REQUEST_TYPE}", "" + 2);
         url = url.replace("{USER_IP}", data.getUserIP());
 
+        LOGGER.debug("REGENERATE OTP REQUEST:" + url);
+
         try {
             request.setMethod("GET");
             request.setPath(url);
@@ -93,6 +97,8 @@ public class SubscriptionUtils {
         url = url.replace("{OTP_TEXT}", data.getOtpText());
         url = url.replace("{PACK_PRICE}", data.getPackPrice());
         url = url.replace("{PACK_VALIDITY}", data.getPackValidity());
+
+        LOGGER.debug("VERIFY OTP REQUEST:" + url);
 
         try {
             request.setMethod("GET");

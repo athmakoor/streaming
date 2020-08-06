@@ -210,13 +210,14 @@ app.controller("authCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
             if (!error) {
                 $.cookie("msisdn", $scope.msisdn);
                 if (data.authenticated) {
-                    //window.location.reload();
+                    window.location.reload();
+                } else if (data.otpSent){
                     $scope.otpReceived = true;
                 } else {
-                    $scope.otpReceived = true;
+                    alert("Something went wrong, Try again later.");
                 }
             } else {
-                alert("Something went wrong, Try again later.")
+                alert("Something went wrong, Try again later.");
             }
             $scope.showLoader = false;
             $scope.$apply();
@@ -230,7 +231,11 @@ app.controller("authCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
             if (!error) {
                 $.cookie("msisdn", $scope.msisdn);
                 if (data) {
-                    $scope.otpReceived = true;
+                    if (data.otpSent){
+                        $scope.otpReceived = true;
+                    } else {
+                        alert("Something went wrong, Try again later.");
+                    }
                 }
             } else {
                 alert("Something went wrong, Try again later.")
@@ -242,14 +247,14 @@ app.controller("authCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
     $scope.verifyOTP = function () {
         $scope.showLoader = true;
         apiServices.verifyOTP({msisdn: $scope.msisdn, otpText: $scope.otpText}, function (error, data) {
-
             if (!error) {
                 window.location.reload();
             } else {
+                $scope.showLoader = false;
+                $scope.$apply();
                 alert("Something went wrong, Try again later.")
             }
         });
-
     }
 }]);
 
