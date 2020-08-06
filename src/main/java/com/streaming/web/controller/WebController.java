@@ -3,6 +3,7 @@ package com.streaming.web.controller;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.streaming.auth.service.AuthService;
+import com.streaming.constant.Provider;
 import com.streaming.service.HeaderEnrichmentService;
+import com.streaming.utils.CookieUtils;
 import com.streaming.web.service.WebService;
 
 @Controller
@@ -20,11 +24,21 @@ public class WebController {
     private WebService webService;
     @Resource
     private HeaderEnrichmentService headerEnrichmentService;
+    @Resource
+    private AuthService authService;
 
     @GetMapping("/")
     public String base(final Map<String, Object> model) {
         webService.updateDefaultModel(model);
         model.put("HOME", true);
+        return "home";
+    }
+
+    @GetMapping("/za-kw")
+    public String zainKuwaitBase(final Map<String, Object> model) {
+        webService.updateDefaultModel(model);
+        model.put("HOME", true);
+        model.put("PROVIDER", Provider.ZAIN_KUWAIT);
         return "home";
     }
 
@@ -43,7 +57,13 @@ public class WebController {
     }
 
     @GetMapping("/play")
-    public String play(final Map<String, Object> model) {
+    public String play(final Map<String, Object> model, HttpServletRequest request) {
+        if (CookieUtils.getCookie(request, "ra").isPresent() &&
+                Boolean.parseBoolean(CookieUtils.getCookie(request, "ra").get().getValue())) {
+            if (CookieUtils.getCookie(request, "msisdn").isPresent()) {
+                model.put("AUTHENTICATED", authService.checkSubscription(CookieUtils.getCookie(request, "msisdn").get().getValue()));
+            }
+        }
         webService.updateDefaultModel(model);
         return "play";
     }

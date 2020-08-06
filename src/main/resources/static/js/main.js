@@ -14,29 +14,6 @@ var getParameterByName = function (name, fallback) {
 var app = angular.module("main-app", []);
 
 app.service('apiServices', function () {
-    /*this.getSubscriptionDetails = function (callback) {
-        var request = {}, errCb, successCb;
-
-        if ($.cookie("h")) {
-            request.url = "/hash/" + $.cookie("h");
-        } else {
-            request.url = "/msisdn/" + $.cookie("m");
-        }
-        errCb = function (error) {
-            callback(error);
-        };
-
-        successCb = function (data) {
-            callback(null, data);
-        };
-
-        request.type = "get";
-
-        request.success = successCb;
-        request.error = errCb;
-        $.ajax(request);
-    };*/
-
     this.getGamesForHomePage = function (callback) {
         var request = {}, errCb, successCb;
         errCb = function (error) {
@@ -49,6 +26,62 @@ app.service('apiServices', function () {
 
         request.type = "get";
         request.url = "/api/video/home";
+        request.success = successCb;
+        request.error = errCb;
+        $.ajax(request);
+    };
+
+    this.checkAndGenerateOTP = function (requestData, callback) {
+        var request = {}, errCb, successCb;
+        errCb = function (error) {
+            callback(error);
+        };
+
+        successCb = function (data) {
+            callback(null, data);
+        };
+
+        request.data = JSON.stringify(requestData);
+        request.contentType = "application/json";
+        request.type = "post";
+        request.url = "/api/auth/checkAndGenerateOTP";
+        request.success = successCb;
+        request.error = errCb;
+        $.ajax(request);
+    };
+
+    this.reGenerateOTP = function (msisdn, callback) {
+        var request = {}, errCb, successCb;
+        errCb = function (error) {
+            callback(error);
+        };
+
+        successCb = function (data) {
+            callback(null, data);
+        };
+
+        request.contentType = "application/json";
+        request.type = "get";
+        request.url = "/api/auth/reGenerateOTP/" + msisdn;
+        request.success = successCb;
+        request.error = errCb;
+        $.ajax(request);
+    };
+
+    this.verifyOTP = function (requestData, callback) {
+        var request = {}, errCb, successCb;
+        errCb = function (error) {
+            callback(error);
+        };
+
+        successCb = function (data) {
+            callback(null, data);
+        };
+
+        request.data = JSON.stringify(requestData);
+        request.contentType = "application/json";
+        request.type = "POST";
+        request.url = "/api/auth/verifyOTP";
         request.success = successCb;
         request.error = errCb;
         $.ajax(request);
@@ -90,7 +123,11 @@ app.service('apiServices', function () {
 });
 
 app.controller("mainCtrl", ['$scope', 'apiServices', function ($scope, apiServices) {
-
+    if (window.provider != null && window.provider == "zain-kuwait") {
+        $.cookie("ra", true);
+        $.cookie("provider", window.provider);
+    }
+    $scope.authRequired = $.cookie("ra");
 }]);
 
 app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope, apiServices, $timeout) {
@@ -159,11 +196,68 @@ app.controller("homeCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
    	};
    }]);
 
+app.controller("authCtrl", ['$scope', 'apiServices', '$timeout',function ($scope, apiServices, $timeout) {
+    var id = getParameterByName("view");
+    var category = getParameterByName("cat");
+
+    $scope.otpReceived = false;
+
+    $scope.generateOTP = function () {
+        var requestData = {msisdn: $scope.msisdn, provider: $.cookie("provider")};
+
+        $scope.showLoader = true;
+        apiServices.checkAndGenerateOTP(requestData, function (error, data) {
+            if (!error) {
+                $.cookie("msisdn", $scope.msisdn);
+                if (data.authenticated) {
+                    //window.location.reload();
+                    $scope.otpReceived = true;
+                } else {
+                    $scope.otpReceived = true;
+                }
+            } else {
+                alert("Something went wrong, Try again later.")
+            }
+            $scope.showLoader = false;
+            $scope.$apply();
+        });
+    }
+
+    $scope.regenerateOTP = function () {
+        $scope.showLoader = true;
+        apiServices.reGenerateOTP($scope.msisdn, function (error, data) {
+            $scope.showLoader = false;
+            if (!error) {
+                $.cookie("msisdn", $scope.msisdn);
+                if (data) {
+                    $scope.otpReceived = true;
+                }
+            } else {
+                alert("Something went wrong, Try again later.")
+            }
+            $scope.$apply();
+        });
+    }
+
+    $scope.verifyOTP = function () {
+        $scope.showLoader = true;
+        apiServices.verifyOTP({msisdn: $scope.msisdn, otpText: $scope.otpText}, function (error, data) {
+
+            if (!error) {
+                window.location.reload();
+            } else {
+                alert("Something went wrong, Try again later.")
+            }
+        });
+
+    }
+}]);
+
 app.controller("playCtrl", ['$scope', 'apiServices', '$timeout',function ($scope, apiServices, $timeout) {
     var id = getParameterByName("view");
     var category = getParameterByName("cat");
 
-
+    $scope.authenticated = window.authenticated;
 
     apiServices.getGamesDetailsById(id, function (error, data) {
         $scope.currentSelected = data;

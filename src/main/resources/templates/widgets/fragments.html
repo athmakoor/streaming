@@ -14,3 +14,22 @@
         <span style="font-size:30px;cursor:pointer;color:#81c341;" ng-click="navWidth = 'inherit'">&#9776;</span>
     </div>
 </div>
+
+<div th:fragment="auth">
+    <div ng-controller="authCtrl">
+        <div ng-show="showLoader" class="loading">Loading&#8230;</div>
+        <div style="text-align: center;margin-top: 100px;">
+            <h3>Please enter mobile number to login/subscribe</h3>
+            <div style="margin: 10px">
+                <input required ng-disabled="otpReceived" type="text" placeholder="Mobile Number" ng-model="msisdn">
+                <input ng-show="otpReceived" type="text" placeholder="OTP" ng-model="otpText">
+            </div>
+            <div style="margin: 10px">
+                <button class="btn btn-success" ng-click="generateOTP()" ng-if="!otpReceived">LOGIN/SUBSCRIBE</button>
+                <button class="btn" ng-click="regenerateOTP()" ng-if="otpReceived">RESEND OTP</button>
+                <button class="btn btn-success" ng-click="verifyOTP()" ng-if="otpReceived">VERIFY OTP</button>
+            </div>
+        </div>
+    </div>
+
+</div>

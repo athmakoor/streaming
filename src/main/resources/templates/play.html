@@ -5,10 +5,10 @@
 <title layout:fragment="title">Home</title>
 <div layout:fragment="content" id="app" class="off-canvas-content"  ng-controller="playCtrl">
     <div th:replace="widgets/fragments :: sideNav">...</div>
-    <div>
+    <div ng-if="authenticated">
         <div class="video col-md-12 no-padding">
-            <video ng-src="https://mooddit.s3.ap-south-1.amazonaws.com/{{category}}/compressed/{{currentSelected.videoUrl}}" width="100%" controls autoplay controlsList="nodownload">
-                <source ng-src="https://mooddit.s3.ap-south-1.amazonaws.com/{{category}}/compressed/{{currentSelected.videoUrl}}" type="video/mp4">
+            <video width="100%" controls autoplay controlsList="nodownload">
+                <source type="video/mp4">
             </video>
             <h4 class="modal-title">{{currentSelected.displayName}}</h4>
         </div>
@@ -26,6 +26,9 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div ng-if="!authenticated">
+        <div th:replace="widgets/fragments :: auth">...</div>
     </div>
 
     <div class="modal fade col-xs-12 col-md-6 col-md-offset-3 col-sm-offset-0" id="playModel" role="dialog" tabindex='-1'>
