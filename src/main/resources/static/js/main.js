@@ -257,7 +257,7 @@ app.controller("playCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
     var id = getParameterByName("view");
     var category = getParameterByName("cat");
 
-    $scope.authenticated = window.authenticated;
+    $scope.authenticated = window.authenticated || $.cookie("ra") == null;
 
     apiServices.getGamesDetailsById(id, function (error, data) {
         $scope.currentSelected = data;
