@@ -36,9 +36,8 @@ public class AuthServiceImpl implements AuthService {
     @Resource
     private AuthRequestRepository authRequestRepository;
 
-    //private static final String SUBSCRIPTION_CHECK_URL = "http://dm.vkandigital.com/api/checkSubscription?msisdn={{MSISDN}}";
-    private static final String SUBSCRIPTION_CHECK_URL = "http://localhost:8082/api/checkSubscription?msisdn={{MSISDN}}";
-    private static final String NEW_SUBSCRIPTION_URL = "http://localhost:8082/api/subscription/internal-subscribe?msisdn={{MSISDN}}&cur={{CURRENCY}}&price={{PRICE}}";
+    private static final String SUBSCRIPTION_CHECK_URL = "http://dm.vkandigital.com/api/checkSubscription?msisdn={{MSISDN}}";
+    private static final String NEW_SUBSCRIPTION_URL = "http://dm.vkandigital.com/api/subscription/internal-subscribe?msisdn={{MSISDN}}&cur={{CURRENCY}}&price={{PRICE}}";
     @Override
     public AuthResponse checkAndGenerateOTP(AuthRequest data, HttpServletRequest request) {
         AuthResponse authResponse = new AuthResponse();
