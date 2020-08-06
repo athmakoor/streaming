@@ -106,7 +106,6 @@ public class WebController {
         return "info/privacy";
     }
 
-
     @GetMapping("/views/**")
     public String others(final Map<String, Object> model) {
         webService.updateDefaultModel(model);
