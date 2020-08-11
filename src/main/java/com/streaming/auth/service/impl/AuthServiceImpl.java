@@ -67,6 +67,8 @@ public class AuthServiceImpl implements AuthService {
 
             if (generateOTPResponse.getErrCode().equals("0")) {
                 authResponse.setOtpSent(true);
+            } else {
+                throw new RequestException(generateOTPResponse.getErrMsg());
             }
         }
 

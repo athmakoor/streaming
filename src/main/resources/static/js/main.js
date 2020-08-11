@@ -214,7 +214,7 @@ app.controller("authCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
                 } else if (data.otpSent){
                     $scope.otpReceived = true;
                 } else {
-                    alert("Something went wrong, Try again later.");
+                    alert("Unable to send OTP. Please check the mobile number.");
                 }
             } else {
                 alert(error.responseJSON.message);
