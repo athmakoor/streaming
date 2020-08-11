@@ -46,7 +46,7 @@ public class SubscriptionController {
     }
 
     @PostMapping("/verifyOTP")
-    public VerifyOTPResponse regenerateOTP(@Valid @RequestBody final VerifyOTPRequest data) throws IOException {
+    public VerifyOTPResponse verifyOTP(@Valid @RequestBody final VerifyOTPRequest data) throws IOException {
         return subscriptionService.verifyOtp(data);
     }
 }

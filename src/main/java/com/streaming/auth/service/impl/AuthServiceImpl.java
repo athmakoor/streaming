@@ -95,7 +95,7 @@ public class AuthServiceImpl implements AuthService {
     public Boolean verifyOTP(String msisdn, String otpText) {
         VerifyOTPRequest verifyOTPRequest = new VerifyOTPRequest();
 
-        Optional<AuthRequestEntity> authRequestEntityOptional = authRequestRepository.findLatestByMsisdn(msisdn);
+        Optional<AuthRequestEntity> authRequestEntityOptional = authRequestRepository.findFirstByMsisdnOrderByIdDesc(msisdn);
 
         if (authRequestEntityOptional.isPresent()) {
             AuthRequestEntity entity = authRequestEntityOptional.get();
@@ -127,6 +127,8 @@ public class AuthServiceImpl implements AuthService {
                 }
 
                 return true;
+            } else {
+                throw new RequestException(verifyOTPResponse.getErrMsg());
             }
         }
 
@@ -135,7 +137,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse regenerateOTP(String msisdn) {
-        Optional<AuthRequestEntity> authRequestEntityOptional = authRequestRepository.findLatestByMsisdn(msisdn);
+        Optional<AuthRequestEntity> authRequestEntityOptional = authRequestRepository.findFirstByMsisdnOrderByIdDesc(msisdn);
         AuthResponse authResponse = new AuthResponse();
 
         if (authRequestEntityOptional.isPresent()) {

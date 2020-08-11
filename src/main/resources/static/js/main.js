@@ -217,7 +217,7 @@ app.controller("authCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
                     alert("Something went wrong, Try again later.");
                 }
             } else {
-                alert("Something went wrong, Try again later.");
+                alert(error.responseJSON.message);
             }
             $scope.showLoader = false;
             $scope.$apply();
@@ -228,17 +228,19 @@ app.controller("authCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
         $scope.showLoader = true;
         apiServices.reGenerateOTP($scope.msisdn, function (error, data) {
             $scope.showLoader = false;
+            $scope.otpReceived = true;
             if (!error) {
                 $.cookie("msisdn", $scope.msisdn);
                 if (data) {
                     if (data.otpSent){
+                        alert("OTP sent successfully.");
                         $scope.otpReceived = true;
                     } else {
                         alert("Something went wrong, Try again later.");
                     }
                 }
             } else {
-                alert("Something went wrong, Try again later.")
+                alert(error.responseJSON.message)
             }
             $scope.$apply();
         });
@@ -252,7 +254,7 @@ app.controller("authCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
             } else {
                 $scope.showLoader = false;
                 $scope.$apply();
-                alert("Something went wrong, Try again later.")
+                alert(error.responseJSON.message)
             }
         });
     }
