@@ -27,12 +27,12 @@ public class SubscriptionController {
 
     @GetMapping("/zain-kuwait/msisdn")
     public void getZainKwuaitMsisdn(final HttpServletRequest request) {
-        System.out.println(request.getQueryString());
+        System.out.println("Zain Kuwait Msisdn Response: " + request.getQueryString());
     }
 
     @GetMapping("/zain-kuwait/notification")
     public void getNotification(final HttpServletRequest request) {
-        System.out.println(request.getQueryString());
+        System.out.println("Zain Kuwait Notification Response: " + request.getQueryString());
     }
 
     @PostMapping("/generateOTP")
