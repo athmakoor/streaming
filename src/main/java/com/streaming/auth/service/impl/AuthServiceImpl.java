@@ -1,24 +1,23 @@
 package com.streaming.auth.service.impl;
 
-import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Optional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.google.gson.Gson;
 import com.streaming.auth.bean.AuthRequest;
 import com.streaming.auth.bean.AuthResponse;
 import com.streaming.auth.bean.jpa.AuthRequestEntity;
 import com.streaming.auth.repository.AuthRequestRepository;
 import com.streaming.auth.service.AuthService;
-import com.streaming.constant.Provider;
-import com.streaming.properties.PropertyManager;
 import com.streaming.subscription.PackDataProvider;
-import com.streaming.subscription.SubscriptionUtils;
 import com.streaming.subscription.bean.GenerateOTPRequest;
 import com.streaming.subscription.bean.GenerateOTPResponse;
 import com.streaming.subscription.bean.VerifyOTPRequest;
@@ -36,13 +35,15 @@ public class AuthServiceImpl implements AuthService {
     @Resource
     private AuthRequestRepository authRequestRepository;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthServiceImpl.class);
+
     private static final String SUBSCRIPTION_CHECK_URL = "http://dm.vkandigital.com/api/checkSubscription?msisdn={{MSISDN}}";
     private static final String NEW_SUBSCRIPTION_URL = "http://dm.vkandigital.com/api/subscription/internal-subscribe?msisdn={{MSISDN}}&cur={{CURRENCY}}&price={{PRICE}}";
     @Override
-    public AuthResponse checkAndGenerateOTP(AuthRequest data, HttpServletRequest request) {
+    public AuthResponse checkAndGenerateOTP(AuthRequest data, HttpServletRequest request) throws UnsupportedEncodingException {
         AuthResponse authResponse = new AuthResponse();
 
-       /* Boolean activeSubscription = checkSubscription(data.getMsisdn());
+        Boolean activeSubscription = checkSubscription(data.getMsisdn());
 
         if (activeSubscription) {
             authResponse.setAuthenticated(true);
@@ -70,15 +71,14 @@ public class AuthServiceImpl implements AuthService {
             } else {
                 throw new RequestException(generateOTPResponse.getErrMsg());
             }
-        }*/
+        }
 
-        authResponse.setOtpSent(true);
         return authResponse;
     }
 
     @Override
-    public Boolean checkSubscription(String msisdn) {
-        String url = SUBSCRIPTION_CHECK_URL.replace("{{MSISDN}}", msisdn);
+    public Boolean checkSubscription(String msisdn) throws UnsupportedEncodingException {
+        String url = SUBSCRIPTION_CHECK_URL.replace("{{MSISDN}}", URLEncoder.encode(msisdn, "UTF-8"));
 
         Request request = new Request();
 
@@ -95,10 +95,11 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Boolean verifyOTP(String msisdn, String otpText) {
-        /*VerifyOTPRequest verifyOTPRequest = new VerifyOTPRequest();
+    public Boolean verifyOTP(String msisdn, String otpText) throws UnsupportedEncodingException {
+        VerifyOTPRequest verifyOTPRequest = new VerifyOTPRequest();
 
         Optional<AuthRequestEntity> authRequestEntityOptional = authRequestRepository.findFirstByMsisdnOrderByIdDesc(msisdn);
+        LOGGER.debug("Verify otp called:" + msisdn + " " + otpText);
 
         if (authRequestEntityOptional.isPresent()) {
             AuthRequestEntity entity = authRequestEntityOptional.get();
@@ -111,7 +112,8 @@ public class AuthServiceImpl implements AuthService {
             VerifyOTPResponse verifyOTPResponse = subscriptionService.verifyOtp(verifyOTPRequest);
 
             if (verifyOTPResponse.getErrCode().equals("0")) {
-                String url = NEW_SUBSCRIPTION_URL.replace("{{MSISDN}}", msisdn);
+                LOGGER.debug("Verify otp success:" + msisdn + " " + otpText);
+                String url = NEW_SUBSCRIPTION_URL.replace("{{MSISDN}}", URLEncoder.encode(msisdn, "UTF-8"));
 
                 url = url.replace("{{CURRENCY}}", "AED");
                 url = url.replace("{{PRICE}}", "2000");
@@ -123,7 +125,8 @@ public class AuthServiceImpl implements AuthService {
                     request.setPath(url);
                     String response = RequestUtils.getResponse(request, null);
 
-                    System.out.println(response);
+                    LOGGER.debug("Saved Subscription "  + msisdn + " " + otpText);
+                    LOGGER.debug(response);
                 } catch (RequestException e) {
                     e.printStackTrace();
                     throw new RequestException(e.getMessage());
@@ -135,26 +138,7 @@ public class AuthServiceImpl implements AuthService {
             }
         }
 
-        return false;*/
-        String url = NEW_SUBSCRIPTION_URL.replace("{{MSISDN}}", msisdn);
-
-        url = url.replace("{{CURRENCY}}", "AED");
-        url = url.replace("{{PRICE}}", "2000");
-
-        Request request = new Request();
-
-        try {
-            request.setMethod("GET");
-            request.setPath(url);
-            String response = RequestUtils.getResponse(request, null);
-
-            System.out.println(response);
-        } catch (RequestException e) {
-            e.printStackTrace();
-            throw new RequestException(e.getMessage());
-        }
-
-        return true;
+        return false;
     }
 
     @Override
