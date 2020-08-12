@@ -1,5 +1,6 @@
 package com.streaming.web.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -57,7 +58,7 @@ public class WebController {
     }
 
     @GetMapping("/play")
-    public String play(final Map<String, Object> model, HttpServletRequest request) {
+    public String play(final Map<String, Object> model, HttpServletRequest request) throws UnsupportedEncodingException {
         if (CookieUtils.getCookie(request, "ra").isPresent() &&
                 Boolean.parseBoolean(CookieUtils.getCookie(request, "ra").get().getValue())) {
             if (CookieUtils.getCookie(request, "msisdn").isPresent()) {
