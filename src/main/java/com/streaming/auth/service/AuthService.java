@@ -12,7 +12,7 @@ public interface AuthService {
 
     Boolean checkSubscription(String msisdn) throws UnsupportedEncodingException;
 
-    Boolean verifyOTP(String msisdn, String otpText) throws UnsupportedEncodingException;
+    Boolean verifyOTP(String msisdn, String otpText, HttpServletRequest request) throws UnsupportedEncodingException;
 
     AuthResponse regenerateOTP(String msisdn);
 }

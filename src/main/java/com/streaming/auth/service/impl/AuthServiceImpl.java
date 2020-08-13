@@ -95,7 +95,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Boolean verifyOTP(String msisdn, String otpText) throws UnsupportedEncodingException {
+    public Boolean verifyOTP(String msisdn, String otpText, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException {
         VerifyOTPRequest verifyOTPRequest = new VerifyOTPRequest();
 
         Optional<AuthRequestEntity> authRequestEntityOptional = authRequestRepository.findFirstByMsisdnOrderByIdDesc(msisdn);
@@ -108,6 +108,8 @@ public class AuthServiceImpl implements AuthService {
             verifyOTPRequest.setProvider(entity.getProvider());
             verifyOTPRequest.setPackPrice("2000");
             verifyOTPRequest.setPackValidity("30");
+            verifyOTPRequest.setMsisdn(msisdn);
+            verifyOTPRequest.setUserIP(IpUtil.getClientIpAddr(httpServletRequest));
 
             VerifyOTPResponse verifyOTPResponse = subscriptionService.verifyOtp(verifyOTPRequest);
 

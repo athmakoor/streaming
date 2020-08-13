@@ -97,6 +97,8 @@ public class SubscriptionUtils {
         url = url.replace("{OTP_TEXT}", data.getOtpText());
         url = url.replace("{PACK_PRICE}", data.getPackPrice());
         url = url.replace("{PACK_VALIDITY}", data.getPackValidity());
+        url = url.replace("{MSISDN}", data.getMsisdn());
+        url = url.replace("{USER_IP}", data.getUserIP());
 
         LOGGER.debug("VERIFY OTP REQUEST:" + url);
 
