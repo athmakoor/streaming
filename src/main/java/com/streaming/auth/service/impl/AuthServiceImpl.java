@@ -55,6 +55,7 @@ public class AuthServiceImpl implements AuthService {
             generateOTPRequest.setClickId(id);
             generateOTPRequest.setTransactionId(id);
             generateOTPRequest.setUserIP(IpUtil.getClientIpAddr(request));
+            generateOTPRequest.setSessionId(request.getSession().getId());
             GenerateOTPResponse generateOTPResponse = subscriptionService.generateOtp(generateOTPRequest);
 
             AuthRequestEntity authRequestEntity = new AuthRequestEntity();
@@ -109,6 +110,7 @@ public class AuthServiceImpl implements AuthService {
             verifyOTPRequest.setPackPrice("2000");
             verifyOTPRequest.setPackValidity("30");
             verifyOTPRequest.setMsisdn(msisdn);
+            verifyOTPRequest.setSessionId(httpServletRequest.getSession().getId());
             verifyOTPRequest.setUserIP(IpUtil.getClientIpAddr(httpServletRequest));
 
             VerifyOTPResponse verifyOTPResponse = subscriptionService.verifyOtp(verifyOTPRequest);
@@ -144,7 +146,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthResponse regenerateOTP(String msisdn) {
+    public AuthResponse regenerateOTP(String msisdn, HttpServletRequest request) {
         Optional<AuthRequestEntity> authRequestEntityOptional = authRequestRepository.findFirstByMsisdnOrderByIdDesc(msisdn);
         AuthResponse authResponse = new AuthResponse();
 
@@ -157,6 +159,7 @@ public class AuthServiceImpl implements AuthService {
             generateOTPRequest.setClickId(entity.getClickId());
             generateOTPRequest.setTransactionId(entity.getClickId());
             generateOTPRequest.setUserIP(entity.getUserIp());
+            generateOTPRequest.setSessionId(request.getSession().getId());
 
             GenerateOTPResponse generateOTPResponse = subscriptionService.regenerateOTP(generateOTPRequest);
 

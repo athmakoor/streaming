@@ -48,7 +48,7 @@ public class AuthController {
     @GetMapping("/reGenerateOTP/{msisdn}")
     public AuthResponse reGenerateOTP(@PathVariable("msisdn") final String msisdn, HttpServletRequest request) throws IOException {
         LOGGER.debug(getFullURL(request));
-        return authService.regenerateOTP(msisdn);
+        return authService.regenerateOTP(msisdn, request);
     }
 
     @PostMapping("/verifyOTP")

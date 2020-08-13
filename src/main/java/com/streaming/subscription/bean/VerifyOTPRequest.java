@@ -11,6 +11,7 @@ public class VerifyOTPRequest {
     @NotNull
     private String msisdn = "";
     private String userIP = "";
+    private String sessionId = "";
 
     public String getTransactionId() {
         return transactionId;
@@ -66,5 +67,13 @@ public class VerifyOTPRequest {
 
     public void setUserIP(String userIP) {
         this.userIP = userIP;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 }

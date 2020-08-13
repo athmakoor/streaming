@@ -34,6 +34,7 @@ public class SubscriptionUtils {
         url = url.replace("{TRANSACTION_ID}", data.getTransactionId());
         url = url.replace("{REQUEST_TYPE}", "" + 1);
         url = url.replace("{USER_IP}", data.getUserIP());
+        url = url.replace("{SESSION_ID}", data.getSessionId());
 
         LOGGER.debug("GENERATE OTP REQUEST:" + url);
 
@@ -67,6 +68,7 @@ public class SubscriptionUtils {
         url = url.replace("{PACK_VALIDITY}", data.getPackValidity());
         url = url.replace("{REQUEST_TYPE}", "" + 2);
         url = url.replace("{USER_IP}", data.getUserIP());
+        url = url.replace("{SESSION_ID}", data.getSessionId());
 
         LOGGER.debug("REGENERATE OTP REQUEST:" + url);
 
@@ -99,6 +101,7 @@ public class SubscriptionUtils {
         url = url.replace("{PACK_VALIDITY}", data.getPackValidity());
         url = url.replace("{MSISDN}", data.getMsisdn());
         url = url.replace("{USER_IP}", data.getUserIP());
+        url = url.replace("{SESSION_ID}", data.getSessionId());
 
         LOGGER.debug("VERIFY OTP REQUEST:" + url);
 
