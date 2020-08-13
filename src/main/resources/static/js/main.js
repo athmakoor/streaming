@@ -202,13 +202,21 @@ app.controller("authCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
 
     $scope.otpReceived = false;
 
+    var fixMsisdn = function (msisdn) {
+        if (msisdn != null && msisdn != undefined && msisdn.length < 10) {
+            return "965" + msisdn;
+        }
+
+        return msisdn;
+    }
+
     $scope.generateOTP = function () {
-        var requestData = {msisdn: $scope.msisdn, provider: $.cookie("provider")};
+        var requestData = {msisdn: fixMsisdn($scope.msisdn), provider: $.cookie("provider")};
 
         $scope.showLoader = true;
         apiServices.checkAndGenerateOTP(requestData, function (error, data) {
             if (!error) {
-                $.cookie("msisdn", $scope.msisdn);
+                $.cookie("msisdn", fixMsisdn($scope.msisdn));
                 if (data.authenticated) {
                     window.location.reload();
                 } else if (data.otpSent){
@@ -226,11 +234,11 @@ app.controller("authCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
 
     $scope.regenerateOTP = function () {
         $scope.showLoader = true;
-        apiServices.reGenerateOTP($scope.msisdn, function (error, data) {
+        apiServices.reGenerateOTP(fixMsisdn($scope.msisdn), function (error, data) {
             $scope.showLoader = false;
             $scope.otpReceived = true;
             if (!error) {
-                $.cookie("msisdn", $scope.msisdn);
+                $.cookie("msisdn", fixMsisdn($scope.msisdn));
                 if (data) {
                     if (data.otpSent){
                         alert("OTP sent successfully.");
@@ -248,7 +256,7 @@ app.controller("authCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
 
     $scope.verifyOTP = function () {
         $scope.showLoader = true;
-        apiServices.verifyOTP({msisdn: $scope.msisdn, otpText: $scope.otpText}, function (error, data) {
+        apiServices.verifyOTP({msisdn: fixMsisdn($scope.msisdn), otpText: $scope.otpText}, function (error, data) {
             if (!error) {
                 window.location.reload();
             } else {
