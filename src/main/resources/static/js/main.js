@@ -11,6 +11,14 @@ var getParameterByName = function (name, fallback) {
     return results ? decodeURIComponent(results[1].replace(/\+/g, " ")) : fallback;
 };
 
+var fixMsisdn = function (msisdn) {
+    if (msisdn != null && msisdn != undefined && msisdn.length < 10) {
+        return "965" + msisdn;
+    }
+
+    return msisdn;
+}
+
 var app = angular.module("main-app", []);
 
 app.service('apiServices', function () {
@@ -127,6 +135,11 @@ app.controller("mainCtrl", ['$scope', 'apiServices', function ($scope, apiServic
         $.cookie("ra", true);
         $.cookie("provider", window.provider);
     }
+
+    if (window.msisdn != null) {
+        $.cookie("msisdn", fixMsisdn(window.msisdn));
+    }
+
     $scope.authRequired = $.cookie("ra");
 }]);
 
@@ -201,14 +214,6 @@ app.controller("authCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
     var category = getParameterByName("cat");
 
     $scope.otpReceived = false;
-
-    var fixMsisdn = function (msisdn) {
-        if (msisdn != null && msisdn != undefined && msisdn.length < 10) {
-            return "965" + msisdn;
-        }
-
-        return msisdn;
-    }
 
     $scope.generateOTP = function () {
         var requestData = {msisdn: fixMsisdn($scope.msisdn), provider: $.cookie("provider")};

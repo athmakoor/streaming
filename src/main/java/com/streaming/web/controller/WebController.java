@@ -36,10 +36,15 @@ public class WebController {
     }
 
     @GetMapping("/za-kw")
-    public String zainKuwaitBase(final Map<String, Object> model) {
+    public String zainKuwaitBase(final Map<String, Object> model, @RequestParam(value = "msisdn", required = false) final String msisdn) {
         webService.updateDefaultModel(model);
         model.put("HOME", true);
         model.put("PROVIDER", Provider.ZAIN_KUWAIT);
+
+        if (msisdn != null) {
+            model.put("MSISDN", msisdn);
+        }
+
         return "home";
     }
 
