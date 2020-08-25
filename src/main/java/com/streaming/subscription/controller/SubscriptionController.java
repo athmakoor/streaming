@@ -16,6 +16,7 @@ import com.streaming.subscription.bean.GenerateOTPRequest;
 import com.streaming.subscription.bean.GenerateOTPResponse;
 import com.streaming.subscription.bean.VerifyOTPRequest;
 import com.streaming.subscription.bean.VerifyOTPResponse;
+import com.streaming.subscription.service.NotificationsService;
 import com.streaming.subscription.service.SubscriptionService;
 
 
@@ -24,15 +25,19 @@ import com.streaming.subscription.service.SubscriptionService;
 public class SubscriptionController {
     @Resource
     private SubscriptionService subscriptionService;
+    @Resource
+    private NotificationsService notificationsService;
 
     @GetMapping("/zain-kuwait/msisdn")
     public void getZainKwuaitMsisdn(final HttpServletRequest request) {
         System.out.println("Zain Kuwait Msisdn Response: " + request.getQueryString());
+        notificationsService.save("msisdn", request);
     }
 
     @GetMapping("/zain-kuwait/notification")
     public void getNotification(final HttpServletRequest request) {
         System.out.println("Zain Kuwait Notification Response: " + request.getQueryString());
+        notificationsService.save("notification", request);
     }
 
     @PostMapping("/generateOTP")
