@@ -24,7 +24,7 @@ public class NotificationsServiceImpl implements NotificationsService {
         entity.setResponseMessage(request.getQueryString());
         entity.setType(type);
 
-        if ("Notification".equals(type)) {
+        if ("notification".equals(type)) {
             String chargeStatus = request.getParameter("charg_status");
             entity.setChargeStatus(chargeStatus);
         }
