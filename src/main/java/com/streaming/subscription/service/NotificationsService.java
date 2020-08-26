@@ -4,4 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface NotificationsService {
     void save(String type, HttpServletRequest request);
+
+    void create();
 }

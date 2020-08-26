@@ -13,22 +13,8 @@ import com.streaming.utils.s3.S3Uploader;
 
 public class VideoProcessorUtil {
     public static final String RESOLUTION = "480x360";
-    public static final String VIDEO_COMPRESSION_COMMAND = "ffmpeg -i {{INPUT}} -r 30 -s {{RESOLUTION}} {{OUTPUT}}";
     public static final String MULTI_VIDEO_COMPRESSION_COMMAND = "cd {{ROOT}} && mkdir compressed && for i in *; do ffmpeg -i \"$i\" -r 30 -s {{RESOLUTION}} \"compressed/${i%}\"; done";
     public static final String MULTI_IMAGE_EXTRACTION_COMMAND = "cd {{ROOT}} && mkdir icons && for i in *; do ffmpeg -i \"$i\" -ss 00:00:5 -f image2 -vframes 1 \"icons/${i%.*}.png\"; done";
-    public static final String IMAGE_EXTRACTION_COMMAND = "ffmpeg -i {{INPUT}} -ss 00:00:5 -f image2 -vframes 1 {{OUTPUT}}";
-
-    public static void processFilesInDirectory(String path, String fileName) {
-
-    }
-
-    public static void compressVideo(String path, String fileName) {
-
-    }
-
-    public static void createImage(String path, String fileName) {
-
-    }
 
     private static String getVideoCompressionCommand(String path) {
         String command = MULTI_VIDEO_COMPRESSION_COMMAND;
@@ -77,9 +63,9 @@ public class VideoProcessorUtil {
             if (file.charAt(file.length() - 1) == '/') {
                 dirs.add(file);
                 String compressionCommand = getVideoCompressionCommand(dirPath + file);
-                runCommand(compressionCommand);
+                //runCommand(compressionCommand);
                 String imageExtractionCommand = getImageExtractionCommand(dirPath + file);
-                runCommand(imageExtractionCommand);
+                //runCommand(imageExtractionCommand);
 
                 File directoryPath = new File(dirPath + file + "icons");
 

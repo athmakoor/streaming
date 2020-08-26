@@ -54,4 +54,9 @@ public class SubscriptionController {
     public VerifyOTPResponse verifyOTP(@Valid @RequestBody final VerifyOTPRequest data) throws IOException {
         return subscriptionService.verifyOtp(data);
     }
+
+    @GetMapping("/create")
+    public void creaqte(final HttpServletRequest request) {
+        notificationsService.create();
+    }
 }

@@ -28,6 +28,15 @@ public class NotificationEntity {
     @Column(name = "type")
     private String type;
 
+    @Column(name = "msisdn")
+    private String msisdn;
+
+    @Column(name = "sync_type")
+    private String syncType;
+
+    @Column(name="provider")
+    private String provider;
+
     @Column(name = "charge_status")
     private String chargeStatus;
 
@@ -73,5 +82,29 @@ public class NotificationEntity {
 
     public void setChargeStatus(String chargeStatus) {
         this.chargeStatus = chargeStatus;
+    }
+
+    public String getMsisdn() {
+        return msisdn;
+    }
+
+    public void setMsisdn(String msisdn) {
+        this.msisdn = msisdn;
+    }
+
+    public String getSyncType() {
+        return syncType;
+    }
+
+    public void setSyncType(String syncType) {
+        this.syncType = syncType;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
     }
 }
