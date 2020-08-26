@@ -37,7 +37,8 @@ public class NotificationsServiceImpl implements NotificationsService {
             entity.setChargeStatus(chargeStatus);
             entity.setProvider("zain-kuwait");
             entity.setMsisdn(request.getParameter("msisdn"));
-            entity.setSyncType("sync_type");
+            entity.setSyncType(request.getParameter("sync_type"));
+            entity.setPrice(request.getParameter("price"));
         }
 
         notificationsRepository.save(entity);
@@ -77,6 +78,7 @@ public class NotificationsServiceImpl implements NotificationsService {
                 entity.setProvider("zain-kuwait");
                 entity.setSyncType(getParamValue(line, "sync_type"));
                 entity.setMsisdn(getParamValue(line, "msisdn"));
+                entity.setPrice(getParamValue(line, "price"));
 
                 String chargeStatus = getParamValue(line, "charg_status");
                 entity.setChargeStatus(chargeStatus);

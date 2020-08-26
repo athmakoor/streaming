@@ -37,6 +37,9 @@ public class NotificationEntity {
     @Column(name="provider")
     private String provider;
 
+    @Column(name="price")
+    private String price;
+
     @Column(name = "charge_status")
     private String chargeStatus;
 
@@ -106,5 +109,13 @@ public class NotificationEntity {
 
     public void setProvider(String provider) {
         this.provider = provider;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
     }
 }
