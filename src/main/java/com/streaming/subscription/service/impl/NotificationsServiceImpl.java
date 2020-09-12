@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.streaming.subscription.bean.jpa.NotificationEntity;
 import com.streaming.subscription.repository.NotificationsRepository;
+import com.streaming.subscription.service.DigitalMarketingService;
 import com.streaming.subscription.service.NotificationsService;
 import com.streaming.utils.TimeUtil;
 
@@ -22,11 +24,14 @@ import com.streaming.utils.TimeUtil;
 public class NotificationsServiceImpl implements NotificationsService {
     @Resource
     private NotificationsRepository notificationsRepository;
+    @Resource
+    private DigitalMarketingService digitalMarketingService;
 
 
     @Override
-    public void save(String type, HttpServletRequest request) {
+    public void save(String type, HttpServletRequest request) throws UnsupportedEncodingException {
         NotificationEntity entity = new NotificationEntity();
+        String status;
 
         entity.setCreatedAt(TimeUtil.getCurrentUTCTime());
         entity.setResponseMessage(request.getQueryString());
@@ -39,6 +44,17 @@ public class NotificationsServiceImpl implements NotificationsService {
             entity.setMsisdn(request.getParameter("msisdn"));
             entity.setSyncType(request.getParameter("sync_type"));
             entity.setPrice(request.getParameter("price"));
+
+            if ("1".equals(request.getParameter("charg_status"))) {
+                if ("1".equals(request.getParameter("sync_type"))) {
+                    status = "renewal";
+                } else {
+                    status = "subscribe";
+                }
+
+                digitalMarketingService.saveSubscription(request.getParameter("msisdn"), request.getParameter("price"), "AED", status);
+            }
+
         }
 
         notificationsRepository.save(entity);

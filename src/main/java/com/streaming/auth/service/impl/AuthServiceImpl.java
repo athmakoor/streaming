@@ -22,6 +22,7 @@ import com.streaming.subscription.bean.GenerateOTPRequest;
 import com.streaming.subscription.bean.GenerateOTPResponse;
 import com.streaming.subscription.bean.VerifyOTPRequest;
 import com.streaming.subscription.bean.VerifyOTPResponse;
+import com.streaming.subscription.service.DigitalMarketingService;
 import com.streaming.subscription.service.SubscriptionService;
 import com.streaming.utils.IpUtil;
 import com.streaming.utils.request.Request;
@@ -34,6 +35,8 @@ public class AuthServiceImpl implements AuthService {
     private SubscriptionService subscriptionService;
     @Resource
     private AuthRequestRepository authRequestRepository;
+    @Resource
+    private DigitalMarketingService digitalMarketingService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthServiceImpl.class);
 
@@ -107,8 +110,8 @@ public class AuthServiceImpl implements AuthService {
             verifyOTPRequest.setOtpText(otpText);
             verifyOTPRequest.setTransactionId(entity.getClickId());
             verifyOTPRequest.setProvider(entity.getProvider());
-            verifyOTPRequest.setPackPrice("2000");
-            verifyOTPRequest.setPackValidity("30");
+            verifyOTPRequest.setPackPrice("100");
+            verifyOTPRequest.setPackValidity("1");
             verifyOTPRequest.setMsisdn(msisdn);
             verifyOTPRequest.setSessionId(httpServletRequest.getSession().getId());
             verifyOTPRequest.setUserIP(IpUtil.getClientIpAddr(httpServletRequest));
@@ -116,25 +119,7 @@ public class AuthServiceImpl implements AuthService {
             VerifyOTPResponse verifyOTPResponse = subscriptionService.verifyOtp(verifyOTPRequest);
 
             if (verifyOTPResponse.getErrCode().equals("0")) {
-                LOGGER.debug("Verify otp success:" + msisdn + " " + otpText);
-                String url = NEW_SUBSCRIPTION_URL.replace("{{MSISDN}}", URLEncoder.encode(msisdn, "UTF-8"));
-
-                url = url.replace("{{CURRENCY}}", "AED");
-                url = url.replace("{{PRICE}}", "2000");
-
-                Request request = new Request();
-
-                try {
-                    request.setMethod("GET");
-                    request.setPath(url);
-                    String response = RequestUtils.getResponse(request, null);
-
-                    LOGGER.debug("Saved Subscription "  + msisdn + " " + otpText);
-                    LOGGER.debug(response);
-                } catch (RequestException e) {
-                    e.printStackTrace();
-                    throw new RequestException(e.getMessage());
-                }
+                digitalMarketingService.saveSubscription(msisdn, "100", "AED");
 
                 return true;
             } else {

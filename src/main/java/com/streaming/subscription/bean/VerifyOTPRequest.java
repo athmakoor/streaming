@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 public class VerifyOTPRequest {
     private String transactionId;
     private String provider = "";
+    @NotNull
     private String otpText;
     private String packPrice = "";
     private String packValidity = "";
