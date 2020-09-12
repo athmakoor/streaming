@@ -1,6 +1,7 @@
 package com.streaming.subscription.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -29,13 +30,13 @@ public class SubscriptionController {
     private NotificationsService notificationsService;
 
     @GetMapping("/zain-kuwait/msisdn")
-    public void getZainKwuaitMsisdn(final HttpServletRequest request) {
+    public void getZainKwuaitMsisdn(final HttpServletRequest request) throws UnsupportedEncodingException {
         System.out.println("Zain Kuwait Msisdn Response: " + request.getQueryString());
         notificationsService.save("msisdn", request);
     }
 
     @GetMapping("/zain-kuwait/notification")
-    public void getNotification(final HttpServletRequest request) {
+    public void getNotification(final HttpServletRequest request) throws UnsupportedEncodingException {
         System.out.println("Zain Kuwait Notification Response: " + request.getQueryString());
         notificationsService.save("notification", request);
     }
