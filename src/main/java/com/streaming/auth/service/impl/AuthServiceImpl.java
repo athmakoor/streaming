@@ -41,7 +41,6 @@ public class AuthServiceImpl implements AuthService {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthServiceImpl.class);
 
     private static final String SUBSCRIPTION_CHECK_URL = "http://dm.vkandigital.com/api/checkSubscription?msisdn={{MSISDN}}";
-    private static final String NEW_SUBSCRIPTION_URL = "http://dm.vkandigital.com/api/subscription/internal-subscribe?msisdn={{MSISDN}}&cur={{CURRENCY}}&price={{PRICE}}";
     @Override
     public AuthResponse checkAndGenerateOTP(AuthRequest data, HttpServletRequest request) throws UnsupportedEncodingException {
         AuthResponse authResponse = new AuthResponse();
@@ -110,8 +109,8 @@ public class AuthServiceImpl implements AuthService {
             verifyOTPRequest.setOtpText(otpText);
             verifyOTPRequest.setTransactionId(entity.getClickId());
             verifyOTPRequest.setProvider(entity.getProvider());
-            verifyOTPRequest.setPackPrice("100");
-            verifyOTPRequest.setPackValidity("1");
+            verifyOTPRequest.setPackPrice("600");
+            verifyOTPRequest.setPackValidity("7");
             verifyOTPRequest.setMsisdn(msisdn);
             verifyOTPRequest.setSessionId(httpServletRequest.getSession().getId());
             verifyOTPRequest.setUserIP(IpUtil.getClientIpAddr(httpServletRequest));
@@ -119,7 +118,7 @@ public class AuthServiceImpl implements AuthService {
             VerifyOTPResponse verifyOTPResponse = subscriptionService.verifyOtp(verifyOTPRequest);
 
             if (verifyOTPResponse.getErrCode().equals("0")) {
-                digitalMarketingService.saveSubscription(msisdn, "100", "AED");
+                digitalMarketingService.saveSubscription(msisdn, "600", "AED", entity.getProvider());
 
                 return true;
             } else {

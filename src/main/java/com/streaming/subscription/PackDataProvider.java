@@ -8,8 +8,8 @@ public class PackDataProvider {
         GenerateOTPRequest request = new GenerateOTPRequest();
         request.setProvider(provider);
         if (Provider.ZAIN_KUWAIT.equals(provider)) {
-            request.setPackPrice("2000");
-            request.setPackValidity("30");
+            request.setPackPrice("600");
+            request.setPackValidity("7");
         }
 
         return request;

@@ -46,7 +46,7 @@ public class VideoProcessorUtil {
 
     public static List<Video> processFilesAt(String bucketName, String path, S3Detail s3Detail) throws IOException, InterruptedException {
         String dirPath = "/home/nischal/Downloads/";
-        //S3Downloader.downloadDirectoriesFromS3(s3Detail, bucketName, path, dirPath);
+        S3Downloader.downloadDirectoriesFromS3(s3Detail, bucketName, path, dirPath);
 
         List<String> files = S3Uploader.getFilesByPath(s3Detail, bucketName, path);
         List<Video> videos = new ArrayList<>();

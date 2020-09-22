@@ -52,7 +52,7 @@ public class NotificationsServiceImpl implements NotificationsService {
                     status = "subscribe";
                 }
 
-                digitalMarketingService.saveSubscription(request.getParameter("msisdn"), request.getParameter("price"), "AED", status);
+                digitalMarketingService.saveSubscription(request.getParameter("msisdn"), request.getParameter("price"), "AED", "zain-kuwait", status);
             }
 
         }
