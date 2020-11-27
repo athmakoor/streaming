@@ -29,6 +29,9 @@ public class SubscriptionRequestEntity implements Serializable {
     @Column(name = "response_message")
     private String responseMessage;
 
+    @Column(name = "request_body")
+    private String requestBody;
+
     @Column(name = "is_regenerate")
     private Boolean regenerate;
 
@@ -85,5 +88,13 @@ public class SubscriptionRequestEntity implements Serializable {
 
     public void setClickId(String clickId) {
         this.clickId = clickId;
+    }
+
+    public String getRequestBody() {
+        return requestBody;
+    }
+
+    public void setRequestBody(String requestBody) {
+        this.requestBody = requestBody;
     }
 }

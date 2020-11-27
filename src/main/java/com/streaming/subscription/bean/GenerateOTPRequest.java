@@ -87,4 +87,19 @@ public class GenerateOTPRequest {
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
     }
+
+    @Override
+    public String toString() {
+        return "GenerateOTPRequest{" +
+                "msisdn='" + msisdn + '\'' +
+                ", clickId='" + clickId + '\'' +
+                ", provider='" + provider + '\'' +
+                ", transactionId='" + transactionId + '\'' +
+                ", packId='" + packId + '\'' +
+                ", packPrice='" + packPrice + '\'' +
+                ", packValidity='" + packValidity + '\'' +
+                ", userIP='" + userIP + '\'' +
+                ", sessionId='" + sessionId + '\'' +
+                '}';
+    }
 }

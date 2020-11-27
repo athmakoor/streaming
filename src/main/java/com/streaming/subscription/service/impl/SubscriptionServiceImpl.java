@@ -47,6 +47,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         entity.setCreatedAt(TimeUtil.getCurrentUTCTime());
         entity.setRegenerate(false);
         entity.setClickId(data.getClickId());
+        entity.setRequestBody(data.toString());
 
         subscriptionRequestRepository.save(entity);
         return response;
