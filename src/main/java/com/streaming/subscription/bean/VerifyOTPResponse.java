@@ -37,4 +37,14 @@ public class VerifyOTPResponse {
     public void setTransactionId(String transactionId) {
         this.transactionId = transactionId;
     }
+
+    @Override
+    public String toString() {
+        return "VerifyOTPResponse{" +
+                "errCode='" + errCode + '\'' +
+                ", errMsg='" + errMsg + '\'' +
+                ", interfaceId='" + interfaceId + '\'' +
+                ", transactionId='" + transactionId + '\'' +
+                '}';
+    }
 }

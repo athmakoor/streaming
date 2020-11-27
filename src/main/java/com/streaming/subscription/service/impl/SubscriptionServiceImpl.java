@@ -54,7 +54,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     private void updatePack(GenerateOTPRequest data) {
         ZonedDateTime date = TimeUtil.getCurrentUTCTime().truncatedTo(ChronoUnit.DAYS);
-        List<SubscriptionRequestEntity> entities = subscriptionRequestRepository.findByCreatedAtAfter(date);
+        List<SubscriptionEntity> entities = subscriptionRepository.findByCreatedAtAfter(date);
 
         if (data.getProvider().equals(Provider.ZAIN_KUWAIT)) {
             if (entities.size() > 30) {
