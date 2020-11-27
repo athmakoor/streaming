@@ -58,7 +58,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         List<SubscriptionEntity> entities = subscriptionRepository.findByCreatedAtAfter(date);
 
         if (data.getProvider().equals(Provider.ZAIN_KUWAIT)) {
-            if (entities.size() > 30) {
+            if (entities.size() > 50) {
                 data.setPackPrice("100");
                 data.setPackValidity("1");
             } else {
