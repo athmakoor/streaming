@@ -72,7 +72,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     private void updatePack(VerifyOTPRequest data) {
-        ZonedDateTime date = TimeUtil.getCurrentUTCTime().truncatedTo(ChronoUnit.DAYS);
         List<SubscriptionRequestEntity> entities = subscriptionRequestRepository.findByClickId(data.getTransactionId());
 
         if (data.getProvider().equals(Provider.ZAIN_KUWAIT)) {
