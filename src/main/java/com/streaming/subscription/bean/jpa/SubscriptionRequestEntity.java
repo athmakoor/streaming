@@ -38,6 +38,12 @@ public class SubscriptionRequestEntity implements Serializable {
     @Column(name = "click_id")
     private String clickId;
 
+    @Column(name = "price")
+    private String price;
+
+    @Column(name = "validity")
+    private String validity;
+
     @Column(name = "created_at")
     @Convert(converter = UTCDateTimeConverter.class)
     private ZonedDateTime createdAt;
@@ -96,5 +102,21 @@ public class SubscriptionRequestEntity implements Serializable {
 
     public void setRequestBody(String requestBody) {
         this.requestBody = requestBody;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getValidity() {
+        return validity;
+    }
+
+    public void setValidity(String validity) {
+        this.validity = validity;
     }
 }

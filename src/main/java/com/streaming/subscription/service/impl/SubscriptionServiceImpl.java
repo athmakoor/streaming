@@ -3,6 +3,7 @@ package com.streaming.subscription.service.impl;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 
@@ -47,6 +48,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         entity.setCreatedAt(TimeUtil.getCurrentUTCTime());
         entity.setRegenerate(false);
         entity.setClickId(data.getClickId());
+        entity.setPrice(data.getPackPrice());
+        entity.setValidity(data.getPackValidity());
         entity.setRequestBody(data.toString());
 
         subscriptionRequestRepository.save(entity);
@@ -68,8 +71,22 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         }
     }
 
+    private void updatePack(VerifyOTPRequest data) {
+        ZonedDateTime date = TimeUtil.getCurrentUTCTime().truncatedTo(ChronoUnit.DAYS);
+        List<SubscriptionRequestEntity> entities = subscriptionRequestRepository.findByClickId(data.getTransactionId());
+
+        if (data.getProvider().equals(Provider.ZAIN_KUWAIT)) {
+            if (!entities.isEmpty()) {
+                SubscriptionRequestEntity entity = entities.get(entities.size()-1);
+                data.setPackPrice(entity.getPrice());
+                data.setPackValidity(entity.getValidity());
+            }
+        }
+    }
+
     @Override
     public VerifyOTPResponse verifyOtp(final VerifyOTPRequest data) {
+        updatePack(data);
         VerifyOTPResponse response = SubscriptionUtils.verifyOtp(data);
 
         SubscriptionEntity entity = new SubscriptionEntity();
