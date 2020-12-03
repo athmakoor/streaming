@@ -1,8 +1,8 @@
 package com.streaming.auth.bean;
 
 public class AuthRequest {
-    private String provider;
-    private String msisdn;
+    private String provider = "";
+    private String msisdn = "";
 
     public String getProvider() {
         return provider;
