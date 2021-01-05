@@ -52,7 +52,7 @@ public class AuthController {
     }
 
     @PostMapping("/verifyOTP")
-    public Boolean reGenerateOTP(@Valid @RequestBody final VerifyOTP data, HttpServletRequest request) throws IOException {
+    public Boolean verifyOTP(@Valid @RequestBody final VerifyOTP data, HttpServletRequest request) throws IOException {
         LOGGER.debug(getFullURL(request));
         return authService.verifyOTP(data.getMsisdn(), data.getOtpText(), request);
     }
