@@ -132,13 +132,13 @@ app.service('apiServices', function () {
 
 app.controller("mainCtrl", ['$scope', 'apiServices', function ($scope, apiServices) {
     if (window.provider != null && window.provider == "zain-kuwait") {
-        $.cookie("ra", true);
-        $.cookie("provider", window.provider);
-        $.cookie("partner", window.partner);
+        $.cookie("ra", true, { path: '/' });
+        $.cookie("provider", window.provider, { path: '/' });
+        $.cookie("partner", window.partner, { path: '/' });
     }
 
     if (window.msisdn != null) {
-        $.cookie("msisdn", fixMsisdn(window.msisdn));
+        $.cookie("msisdn", fixMsisdn(window.msisdn), { path: '/' });
     }
 
     $scope.authRequired = $.cookie("ra");
@@ -222,7 +222,7 @@ app.controller("authCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
         $scope.showLoader = true;
         apiServices.checkAndGenerateOTP(requestData, function (error, data) {
             if (!error) {
-                $.cookie("msisdn", fixMsisdn($scope.msisdn));
+                $.cookie("msisdn", fixMsisdn($scope.msisdn), { path: '/' });
                 if (data.authenticated) {
                     if (redirectToHome) {
                         window.location.href = "/home";
@@ -248,7 +248,7 @@ app.controller("authCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
             $scope.showLoader = false;
             $scope.otpReceived = true;
             if (!error) {
-                $.cookie("msisdn", fixMsisdn($scope.msisdn));
+                $.cookie("msisdn", fixMsisdn($scope.msisdn), { path: '/' });
                 if (data) {
                     if (data.otpSent){
                         alert("OTP sent successfully.");
