@@ -135,6 +135,7 @@ app.controller("mainCtrl", ['$scope', 'apiServices', function ($scope, apiServic
         $.cookie("ra", true, { path: '/' });
         $.cookie("provider", window.provider, { path: '/' });
         $.cookie("partner", window.partner, { path: '/' });
+        $.cookie("pti", window.partnerTransactionId, { path: '/' });
     }
 
     if (window.msisdn != null) {
@@ -217,7 +218,7 @@ app.controller("authCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
     $scope.otpReceived = false;
 
     $scope.generateOTP = function (redirectToHome) {
-        var requestData = {msisdn: fixMsisdn($scope.msisdn), provider: $.cookie("provider"), partner: $.cookie("partner")};
+        var requestData = {msisdn: fixMsisdn($scope.msisdn), provider: $.cookie("provider"), partner: $.cookie("partner"), partnerTransactionId: $.cookie("pti")};
 
         $scope.showLoader = true;
         apiServices.checkAndGenerateOTP(requestData, function (error, data) {

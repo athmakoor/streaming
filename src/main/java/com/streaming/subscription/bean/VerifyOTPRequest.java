@@ -14,6 +14,7 @@ public class VerifyOTPRequest {
     private String userIP = "";
     private String sessionId = "";
     private String partner = "";
+    private String partnerTransactionId = "";
 
     public String getTransactionId() {
         return transactionId;
@@ -85,5 +86,13 @@ public class VerifyOTPRequest {
 
     public void setPartner(String partner) {
         this.partner = partner;
+    }
+
+    public String getPartnerTransactionId() {
+        return partnerTransactionId;
+    }
+
+    public void setPartnerTransactionId(String partnerTransactionId) {
+        this.partnerTransactionId = partnerTransactionId;
     }
 }

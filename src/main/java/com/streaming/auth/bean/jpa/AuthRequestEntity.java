@@ -31,6 +31,9 @@ public class AuthRequestEntity  implements Serializable {
     @Column(name = "partner")
     private String partner;
 
+    @Column(name = "partner_transaction_id")
+    private String partnerTransactionId;
+
     @Column(name = "user_ip")
     private String userIp;
 
@@ -80,5 +83,13 @@ public class AuthRequestEntity  implements Serializable {
 
     public void setUserIp(String userIp) {
         this.userIp = userIp;
+    }
+
+    public String getPartnerTransactionId() {
+        return partnerTransactionId;
+    }
+
+    public void setPartnerTransactionId(String partnerTransactionId) {
+        this.partnerTransactionId = partnerTransactionId;
     }
 }

@@ -59,6 +59,7 @@ public class AuthServiceImpl implements AuthService {
             generateOTPRequest.setUserIP(IpUtil.getClientIpAddr(request));
             generateOTPRequest.setSessionId(request.getSession().getId());
             generateOTPRequest.setPartner(data.getPartner());
+            generateOTPRequest.setPartnerTransactionId(data.getPartnerTransactionId());
             GenerateOTPResponse generateOTPResponse = subscriptionService.generateOtp(generateOTPRequest);
 
             AuthRequestEntity authRequestEntity = new AuthRequestEntity();
@@ -68,6 +69,7 @@ public class AuthServiceImpl implements AuthService {
             authRequestEntity.setPartner(data.getPartner());
             authRequestEntity.setProvider(data.getProvider());
             authRequestEntity.setUserIp(IpUtil.getClientIpAddr(request));
+            authRequestEntity.setPartnerTransactionId(data.getPartnerTransactionId());
 
             authRequestRepository.save(authRequestEntity);
 
@@ -113,6 +115,7 @@ public class AuthServiceImpl implements AuthService {
             verifyOTPRequest.setProvider(entity.getProvider());
             verifyOTPRequest.setPackPrice("600");
             verifyOTPRequest.setPackValidity("7");
+            verifyOTPRequest.setPartnerTransactionId(entity.getPartnerTransactionId());
             verifyOTPRequest.setMsisdn(msisdn);
             verifyOTPRequest.setSessionId(httpServletRequest.getSession().getId());
             verifyOTPRequest.setUserIP(IpUtil.getClientIpAddr(httpServletRequest));
@@ -121,7 +124,7 @@ public class AuthServiceImpl implements AuthService {
             VerifyOTPResponse verifyOTPResponse = subscriptionService.verifyOtp(verifyOTPRequest);
 
             if (verifyOTPResponse.getErrCode().equals("0")) {
-                digitalMarketingService.saveSubscription(msisdn, "600", "AED", entity.getProvider(), entity.getPartner());
+                digitalMarketingService.saveSubscription(msisdn, "600", "AED", entity.getProvider(), entity.getPartner(), entity.getPartnerTransactionId());
 
                 return true;
             } else {
@@ -147,6 +150,7 @@ public class AuthServiceImpl implements AuthService {
             generateOTPRequest.setTransactionId(entity.getClickId());
             generateOTPRequest.setUserIP(entity.getUserIp());
             generateOTPRequest.setSessionId(request.getSession().getId());
+            generateOTPRequest.setPartnerTransactionId(entity.getPartnerTransactionId());
 
             GenerateOTPResponse generateOTPResponse = subscriptionService.regenerateOTP(generateOTPRequest);
 

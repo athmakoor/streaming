@@ -20,12 +20,12 @@ public class DigitalMarketingServiceImpl implements DigitalMarketingService {
     private static final String NEW_SUBSCRIPTION_URL = "http://dm.vkandigital.com/api/subscription/internal-subscribe?msisdn={{MSISDN}}&cur={{CURRENCY}}&price={{PRICE}}&status={{STATUS}}&provider={{PROVIDER}}&partner={{PARTNER}}";
 
     @Override
-    public void saveSubscription(String msisdn, String price, String currency, String provider, String partner) throws UnsupportedEncodingException {
-        saveSubscription(msisdn,price, currency, provider, partner, "subscribe");
+    public void saveSubscription(String msisdn, String price, String currency, String provider, String partnerTransactionId, String partner) throws UnsupportedEncodingException {
+        saveSubscription(msisdn,price, currency, provider, partner, partnerTransactionId, "subscribe");
     }
 
     @Override
-    public void saveSubscription(String msisdn, String price, String currency, String provider, String partner, String status) throws UnsupportedEncodingException {
+    public void saveSubscription(String msisdn, String price, String currency, String provider, String partner, String partnerTransactionId, String status) throws UnsupportedEncodingException {
         String url = NEW_SUBSCRIPTION_URL.replace("{{MSISDN}}", URLEncoder.encode(msisdn, "UTF-8"));
 
         url = url.replace("{{CURRENCY}}", currency);
@@ -42,6 +42,28 @@ public class DigitalMarketingServiceImpl implements DigitalMarketingService {
             String response = RequestUtils.getResponse(request, null);
 
             LOGGER.debug("Saved Subscription "  + msisdn + " " + price);
+            LOGGER.debug(response);
+        } catch (RequestException e) {
+            e.printStackTrace();
+            throw new RequestException(e.getMessage());
+        }
+
+        sendPartnerNotification(partnerTransactionId);
+    }
+
+    private void sendPartnerNotification(String partnerTransactionId) {
+        if (partnerTransactionId == null || partnerTransactionId.isEmpty()) {
+            return;
+        }
+
+        Request request = new Request();
+
+        try {
+            request.setMethod("GET");
+            request.setPath("http://skytechlimited.com/callback.php?t_id=" + partnerTransactionId);
+            String response = RequestUtils.getResponse(request, null);
+
+            LOGGER.debug("Partner Notification t_id: "  + partnerTransactionId);
             LOGGER.debug(response);
         } catch (RequestException e) {
             e.printStackTrace();

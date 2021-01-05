@@ -32,6 +32,9 @@ public class SubscriptionEntity implements Serializable {
     @Column(name = "partner")
     private String partner;
 
+    @Column(name = "partner_transaction_id")
+    private String partnerTransactionId;
+
     @Column(name = "msisdn")
     private String msisdn;
 
@@ -85,5 +88,13 @@ public class SubscriptionEntity implements Serializable {
 
     public void setMsisdn(String msisdn) {
         this.msisdn = msisdn;
+    }
+
+    public String getPartnerTransactionId() {
+        return partnerTransactionId;
+    }
+
+    public void setPartnerTransactionId(String partnerTransactionId) {
+        this.partnerTransactionId = partnerTransactionId;
     }
 }

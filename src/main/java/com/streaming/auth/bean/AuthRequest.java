@@ -4,6 +4,7 @@ public class AuthRequest {
     private String provider = "";
     private String msisdn = "";
     private String partner = "";
+    private String partnerTransactionId = "";
 
     public String getProvider() {
         return provider;
@@ -27,5 +28,13 @@ public class AuthRequest {
 
     public void setPartner(String partner) {
         this.partner = partner;
+    }
+
+    public String getPartnerTransactionId() {
+        return partnerTransactionId;
+    }
+
+    public void setPartnerTransactionId(String partnerTransactionId) {
+        this.partnerTransactionId = partnerTransactionId;
     }
 }

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.streaming.subscription.bean.jpa.SubscriptionEntity;
 import com.streaming.subscription.repository.SubscriptionRepository;
+import com.streaming.utils.request.Request;
 import org.springframework.stereotype.Service;
 
 import com.streaming.subscription.bean.jpa.NotificationEntity;
@@ -44,6 +45,7 @@ public class NotificationsServiceImpl implements NotificationsService {
         if ("notification".equals(type)) {
             String chargeStatus = request.getParameter("charg_status");
             String partner = "";
+            String partnerTransactionId = "";
             entity.setChargeStatus(chargeStatus);
             entity.setProvider("zain-kuwait");
             entity.setMsisdn(request.getParameter("msisdn"));
@@ -61,12 +63,13 @@ public class NotificationsServiceImpl implements NotificationsService {
 
                         if (!list.isEmpty()) {
                             partner = list.get(0).getPartner();
+                            partnerTransactionId = list.get(0).getPartnerTransactionId();
                         }
                     }
 
                 }
 
-                digitalMarketingService.saveSubscription(request.getParameter("msisdn"), request.getParameter("price"), "AED", "zain-kuwait", partner, status);
+                digitalMarketingService.saveSubscription(request.getParameter("msisdn"), request.getParameter("price"), "AED", "zain-kuwait", partner, partnerTransactionId, status);
             }
 
         }

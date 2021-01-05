@@ -52,6 +52,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         entity.setPrice(data.getPackPrice());
         entity.setValidity(data.getPackValidity());
         entity.setRequestBody(data.toString());
+        entity.setPartnerTransactionId(data.getPartnerTransactionId());
 
         subscriptionRequestRepository.save(entity);
         return response;
@@ -96,6 +97,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         entity.setResponseMessage(response.toString());
         entity.setTransactionId(data.getTransactionId());
         entity.setCreatedAt(TimeUtil.getCurrentUTCTime());
+        entity.setPartnerTransactionId(data.getPartnerTransactionId());
 
         subscriptionRepository.save(entity);
 

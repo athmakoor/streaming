@@ -49,10 +49,13 @@ public class WebController {
     }
 
     @GetMapping("/promotion/zn-kw/{partnerId}")
-    public String zainKuwaitPartnerSubscription(final Map<String, Object> model, @PathVariable("partnerId") final String partnerId) {
+    public String zainKuwaitPartnerSubscription(final Map<String, Object> model,
+                                                @PathVariable("partnerId") final String partnerId,
+                                                @RequestParam(value = "t_id", required = false) final String transactionId) {
         webService.updateDefaultModel(model);
         model.put("PROVIDER", Provider.ZAIN_KUWAIT);
         model.put("PARTNER", partnerId);
+        model.put("TRANSACTION_ID", transactionId);
 
         return "partner-subscribe";
     }
