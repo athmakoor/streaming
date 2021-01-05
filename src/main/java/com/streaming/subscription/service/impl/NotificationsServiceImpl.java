@@ -12,6 +12,8 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.streaming.subscription.bean.jpa.SubscriptionEntity;
+import com.streaming.subscription.repository.SubscriptionRepository;
 import org.springframework.stereotype.Service;
 
 import com.streaming.subscription.bean.jpa.NotificationEntity;
@@ -26,6 +28,8 @@ public class NotificationsServiceImpl implements NotificationsService {
     private NotificationsRepository notificationsRepository;
     @Resource
     private DigitalMarketingService digitalMarketingService;
+    @Resource
+    private SubscriptionRepository subscriptionRepository;
 
 
     @Override
@@ -39,6 +43,7 @@ public class NotificationsServiceImpl implements NotificationsService {
 
         if ("notification".equals(type)) {
             String chargeStatus = request.getParameter("charg_status");
+            String partner = "";
             entity.setChargeStatus(chargeStatus);
             entity.setProvider("zain-kuwait");
             entity.setMsisdn(request.getParameter("msisdn"));
@@ -50,9 +55,18 @@ public class NotificationsServiceImpl implements NotificationsService {
                     status = "renewal";
                 } else {
                     status = "subscribe";
+
+                    if (request.getParameter("msisdn") != null) {
+                        List<SubscriptionEntity> list = subscriptionRepository.findByMsisdnOrderByIdDesc(request.getParameter("msisdn"));
+
+                        if (!list.isEmpty()) {
+                            partner = list.get(0).getPartner();
+                        }
+                    }
+
                 }
 
-                digitalMarketingService.saveSubscription(request.getParameter("msisdn"), request.getParameter("price"), "AED", "zain-kuwait", status);
+                digitalMarketingService.saveSubscription(request.getParameter("msisdn"), request.getParameter("price"), "AED", "zain-kuwait", partner, status);
             }
 
         }

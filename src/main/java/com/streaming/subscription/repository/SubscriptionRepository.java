@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface SubscriptionRepository extends PagingAndSortingRepository<SubscriptionEntity, Integer> {
     List<SubscriptionEntity> findByCreatedAtAfter(ZonedDateTime date);
+
+    List<SubscriptionEntity> findByMsisdnOrderByIdDesc(String msisdn);
 }

@@ -29,6 +29,12 @@ public class SubscriptionEntity implements Serializable {
     @Column(name = "response_message")
     private String responseMessage;
 
+    @Column(name = "partner")
+    private String partner;
+
+    @Column(name = "msisdn")
+    private String msisdn;
+
     @Column(name = "created_at")
     @Convert(converter = UTCDateTimeConverter.class)
     private ZonedDateTime createdAt;
@@ -63,5 +69,21 @@ public class SubscriptionEntity implements Serializable {
 
     public void setResponseMessage(String responseMessage) {
         this.responseMessage = responseMessage;
+    }
+
+    public String getPartner() {
+        return partner;
+    }
+
+    public void setPartner(String partner) {
+        this.partner = partner;
+    }
+
+    public String getMsisdn() {
+        return msisdn;
+    }
+
+    public void setMsisdn(String msisdn) {
+        this.msisdn = msisdn;
     }
 }

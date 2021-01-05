@@ -38,6 +38,16 @@ public class SubscriptionUtils {
 
         LOGGER.debug("GENERATE OTP REQUEST:" + url);
 
+        if (PropertyManager.getMode().equals("test")) {
+            GenerateOTPResponse response = new GenerateOTPResponse();
+
+            response.setErrCode("0");
+            response.setTransactionId(data.getTransactionId());
+            response.setMsisdn(data.getMsisdn());
+
+            return response;
+        }
+
         try {
             request.setMethod("GET");
             request.setPath(url);
@@ -72,6 +82,16 @@ public class SubscriptionUtils {
 
         LOGGER.debug("REGENERATE OTP REQUEST:" + url);
 
+        if (PropertyManager.getMode().equals("test")) {
+            GenerateOTPResponse response = new GenerateOTPResponse();
+
+            response.setErrCode("0");
+            response.setTransactionId(data.getTransactionId());
+            response.setMsisdn(data.getMsisdn());
+
+            return response;
+        }
+
         try {
             request.setMethod("GET");
             request.setPath(url);
@@ -104,6 +124,15 @@ public class SubscriptionUtils {
         url = url.replace("{SESSION_ID}", data.getSessionId());
 
         LOGGER.debug("VERIFY OTP REQUEST:" + url);
+
+        if (PropertyManager.getMode().equals("test")) {
+            VerifyOTPResponse response = new VerifyOTPResponse();
+
+            response.setErrCode("0");
+            response.setTransactionId(data.getTransactionId());
+
+            return response;
+        }
 
         try {
             request.setMethod("GET");

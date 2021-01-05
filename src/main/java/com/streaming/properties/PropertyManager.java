@@ -37,6 +37,10 @@ public final class PropertyManager {
         return getProperty("config.otp.ip");
     }
 
+    public static String getMode() {
+        return getProperty("application.mode");
+    }
+
     public static String getOTPGenerateUrl(String provider) {
         if (provider.equals(Provider.ZAIN_KUWAIT)) {
             return getProperty("config.otp.generate.zain");

@@ -58,12 +58,14 @@ public class AuthServiceImpl implements AuthService {
             generateOTPRequest.setTransactionId(id);
             generateOTPRequest.setUserIP(IpUtil.getClientIpAddr(request));
             generateOTPRequest.setSessionId(request.getSession().getId());
+            generateOTPRequest.setPartner(data.getPartner());
             GenerateOTPResponse generateOTPResponse = subscriptionService.generateOtp(generateOTPRequest);
 
             AuthRequestEntity authRequestEntity = new AuthRequestEntity();
 
             authRequestEntity.setMsisdn(data.getMsisdn());
             authRequestEntity.setClickId(id);
+            authRequestEntity.setPartner(data.getPartner());
             authRequestEntity.setProvider(data.getProvider());
             authRequestEntity.setUserIp(IpUtil.getClientIpAddr(request));
 
@@ -114,11 +116,12 @@ public class AuthServiceImpl implements AuthService {
             verifyOTPRequest.setMsisdn(msisdn);
             verifyOTPRequest.setSessionId(httpServletRequest.getSession().getId());
             verifyOTPRequest.setUserIP(IpUtil.getClientIpAddr(httpServletRequest));
+            verifyOTPRequest.setPartner(entity.getPartner());
 
             VerifyOTPResponse verifyOTPResponse = subscriptionService.verifyOtp(verifyOTPRequest);
 
             if (verifyOTPResponse.getErrCode().equals("0")) {
-                digitalMarketingService.saveSubscription(msisdn, "600", "AED", entity.getProvider());
+                digitalMarketingService.saveSubscription(msisdn, "600", "AED", entity.getProvider(), entity.getPartner());
 
                 return true;
             } else {

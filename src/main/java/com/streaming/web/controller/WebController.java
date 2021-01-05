@@ -48,6 +48,15 @@ public class WebController {
         return "home";
     }
 
+    @GetMapping("/promotion/zn-kw/{partnerId}")
+    public String zainKuwaitPartnerSubscription(final Map<String, Object> model, @PathVariable("partnerId") final String partnerId) {
+        webService.updateDefaultModel(model);
+        model.put("PROVIDER", Provider.ZAIN_KUWAIT);
+        model.put("PARTNER", partnerId);
+
+        return "partner-subscribe";
+    }
+
     @GetMapping("/home")
     public String home(final Map<String, Object> model) {
         webService.updateDefaultModel(model);

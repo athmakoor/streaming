@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{base}">
+<title layout:fragment="title">Subscribe</title>
+<div layout:fragment="content" id="app" class="off-canvas-content"  ng-controller="authCtrl">
+    <div ng-show="showLoader" class="loading">Loading&#8230;</div>
+    <div style="text-align: center;margin-top: 100px;">
+        <h3>Please enter mobile number to login/subscribe</h3>
+        <div style="margin: 10px">
+            <input required ng-disabled="otpReceived" type="text" placeholder="Mobile Number" ng-model="msisdn">
+            <input ng-show="otpReceived" type="text" placeholder="OTP" ng-model="otpText">
+        </div>
+        <div style="margin: 10px">
+            <button class="btn btn-success" ng-click="generateOTP(true)" ng-if="!otpReceived">SUBSCRIBE</button>
+            <button class="btn" ng-click="regenerateOTP(true)" ng-if="otpReceived">RESEND OTP</button>
+            <button class="btn btn-success" ng-click="verifyOTP(true)" ng-if="otpReceived">VERIFY OTP</button>
+        </div>
+    </div>
+
+
+</div>
+
+<div layout:fragment="scripts"></div>
+
+</html>

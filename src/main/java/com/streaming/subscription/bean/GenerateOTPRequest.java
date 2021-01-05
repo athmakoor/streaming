@@ -15,6 +15,7 @@ public class GenerateOTPRequest {
     private String packValidity = "";
     private String userIP = "";
     private String sessionId = "";
+    private String partner = "";
 
     public String getMsisdn() {
         return msisdn;
@@ -88,12 +89,21 @@ public class GenerateOTPRequest {
         this.sessionId = sessionId;
     }
 
+    public String getPartner() {
+        return partner;
+    }
+
+    public void setPartner(String partner) {
+        this.partner = partner;
+    }
+
     @Override
     public String toString() {
         return "GenerateOTPRequest{" +
                 "msisdn='" + msisdn + '\'' +
                 ", clickId='" + clickId + '\'' +
                 ", provider='" + provider + '\'' +
+                ", partner='" + partner + '\'' +
                 ", transactionId='" + transactionId + '\'' +
                 ", packId='" + packId + '\'' +
                 ", packPrice='" + packPrice + '\'' +

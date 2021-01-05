@@ -134,6 +134,7 @@ app.controller("mainCtrl", ['$scope', 'apiServices', function ($scope, apiServic
     if (window.provider != null && window.provider == "zain-kuwait") {
         $.cookie("ra", true);
         $.cookie("provider", window.provider);
+        $.cookie("partner", window.partner);
     }
 
     if (window.msisdn != null) {
@@ -215,15 +216,19 @@ app.controller("authCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
 
     $scope.otpReceived = false;
 
-    $scope.generateOTP = function () {
-        var requestData = {msisdn: fixMsisdn($scope.msisdn), provider: $.cookie("provider")};
+    $scope.generateOTP = function (redirectToHome) {
+        var requestData = {msisdn: fixMsisdn($scope.msisdn), provider: $.cookie("provider"), partner: $.cookie("partner")};
 
         $scope.showLoader = true;
         apiServices.checkAndGenerateOTP(requestData, function (error, data) {
             if (!error) {
                 $.cookie("msisdn", fixMsisdn($scope.msisdn));
                 if (data.authenticated) {
-                    window.location.reload();
+                    if (redirectToHome) {
+                        window.location.href = "/home";
+                    } else {
+                        window.location.reload();
+                    }
                 } else if (data.otpSent){
                     $scope.otpReceived = true;
                 } else {
@@ -259,11 +264,16 @@ app.controller("authCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
         });
     }
 
-    $scope.verifyOTP = function () {
+    $scope.verifyOTP = function (redirectToHome) {
         $scope.showLoader = true;
         apiServices.verifyOTP({msisdn: fixMsisdn($scope.msisdn), otpText: $scope.otpText}, function (error, data) {
             if (!error) {
-                window.location.reload();
+                if (redirectToHome) {
+                    window.location.href = "/home";
+                } else {
+                    window.location.reload();
+                }
+
             } else {
                 $scope.showLoader = false;
                 $scope.$apply();

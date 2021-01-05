@@ -17,21 +17,22 @@ public class DigitalMarketingServiceImpl implements DigitalMarketingService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DigitalMarketingServiceImpl.class);
 
-    private static final String NEW_SUBSCRIPTION_URL = "http://dm.vkandigital.com/api/subscription/internal-subscribe?msisdn={{MSISDN}}&cur={{CURRENCY}}&price={{PRICE}}&status={{STATUS}}&provider={{PROVIDER}}";
+    private static final String NEW_SUBSCRIPTION_URL = "http://dm.vkandigital.com/api/subscription/internal-subscribe?msisdn={{MSISDN}}&cur={{CURRENCY}}&price={{PRICE}}&status={{STATUS}}&provider={{PROVIDER}}&partner={{PARTNER}}";
 
     @Override
-    public void saveSubscription(String msisdn, String price, String currency, String provider) throws UnsupportedEncodingException {
-        saveSubscription(msisdn,price, currency, provider, "subscribe");
+    public void saveSubscription(String msisdn, String price, String currency, String provider, String partner) throws UnsupportedEncodingException {
+        saveSubscription(msisdn,price, currency, provider, partner, "subscribe");
     }
 
     @Override
-    public void saveSubscription(String msisdn, String price, String currency, String provider, String status) throws UnsupportedEncodingException {
+    public void saveSubscription(String msisdn, String price, String currency, String provider, String partner, String status) throws UnsupportedEncodingException {
         String url = NEW_SUBSCRIPTION_URL.replace("{{MSISDN}}", URLEncoder.encode(msisdn, "UTF-8"));
 
         url = url.replace("{{CURRENCY}}", currency);
         url = url.replace("{{PRICE}}", price);
         url = url.replace("{{STATUS}}", status);
         url = url.replace("{{PROVIDER}}", provider);
+        url = url.replace("{{PARTNER}}", partner);
 
         Request request = new Request();
 

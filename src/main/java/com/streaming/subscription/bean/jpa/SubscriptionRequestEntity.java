@@ -44,6 +44,9 @@ public class SubscriptionRequestEntity implements Serializable {
     @Column(name = "validity")
     private String validity;
 
+    @Column(name = "partner")
+    private String partner;
+
     @Column(name = "created_at")
     @Convert(converter = UTCDateTimeConverter.class)
     private ZonedDateTime createdAt;
@@ -118,5 +121,13 @@ public class SubscriptionRequestEntity implements Serializable {
 
     public void setValidity(String validity) {
         this.validity = validity;
+    }
+
+    public String getPartner() {
+        return partner;
+    }
+
+    public void setPartner(String partner) {
+        this.partner = partner;
     }
 }
