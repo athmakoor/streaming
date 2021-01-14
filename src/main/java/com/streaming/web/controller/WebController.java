@@ -71,24 +71,6 @@ public class WebController {
     }
 
     @GetMapping("/promotion/za-kw/he/{partnerId}")
-    public void zainKuwaitPartnerSubscription(final Map<String, Object> model,
-                                                @PathVariable("partnerId") final String partnerId,
-                                                @RequestParam(value = "t_id", required = false) final String transactionId,
-                                                HttpServletResponse httpServletResponse) {
-        webService.updateDefaultModel(model);
-        model.put("PROVIDER", Provider.ZAIN_KUWAIT);
-        model.put("PARTNER", partnerId);
-        model.put("TRANSACTION_ID", transactionId);
-
-        PartnerRequest requestData = partnerRequestService.create(transactionId, partnerId);
-
-        String url = zainkwHe.replace("{T_ID}", requestData.getClickId());
-
-        httpServletResponse.setHeader("Location", url);
-        httpServletResponse.setStatus(302);
-    }
-
-    @GetMapping("/promotion/za-kw/he/{partnerId}")
     public void zainKuwaitPartnerHeSubscription(final Map<String, Object> model,
                                               @PathVariable("partnerId") final String partnerId,
                                               @RequestParam(value = "t_id", required = false) final String transactionId,
