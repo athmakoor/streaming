@@ -32,7 +32,7 @@ public class SubscriptionController {
     @Resource
     private NotificationsService notificationsService;
 
-    @Value("web.url")
+    @Value("${web.url}")
     private String webUrl;
 
     @GetMapping("/zain-kuwait/msisdn")
