@@ -2,11 +2,14 @@ package com.streaming.subscription.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,10 +32,17 @@ public class SubscriptionController {
     @Resource
     private NotificationsService notificationsService;
 
+    @Value("web.url")
+    private String webUrl;
+
     @GetMapping("/zain-kuwait/msisdn")
-    public void getZainKwuaitMsisdn(final HttpServletRequest request) throws UnsupportedEncodingException {
+    public void getZainKwuaitMsisdn(final Map<String, Object> model, final HttpServletRequest request, final HttpServletResponse httpServletResponse) throws UnsupportedEncodingException {
         System.out.println("Zain Kuwait Msisdn Response: " + request.getQueryString());
         notificationsService.save("msisdn", request);
+
+        String url = webUrl + "za-kw?" + request.getQueryString();
+        httpServletResponse.setHeader("Location", url);
+        httpServletResponse.setStatus(302);
     }
 
     @GetMapping("/zain-kuwait/notification")

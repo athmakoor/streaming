@@ -5,7 +5,12 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import com.streaming.partner.bean.PartnerRequest;
+import com.streaming.partner.repository.PartnerRequestRepository;
+import com.streaming.partner.service.PartnerRequestService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +32,11 @@ public class WebController {
     private HeaderEnrichmentService headerEnrichmentService;
     @Resource
     private AuthService authService;
+    @Resource
+    private PartnerRequestService partnerRequestService;
+
+    @Value("${config.zain.kw.he}")
+    private String zainkwHe;
 
     @GetMapping("/")
     public String base(final Map<String, Object> model) {
@@ -58,6 +68,42 @@ public class WebController {
         model.put("TRANSACTION_ID", transactionId);
 
         return "partner-subscribe";
+    }
+
+    @GetMapping("/promotion/zn-kw/{partnerId}")
+    public void zainKuwaitPartnerSubscription(final Map<String, Object> model,
+                                                @PathVariable("partnerId") final String partnerId,
+                                                @RequestParam(value = "t_id", required = false) final String transactionId,
+                                                HttpServletResponse httpServletResponse) {
+        webService.updateDefaultModel(model);
+        model.put("PROVIDER", Provider.ZAIN_KUWAIT);
+        model.put("PARTNER", partnerId);
+        model.put("TRANSACTION_ID", transactionId);
+
+        PartnerRequest requestData = partnerRequestService.create(transactionId, partnerId);
+
+        String url = zainkwHe.replace("{T_ID}", requestData.getClickId());
+
+        httpServletResponse.setHeader("Location", url);
+        httpServletResponse.setStatus(302);
+    }
+
+    @GetMapping("/promotion/za-kw/he/{partnerId}")
+    public void zainKuwaitPartnerHeSubscription(final Map<String, Object> model,
+                                              @PathVariable("partnerId") final String partnerId,
+                                              @RequestParam(value = "t_id", required = false) final String transactionId,
+                                              HttpServletResponse httpServletResponse) {
+        webService.updateDefaultModel(model);
+        model.put("PROVIDER", Provider.ZAIN_KUWAIT);
+        model.put("PARTNER", partnerId);
+        model.put("TRANSACTION_ID", transactionId);
+
+        PartnerRequest requestData = partnerRequestService.create(transactionId, partnerId);
+
+        String url = zainkwHe.replace("{T_ID}", requestData.getClickId());
+
+        httpServletResponse.setHeader("Location", url);
+        httpServletResponse.setStatus(302);
     }
 
     @GetMapping("/home")
