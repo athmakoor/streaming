@@ -13,15 +13,19 @@
     <div style="text-align: center;margin-top: 10px;">
         <h3>Please enter mobile number to subscribe</h3>
         <div style="margin: 10px">
-            <input required ng-disabled="otpReceived" type="text" placeholder="Mobile Number" ng-model="msisdn">
-            <input ng-show="otpReceived" type="text" placeholder="OTP" ng-model="otpText">
+            <form>
+                <input required ng-disabled="otpReceived" type="text" placeholder="Mobile Number" ng-model="msisdn">
+                <input ng-show="otpReceived" type="text" placeholder="OTP" ng-model="otpText">
+                <div style="margin: 10px">
+                    <button class="btn btn-success" ng-click="generateOTP(true)" ng-if="!otpReceived">SUBSCRIBE</button>
+                    <button class="btn" ng-click="regenerateOTP(true)" ng-if="otpReceived">RESEND OTP</button>
+                    <button class="btn btn-success" ng-click="verifyOTP(true)" ng-if="otpReceived">VERIFY OTP</button>
+                </div>
+            </form>
+
             <div class="error" ng-show="errorMsg">{{errorMessage}}</div>
         </div>
-        <div style="margin: 10px">
-            <button class="btn btn-success" ng-click="generateOTP(true)" ng-if="!otpReceived">SUBSCRIBE</button>
-            <button class="btn" ng-click="regenerateOTP(true)" ng-if="otpReceived">RESEND OTP</button>
-            <button class="btn btn-success" ng-click="verifyOTP(true)" ng-if="otpReceived">VERIFY OTP</button>
-        </div>
+
     </div>
     <div>
         <div><font style="color:black;font-family:Verdana;font-size:12px;">600 fils/week</font><br/>
