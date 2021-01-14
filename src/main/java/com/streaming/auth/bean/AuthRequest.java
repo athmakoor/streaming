@@ -1,7 +1,12 @@
 package com.streaming.auth.bean;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class AuthRequest {
     private String provider = "";
+    @NotNull
+    @NotBlank
     private String msisdn = "";
     private String partner = "";
     private String partnerTransactionId = "";

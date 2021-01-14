@@ -15,6 +15,7 @@
         <div style="margin: 10px">
             <input required ng-disabled="otpReceived" type="text" placeholder="Mobile Number" ng-model="msisdn">
             <input ng-show="otpReceived" type="text" placeholder="OTP" ng-model="otpText">
+            <div class="error" ng-show="errorMsg">{{errorMessage}}</div>
         </div>
         <div style="margin: 10px">
             <button class="btn btn-success" ng-click="generateOTP(true)" ng-if="!otpReceived">SUBSCRIBE</button>

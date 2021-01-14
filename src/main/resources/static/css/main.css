@@ -8,6 +8,12 @@ a {
 .green{
     color: #81c341;
 }
+.error{
+    color: red;
+    font-size: small;
+    display: block;
+    text-align: center;
+}
 .top-container {
   background-color: #f1f1f1;
   text-align: center;

@@ -220,27 +220,31 @@ app.controller("authCtrl", ['$scope', 'apiServices', '$timeout',function ($scope
     $scope.generateOTP = function (redirectToHome) {
         var requestData = {msisdn: fixMsisdn($scope.msisdn), provider: $.cookie("provider"), partner: $.cookie("partner"), partnerTransactionId: $.cookie("pti")};
 
-        $scope.showLoader = true;
-        apiServices.checkAndGenerateOTP(requestData, function (error, data) {
-            if (!error) {
-                $.cookie("msisdn", fixMsisdn($scope.msisdn), { path: '/' });
-                if (data.authenticated) {
-                    if (redirectToHome) {
-                        window.location.href = "/home";
+        if ($scope.msisdn !== undefined && $scope.msisdn !== null && $scope.msisdn !== "") {
+            $scope.showLoader = true;
+            apiServices.checkAndGenerateOTP(requestData, function (error, data) {
+                if (!error) {
+                    $.cookie("msisdn", fixMsisdn($scope.msisdn), { path: '/' });
+                    if (data.authenticated) {
+                        if (redirectToHome) {
+                            window.location.href = "/home";
+                        } else {
+                            window.location.reload();
+                        }
+                    } else if (data.otpSent){
+                        $scope.otpReceived = true;
                     } else {
-                        window.location.reload();
+                        alert("Unable to send OTP. Please check the mobile number.");
                     }
-                } else if (data.otpSent){
-                    $scope.otpReceived = true;
                 } else {
-                    alert("Unable to send OTP. Please check the mobile number.");
+                    alert(error.responseJSON.message);
                 }
-            } else {
-                alert(error.responseJSON.message);
-            }
-            $scope.showLoader = false;
-            $scope.$apply();
-        });
+                $scope.showLoader = false;
+                $scope.$apply();
+            });
+        } else {
+            $scope.errorMsg = "Please enter your mobile number";
+        }
     }
 
     $scope.regenerateOTP = function () {
