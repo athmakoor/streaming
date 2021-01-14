@@ -70,7 +70,7 @@ public class WebController {
         return "partner-subscribe";
     }
 
-    @GetMapping("/promotion/zn-kw/{partnerId}")
+    @GetMapping("/promotion/za-kw/he/{partnerId}")
     public void zainKuwaitPartnerSubscription(final Map<String, Object> model,
                                                 @PathVariable("partnerId") final String partnerId,
                                                 @RequestParam(value = "t_id", required = false) final String transactionId,
