@@ -63,7 +63,8 @@ public class DigitalMarketingServiceImpl implements DigitalMarketingService {
         sendPartnerNotification(partnerTransactionId);
     }
 
-    private void sendPartnerNotification(String partnerTransactionId) {
+    @Override
+    public void sendPartnerNotification(String partnerTransactionId) {
         if (partnerTransactionId == null || partnerTransactionId.isEmpty()) {
             return;
         }

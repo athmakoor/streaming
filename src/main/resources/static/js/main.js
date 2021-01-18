@@ -140,6 +140,12 @@ app.controller("mainCtrl", ['$scope', 'apiServices', function ($scope, apiServic
 
     if (window.msisdn != null) {
         $.cookie("msisdn", fixMsisdn(window.msisdn), { path: '/' });
+    } else {
+        var msisdn = getParameterByName("msisdn");
+
+        if (msisdn !== undefined && msisdn !== null) {
+            $.cookie("msisdn", fixMsisdn(window.msisdn), { path: '/' });
+        }
     }
 
     $scope.authRequired = $.cookie("ra");
