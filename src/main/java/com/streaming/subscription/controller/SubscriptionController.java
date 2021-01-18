@@ -2,7 +2,9 @@ package com.streaming.subscription.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.time.ZonedDateTime;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,8 @@ import com.streaming.partner.bean.PartnerRequest;
 import com.streaming.partner.service.PartnerRequestService;
 import com.streaming.subscription.service.DigitalMarketingService;
 import com.streaming.subscription.service.impl.DigitalMarketingServiceImpl;
+import com.streaming.utils.IpUtil;
+import com.streaming.utils.TimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,13 +67,52 @@ public class SubscriptionController {
             Boolean activeSubscription = authService.checkSubscription(msisdn);
 
             if (!activeSubscription) {
-                LOGGER.debug("Redirecting to Consent page, TransactionId: " + transactionId);
+                partnerRequestService.updateMsisdnByClickId(transactionId, msisdn);
+                ZonedDateTime now = TimeUtil.getCurrentUTCTime();
 
-                url = zaKwConsent.replace("{T_ID}", transactionId + "1");
+                String year = String.valueOf(now.getYear());
+                int month = now.getMonth().getValue();
+                int date = now.getDayOfMonth();
+                int hour = now.getHour();
+                int minutes = now.getMinute();
+                int seconds = now.getSecond();
+                String monthString = month < 10 ? "0" + month : String.valueOf(month);
+                String dateString = date < 10 ? "0" + date : String.valueOf(date);
+                String hourString = hour < 10 ? "0" + hour : String.valueOf(hour);
+                String minutesString = minutes < 10 ? "0" + minutes : String.valueOf(minutes);
+                String secondsString = seconds < 10 ? "0" + seconds : String.valueOf(seconds);
+
+                String startTime = dateString + monthString + year + hourString + minutesString + secondsString;
+
+                url = zaKwConsent.replace("{T_ID}", transactionId);
+                url = url.replace("{DATE}", startTime);
+                url = url.replace("{SESSION_ID}", request.getRequestedSessionId());
+                url = url.replace("{USER_IP}", IpUtil.getClientIpAddr(request));
+                url = url.replace("{MSISDN}", msisdn);
+                LOGGER.debug("Redirecting to Consent page: " + url);
             } else {
                 model.put("AUTHENTICATED", true);
                 model.put("MSISDN", msisdn);
             }
+        }
+
+        httpServletResponse.setHeader("Location", url);
+        httpServletResponse.setStatus(302);
+    }
+
+    @GetMapping("/zain-kuwait/consent-active")
+    public void getZainKuwaitConsentActive(final Map<String, Object> model, final HttpServletRequest request, final HttpServletResponse httpServletResponse) throws UnsupportedEncodingException {
+        System.out.println("Zain Kuwait Consent Active Response: " + request.getQueryString());
+        notificationsService.save("consent-active", request);
+        String url = webUrl;
+        model.put("PROVIDER", Provider.ZAIN_KUWAIT);
+
+        String msisdn = request.getParameter("msisdn");
+
+        if (msisdn != null) {
+            digitalMarketingService.saveSubscription(msisdn, "600", "AED", Provider.ZAIN_KUWAIT, "", null);
+            model.put("AUTHENTICATED", true);
+            model.put("MSISDN", msisdn);
         }
 
         httpServletResponse.setHeader("Location", url);
@@ -83,12 +126,10 @@ public class SubscriptionController {
         String url = webUrl;
         model.put("PROVIDER", Provider.ZAIN_KUWAIT);
 
-        String msisdn = request.getParameter("msisdn");
+        String pageType = request.getParameter("pageType");
 
-        if (msisdn != null) {
-            Boolean activeSubscription = authService.checkSubscription(msisdn);
-            model.put("AUTHENTICATED", activeSubscription);
-            model.put("MSISDN", msisdn);
+        if (pageType != null) {
+            model.put("MESSAGE", "Subscription trial count exceeded.");
         }
 
         httpServletResponse.setHeader("Location", url);

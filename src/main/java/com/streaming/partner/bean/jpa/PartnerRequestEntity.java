@@ -22,6 +22,9 @@ public class PartnerRequestEntity implements Serializable {
     @Column(name = "click_id")
     private String clickId;
 
+    @Column(name = "msisdn")
+    private String msisdn;
+
     @Column(name = "partner_transaction_id")
     private String partnerTransactionId;
 
@@ -67,5 +70,13 @@ public class PartnerRequestEntity implements Serializable {
 
     public void setCreatedAt(ZonedDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getMsisdn() {
+        return msisdn;
+    }
+
+    public void setMsisdn(String msisdn) {
+        this.msisdn = msisdn;
     }
 }

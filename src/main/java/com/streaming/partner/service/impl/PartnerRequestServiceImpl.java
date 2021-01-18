@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class PartnerRequestServiceImpl implements PartnerRequestService {
@@ -29,5 +30,18 @@ public class PartnerRequestServiceImpl implements PartnerRequestService {
         PartnerRequestEntity savedEntity = partnerRequestRepository.save(entity);
 
         return serviceMapper.mapEntityToDTO(savedEntity, PartnerRequest.class);
+    }
+
+    @Override
+    public void updateMsisdnByClickId(String clickId, String msisdn) {
+        List<PartnerRequestEntity> partnerRequestEntityList = partnerRequestRepository.findByClickId(clickId);
+
+        if (partnerRequestEntityList.isEmpty()) {
+            return;
+        }
+
+        PartnerRequestEntity entity = partnerRequestEntityList.get(0);
+        entity.setMsisdn(msisdn);
+        partnerRequestRepository.save(entity);
     }
 }

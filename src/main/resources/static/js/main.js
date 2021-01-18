@@ -148,6 +148,10 @@ app.controller("mainCtrl", ['$scope', 'apiServices', function ($scope, apiServic
         }
     }
 
+    if (window.alertMessage != null) {
+        alert(window.alertMessage);
+    }
+
     $scope.authRequired = $.cookie("ra");
 }]);
 

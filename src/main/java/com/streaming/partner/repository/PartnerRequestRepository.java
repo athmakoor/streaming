@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface PartnerRequestRepository extends PagingAndSortingRepository<PartnerRequestEntity, Integer> {
     List<PartnerRequestEntity> findByPartnerTransactionId(String partnerTransactionId);
+
+    List<PartnerRequestEntity> findByClickId(String clickId);
 }

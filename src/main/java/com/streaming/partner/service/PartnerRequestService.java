@@ -4,4 +4,6 @@ import com.streaming.partner.bean.PartnerRequest;
 
 public interface PartnerRequestService {
     PartnerRequest create(String partnerTransactionId, String partner);
+
+    void updateMsisdnByClickId(String clickId, String msisdn);
 }
