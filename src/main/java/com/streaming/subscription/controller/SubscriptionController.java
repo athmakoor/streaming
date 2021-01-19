@@ -58,12 +58,12 @@ public class SubscriptionController {
         System.out.println("Zain Kuwait Msisdn Response: " + request.getQueryString());
         notificationsService.save("msisdn", request);
         String url = webUrl;
-        String transactionId = request.getParameter("op_id");
+        String transactionId = request.getParameter("tid");
         model.put("PROVIDER", Provider.ZAIN_KUWAIT);
 
         String msisdn = request.getParameter("msisdn");
 
-        if (msisdn != null) {
+        if (msisdn != null && transactionId != null) {
             Boolean activeSubscription = authService.checkSubscription(msisdn);
 
             if (!activeSubscription) {
