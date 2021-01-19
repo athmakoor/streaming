@@ -58,7 +58,7 @@ public class SubscriptionController {
         System.out.println("Zain Kuwait Msisdn Response: " + request.getQueryString());
         notificationsService.save("msisdn", request);
         String url = webUrl;
-        String transactionId = request.getParameter("t_id");
+        String transactionId = request.getParameter("op_id");
         model.put("PROVIDER", Provider.ZAIN_KUWAIT);
 
         String msisdn = request.getParameter("msisdn");
