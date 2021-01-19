@@ -86,7 +86,7 @@ public class SubscriptionController {
 
                 url = zaKwConsent.replace("{T_ID}", transactionId);
                 url = url.replace("{DATE}", startTime);
-                url = url.replace("{SESSION_ID}", request.getRequestedSessionId());
+                url = url.replace("{SESSION_ID}", request.getSession().getId());
                 url = url.replace("{USER_IP}", IpUtil.getClientIpAddr(request));
                 url = url.replace("{MSISDN}", msisdn);
                 LOGGER.debug("Redirecting to Consent page: " + url);
