@@ -36,7 +36,6 @@ public class NotificationsServiceImpl implements NotificationsService {
     @Resource
     private PartnerRequestRepository partnerRequestRepository;
 
-
     @Override
     public void save(String type, HttpServletRequest request) throws UnsupportedEncodingException {
         NotificationEntity entity = new NotificationEntity();
