@@ -10,4 +10,6 @@ public interface PartnerRequestRepository extends PagingAndSortingRepository<Par
     List<PartnerRequestEntity> findByPartnerTransactionId(String partnerTransactionId);
 
     List<PartnerRequestEntity> findByClickId(String clickId);
+
+    List<PartnerRequestEntity> findByMsisdnOrderByIdDesc(String msisdn);
 }

@@ -12,6 +12,8 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.streaming.partner.bean.jpa.PartnerRequestEntity;
+import com.streaming.partner.repository.PartnerRequestRepository;
 import com.streaming.subscription.bean.jpa.SubscriptionEntity;
 import com.streaming.subscription.repository.SubscriptionRepository;
 import com.streaming.utils.request.Request;
@@ -31,6 +33,8 @@ public class NotificationsServiceImpl implements NotificationsService {
     private DigitalMarketingService digitalMarketingService;
     @Resource
     private SubscriptionRepository subscriptionRepository;
+    @Resource
+    private PartnerRequestRepository partnerRequestRepository;
 
 
     @Override
@@ -52,21 +56,23 @@ public class NotificationsServiceImpl implements NotificationsService {
             entity.setSyncType(request.getParameter("sync_type"));
             entity.setPrice(request.getParameter("price"));
 
+            if (request.getParameter("msisdn") != null) {
+                List<PartnerRequestEntity> list = partnerRequestRepository.findByMsisdnOrderByIdDesc(request.getParameter("msisdn"));
+
+                if (!list.isEmpty()) {
+                    partner = list.get(0).getPartner();
+                    partnerTransactionId = list.get(0).getPartnerTransactionId();
+
+                    entity.setMsisdn(request.getParameter("msisdn"));
+                    entity.setPartner(partner);
+                }
+            }
+
             if ("1".equals(request.getParameter("charg_status"))) {
                 if ("1".equals(request.getParameter("sync_type"))) {
                     status = "renewal";
                 } else {
                     status = "subscribe";
-
-                    if (request.getParameter("msisdn") != null) {
-                        List<SubscriptionEntity> list = subscriptionRepository.findByMsisdnOrderByIdDesc(request.getParameter("msisdn"));
-
-                        if (!list.isEmpty()) {
-                            partner = list.get(0).getPartner();
-                            partnerTransactionId = list.get(0).getPartnerTransactionId();
-                        }
-                    }
-
                 }
 
                 digitalMarketingService.saveSubscription(request.getParameter("msisdn"), request.getParameter("price"), "AED", "zain-kuwait", partner, partnerTransactionId, status);
