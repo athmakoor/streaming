@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,14 +57,20 @@ public class NotificationsServiceImpl implements NotificationsService {
             entity.setPrice(request.getParameter("price"));
 
             if (request.getParameter("msisdn") != null) {
+                ZonedDateTime now = TimeUtil.getCurrentUTCTime();
+
                 List<PartnerRequestEntity> list = partnerRequestRepository.findByMsisdnOrderByIdDesc(request.getParameter("msisdn"));
 
                 if (!list.isEmpty()) {
                     partner = list.get(0).getPartner();
-                    partnerTransactionId = list.get(0).getPartnerTransactionId();
+                    ZonedDateTime requestDate = list.get(0).getCreatedAt();
 
-                    entity.setMsisdn(request.getParameter("msisdn"));
-                    entity.setPartner(partner);
+                    if (requestDate.getDayOfMonth() == now.getDayOfMonth() && requestDate.getMonth() == now.getMonth()) {
+                        partnerTransactionId = list.get(0).getPartnerTransactionId();
+
+                        entity.setMsisdn(request.getParameter("msisdn"));
+                        entity.setPartner(partner);
+                    }
                 }
             }
 
