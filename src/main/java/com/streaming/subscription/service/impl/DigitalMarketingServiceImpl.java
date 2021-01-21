@@ -60,7 +60,9 @@ public class DigitalMarketingServiceImpl implements DigitalMarketingService {
             throw new RequestException(e.getMessage());
         }
 
-        sendPartnerNotification(partnerTransactionId);
+        if ("subscribe".equals(status)) {
+            sendPartnerNotification(partnerTransactionId);
+        }
     }
 
     @Override
