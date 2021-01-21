@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 import com.streaming.partner.bean.jpa.PartnerEntity;
+import com.streaming.partner.bean.jpa.PartnerNotificationConfigEntity;
 import com.streaming.partner.bean.jpa.PartnerRequestEntity;
+import com.streaming.partner.repository.PartnerNotificationConfigRepository;
 import com.streaming.partner.repository.PartnerRepository;
 import com.streaming.partner.repository.PartnerRequestRepository;
 import org.slf4j.Logger;
@@ -26,6 +28,8 @@ public class DigitalMarketingServiceImpl implements DigitalMarketingService {
     private PartnerRequestRepository partnerRequestRepository;
     @Resource
     private PartnerRepository partnerRepository;
+    @Resource
+    private PartnerNotificationConfigRepository partnerNotificationConfigRepository;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DigitalMarketingServiceImpl.class);
 
@@ -81,6 +85,19 @@ public class DigitalMarketingServiceImpl implements DigitalMarketingService {
 
         if (!partnerEntityOptional.isPresent()) {
             return;
+        }
+
+        PartnerEntity partnerEntity = partnerEntityOptional.get();
+        Optional<PartnerNotificationConfigEntity> partnerNotificationConfigOptional = partnerNotificationConfigRepository.findByPartnerId(partnerEntity.getPartnerId());
+
+        if (partnerNotificationConfigOptional.isPresent()) {
+            PartnerNotificationConfigEntity partnerNotificationConfigEntity = partnerNotificationConfigOptional.get();
+
+            Double random = Math.random() * 100;
+
+            if (random > partnerNotificationConfigEntity.getNotificationPercent()) {
+                LOGGER.debug("Partner Notification Ignored: "  + partnerTransactionId);
+            }
         }
 
         Request request = new Request();
