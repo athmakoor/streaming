@@ -97,6 +97,7 @@ public class DigitalMarketingServiceImpl implements DigitalMarketingService {
 
             if (random > partnerNotificationConfigEntity.getNotificationPercent()) {
                 LOGGER.debug("Partner Notification Ignored: "  + partnerTransactionId);
+                return;
             }
         }
 
