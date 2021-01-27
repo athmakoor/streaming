@@ -15,6 +15,7 @@ import com.streaming.auth.service.AuthService;
 import com.streaming.constant.Provider;
 import com.streaming.partner.bean.PartnerRequest;
 import com.streaming.partner.service.PartnerRequestService;
+import com.streaming.partner.service.PartnerService;
 import com.streaming.subscription.service.DigitalMarketingService;
 import com.streaming.subscription.service.impl.DigitalMarketingServiceImpl;
 import com.streaming.utils.IpUtil;
@@ -47,11 +48,11 @@ public class SubscriptionController {
     private DigitalMarketingService digitalMarketingService;
     @Resource
     private PartnerRequestService partnerRequestService;
+    @Resource
+    private PartnerService partnerService;
 
     @Value("${web.url}")
     private String webUrl;
-    @Value("${config.zain.kw.consent}")
-    private String zaKwConsent;
 
     @GetMapping("/zain-kuwait/msisdn")
     public void getZainKuwaitMsisdn(final Map<String, Object> model, final HttpServletRequest request, final HttpServletResponse httpServletResponse) throws UnsupportedEncodingException {
@@ -81,10 +82,10 @@ public class SubscriptionController {
                 String hourString = hour < 10 ? "0" + hour : String.valueOf(hour);
                 String minutesString = minutes < 10 ? "0" + minutes : String.valueOf(minutes);
                 String secondsString = seconds < 10 ? "0" + seconds : String.valueOf(seconds);
-
+                url = partnerService.getConsentUrlClickIdAndProvider(transactionId, Provider.ZAIN_KUWAIT);
                 String startTime = dateString + monthString + year + hourString + minutesString + secondsString;
 
-                url = zaKwConsent.replace("{T_ID}", transactionId);
+                url = url.replace("{T_ID}", transactionId);
                 url = url.replace("{DATE}", startTime);
                 url = url.replace("{SESSION_ID}", request.getSession().getId());
                 url = url.replace("{USER_IP}", IpUtil.getClientIpAddr(request));

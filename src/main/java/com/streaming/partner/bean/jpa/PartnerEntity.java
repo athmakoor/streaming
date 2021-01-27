@@ -22,6 +22,9 @@ public class PartnerEntity implements Serializable {
     @Column(name = "callback_url")
     private String callbackUrl;
 
+    @Column(name = "redirect_url")
+    private String redirectUrl;
+
     public Integer getId() {
         return id;
     }
@@ -52,5 +55,13 @@ public class PartnerEntity implements Serializable {
 
     public void setCallbackUrl(String callbackUrl) {
         this.callbackUrl = callbackUrl;
+    }
+
+    public String getRedirectUrl() {
+        return redirectUrl;
+    }
+
+    public void setRedirectUrl(String redirectUrl) {
+        this.redirectUrl = redirectUrl;
     }
 }
