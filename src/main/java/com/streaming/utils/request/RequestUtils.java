@@ -71,6 +71,7 @@ public final class RequestUtils {
             }
 
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RequestException("error connection to Server " + request.getPath());
         } finally {
             try {
