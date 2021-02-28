@@ -1,17 +1,10 @@
 package com.streaming.subscription.bean.jpa;
 
+import com.streaming.UTCDateTimeConverter;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import com.streaming.UTCDateTimeConverter;
 
 @Entity
 @Table(name = "subscription")
@@ -38,9 +31,28 @@ public class SubscriptionEntity implements Serializable {
     @Column(name = "msisdn")
     private String msisdn;
 
+    @Column(name = "status")
+    private String status;
+
+    @Column(name = "currency")
+    private String currency;
+
+    @Column(name = "price")
+    private String price;
+
     @Column(name = "created_at")
     @Convert(converter = UTCDateTimeConverter.class)
     private ZonedDateTime createdAt;
+
+    @Column(name = "expire_at")
+    @Convert(converter = UTCDateTimeConverter.class)
+    private ZonedDateTime expireAt;
+
+    @Column(name = "pack_id")
+    private String packId;
+
+    @Column(name = "total_charged")
+    private String totalCharged;
 
     public Integer getId() {
         return id;
