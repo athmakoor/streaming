@@ -16,6 +16,9 @@ public class SubscriptionEntity implements Serializable {
     @Column(name = "id", nullable = false)
     private Integer id;
 
+    @Column(name = "click_id")
+    private String clickId;
+
     @Column(name = "transaction_id")
     private String transactionId;
 
@@ -39,6 +42,9 @@ public class SubscriptionEntity implements Serializable {
 
     @Column(name = "price")
     private String price;
+
+    @Column(name = "provider")
+    private String provider;
 
     @Column(name = "created_at")
     @Convert(converter = UTCDateTimeConverter.class)
@@ -108,5 +114,69 @@ public class SubscriptionEntity implements Serializable {
 
     public void setPartnerTransactionId(String partnerTransactionId) {
         this.partnerTransactionId = partnerTransactionId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public ZonedDateTime getExpireAt() {
+        return expireAt;
+    }
+
+    public void setExpireAt(ZonedDateTime expireAt) {
+        this.expireAt = expireAt;
+    }
+
+    public String getPackId() {
+        return packId;
+    }
+
+    public void setPackId(String packId) {
+        this.packId = packId;
+    }
+
+    public String getTotalCharged() {
+        return totalCharged;
+    }
+
+    public void setTotalCharged(String totalCharged) {
+        this.totalCharged = totalCharged;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+
+    public String getClickId() {
+        return clickId;
+    }
+
+    public void setClickId(String clickId) {
+        this.clickId = clickId;
     }
 }

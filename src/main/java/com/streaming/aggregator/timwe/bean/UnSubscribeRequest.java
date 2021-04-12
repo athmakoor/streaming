@@ -11,11 +11,6 @@ public class UnSubscribeRequest {
     private String subKeyword;
     private String trackingId = "";
     private String clientIp = "";
-    private String controlKeyword = "";
-    private String controlServiceKeyword ="";
-    private String subId = "";
-    private String cancelReason = "";
-    private String cancelSource = "";
 
     public String getUserIdentifier() {
         return userIdentifier;
@@ -97,43 +92,12 @@ public class UnSubscribeRequest {
         this.clientIp = clientIp;
     }
 
-    public String getControlKeyword() {
-        return controlKeyword;
-    }
-
-    public void setControlKeyword(final String controlKeyword) {
-        this.controlKeyword = controlKeyword;
-    }
-
-    public String getControlServiceKeyword() {
-        return controlServiceKeyword;
-    }
-
-    public void setControlServiceKeyword(final String controlServiceKeyword) {
-        this.controlServiceKeyword = controlServiceKeyword;
-    }
-
-    public String getSubId() {
-        return subId;
-    }
-
-    public void setSubId(final String subId) {
-        this.subId = subId;
-    }
-
-    public String getCancelReason() {
-        return cancelReason;
-    }
-
-    public void setCancelReason(final String cancelReason) {
-        this.cancelReason = cancelReason;
-    }
-
-    public String getCancelSource() {
-        return cancelSource;
-    }
-
-    public void setCancelSource(final String cancelSource) {
-        this.cancelSource = cancelSource;
+    @Override
+    public String toString() {
+        return "UnSubscribeRequest{" + "userIdentifier='" + userIdentifier + '\'' + ", userIdentifierType='"
+                + userIdentifierType + '\'' + ", productId='" + productId + '\'' + ", mcc='" + mcc + '\'' + ", mnc='"
+                + mnc + '\'' + ", entryChannel='" + entryChannel + '\'' + ", largeAccount='" + largeAccount + '\''
+                + ", subKeyword='" + subKeyword + '\'' + ", trackingId='" + trackingId + '\'' + ", clientIp='"
+                + clientIp + '\'' + '}';
     }
 }

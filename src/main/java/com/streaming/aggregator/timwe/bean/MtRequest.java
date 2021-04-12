@@ -57,13 +57,6 @@ public class MtRequest {
         this.largeAccount = largeAccount;
     }
 
-    public String getSendDate() {
-        return sendDate;
-    }
-
-    public void setSendDate(final String sendDate) {
-        this.sendDate = sendDate;
-    }
 
     public String getPriority() {
         return priority;
@@ -97,15 +90,6 @@ public class MtRequest {
         this.moTransactionUUID = moTransactionUUID;
     }
 
-    @Override
-    public String toString() {
-        return "MtRequest{" + "productId=" + productId + ", pricepointId=" + pricepointId + ", mcc='" + mcc + '\''
-                + ", mnc='" + mnc + '\'' + ", text='" + text + '\'' + ", msisdn='" + msisdn + '\'' + ", largeAccount='"
-                + largeAccount + '\'' + ", sendDate='" + sendDate + '\'' + ", priority='" + priority + '\''
-                + ", timeZone='" + timeZone + '\'' + ", context='" + context + '\'' + ", moTransactionUUID='"
-                + moTransactionUUID + '\'' + '}';
-    }
-
     public String getProductId() {
         return productId;
     }
@@ -120,5 +104,22 @@ public class MtRequest {
 
     public void setPricepointId(String pricepointId) {
         this.pricepointId = pricepointId;
+    }
+
+    public String getSendDate() {
+        return sendDate;
+    }
+
+    public void setSendDate(final String sendDate) {
+        this.sendDate = sendDate;
+    }
+
+    @Override
+    public String toString() {
+        return "MtRequest{" + "productId='" + productId + '\'' + ", pricepointId='" + pricepointId + '\'' + ", mcc='"
+                + mcc + '\'' + ", mnc='" + mnc + '\'' + ", text='" + text + '\'' + ", msisdn='" + msisdn + '\''
+                + ", largeAccount='" + largeAccount + '\'' + ", sendDate='" + sendDate + '\'' + ", priority='"
+                + priority + '\'' + ", timeZone='" + timeZone + '\'' + ", context='" + context + '\''
+                + ", moTransactionUUID='" + moTransactionUUID + '\'' + '}';
     }
 }

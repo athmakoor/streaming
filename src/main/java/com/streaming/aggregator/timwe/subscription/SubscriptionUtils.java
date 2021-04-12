@@ -1,8 +1,8 @@
 package com.streaming.aggregator.timwe.subscription;
 
-import com.gamesvas.aggregator.timwe.bean.*;
-import com.gamesvas.utils.request.Request;
-import com.gamesvas.utils.request.RequestUtils;
+import com.streaming.aggregator.timwe.bean.*;
+import com.streaming.utils.request.Request;
+import com.streaming.utils.request.RequestUtils;
 import com.google.gson.Gson;
 
 import javax.crypto.Cipher;
@@ -42,7 +42,7 @@ public class SubscriptionUtils {
 
         HashMap<String, String> headers = new HashMap<>();
 
-        headers.put("apiKey", apiKey);
+        headers.put("apikey", apiKey);
         headers.put("authentication", authentication);
         headers.put("external-tx-id", "" + System.currentTimeMillis());
 
@@ -58,15 +58,19 @@ public class SubscriptionUtils {
     public static MtResponse sendMtMessageRequest(String apiKey, String serviceId, String privateKey,MtRequest mtMessageRequest, String url) {
         Request request = new Request(url, "POST", new Gson().toJson(mtMessageRequest));
 
+        System.out.println("MT Request Body:" + new Gson().toJson(mtMessageRequest));
+
         String authentication = SubscriptionUtils.getAuthenticationHeader(serviceId, privateKey);
 
         HashMap<String, String> headers = new HashMap<>();
 
-        headers.put("apiKey", apiKey);
+        headers.put("apikey", apiKey);
+
         headers.put("authentication", authentication);
+
         headers.put("external-tx-id", "" + System.currentTimeMillis());
 
-        String responseMessage = RequestUtils.getResponse(request, null);
+        String responseMessage = RequestUtils.getResponse(request, null, headers);
 
         System.out.println(responseMessage);
 

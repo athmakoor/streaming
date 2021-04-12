@@ -1,15 +1,16 @@
 package com.streaming.aggregator.timwe.subscription;
 
-import com.gamesvas.aggregator.timwe.bean.*;
-import com.gamesvas.aggregator.timwe.bean.notication.NotificationUserOptinRequest;
-import com.gamesvas.aggregator.timwe.bean.notication.SubscriptionUpdateModel;
-import com.gamesvas.aggregator.timwe.constants.NotificationTypes;
-import com.gamesvas.aggregator.timwe.service.TimWeSubscriptionService;
-import com.gamesvas.properties.PropertyManager;
-import com.gamesvas.subscription.bean.jpa.NotificationEntity;
-import com.gamesvas.subscription.bean.jpa.SubscriptionEntity;
-import com.gamesvas.subscription.service.SubscriptionRequestService;
-import com.gamesvas.utils.TimeUtil;
+import com.streaming.aggregator.timwe.bean.*;
+import com.streaming.aggregator.timwe.bean.notication.NotificationUserOptinRequest;
+import com.streaming.aggregator.timwe.bean.notication.SubscriptionUpdateModel;
+import com.streaming.aggregator.timwe.constants.NotificationTypes;
+import com.streaming.aggregator.timwe.service.TimWeSubscriptionService;
+import com.streaming.properties.PropertyManager;
+import com.streaming.subscription.bean.jpa.NotificationEntity;
+import com.streaming.subscription.bean.jpa.SubscriptionEntity;
+import com.streaming.subscription.bean.jpa.SubscriptionPackEntity;
+import com.streaming.subscription.service.SubscriptionRequestService;
+import com.streaming.utils.TimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +39,7 @@ public class TSubscription implements TimWeSubscription {
     private SubscriptionRequestService subscriptionRequestService;
 
     @Override
-    public MtResponse sendMessage(final String message, final String context) {
+    public MtResponse sendMessage(final String message, final String context, final String pricepointId, final String msisdn) {
         MtResponse response;
         MtRequest mtRequest = new MtRequest();
 
@@ -46,15 +49,23 @@ public class TSubscription implements TimWeSubscription {
         mtRequest.setProductId(PropertyManager.getPropValue("timwe.product.fundoo"));
         mtRequest.setMcc(PropertyManager.getPropValue("timwe.mcc"));
         mtRequest.setMnc(PropertyManager.getPropValue("timwe.mnc"));
-        mtRequest.setSendDate(TimeUtil.getCurrentUTCTime().toString());
+
+        ZonedDateTime now = TimeUtil.getCurrentUTCTime();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ssZ");
+
+        String date = now.format(formatter).replace("+0000","Z");
+
+        mtRequest.setSendDate(date);
         mtRequest.setTimeZone("Asia/Bahrain");
         mtRequest.setText(mtRequest.getText());
         mtRequest.setContext(context);
         mtRequest.setText(message);
         mtRequest.setPriority("NORMAL");
+        mtRequest.setMsisdn(msisdn);
+        mtRequest.setPricepointId(PropertyManager.getPropValue("timwe.free.pricePointId"));
 
         mtUrl = mtUrl.replace("{partnerRoleId}", PropertyManager.getPropValue("timwe.roleId"));
-        mtUrl = mtUrl.replace("{channel}", PropertyManager.getPropValue("timwe.entryChannel"));
+        mtUrl = mtUrl.replace("{channel}", "sms");
 
         response = SubscriptionUtils.sendMtMessageRequest(PropertyManager.getPropValue("timwe.mt.apikey"),
                 PropertyManager.getPropValue("timwe.serviceId"), PropertyManager.getPropValue("timwe.mt.privatekey"),mtRequest, mtUrl);
@@ -169,22 +180,22 @@ public class TSubscription implements TimWeSubscription {
     }
 
     @Override
-    public String getMessage(SubscriptionEntity entity, String type) {
+    public String getMessage(SubscriptionEntity entity, String type, SubscriptionPackEntity packEntity) {
         String message = null;
 
         switch (type) {
             case NotificationTypes.OPT_IN:
-                message = "You have successfully subscribed to fundoo Service. You will be charged " + entity.getPrice() + " " + entity.getCurrency() +
-                        "per weekly.To login click http://fundoogames.mobi/timwe/ar_AE/games?msisdn=" + entity.getMsisdn();
+                message = "Welcome to fundoo. To login click .To login click http://fundoogames.mobi/timwe/ar_AE/games?msisdn=" + entity.getMsisdn();
                 break;
             case NotificationTypes.OPT_OUT:
-                message = "You have successfully Unsubscribed from fundoo Service on the mobile number." + entity.getMsisdn();
+                message = "You have successfully Unsubscribed from fundoo Service on the mobile number " + entity.getMsisdn();
                 break;
             case NotificationTypes.FIRST_CHARGE:
-                message = "You Account has been charged  with " + entity.getPrice() + " " + entity.getCurrency() +
-                        "per weekly.To login click http://fundoogames.mobi/timwe/ar_AE/games?msisdn=" + entity.getMsisdn();
+                message = "You have successfully subscribed to fundoo Service.Your Account has been charged  with " + packEntity.getChargeAmount() + " " + packEntity.getCurrency() +
+                        " for "+ packEntity.getDays() + " day(s) VAT inclusive.To login click http://fundoogames.mobi/timwe/ar_AE/games?msisdn=" + entity.getMsisdn();
                 break;
             case NotificationTypes.RE_NEWED:
+                message = "Keep enjoying your favorite games by login click http://fundoogames.mobi/timwe/ar_AE/games?msisdn=" + entity.getMsisdn();
                 break;
         }
 

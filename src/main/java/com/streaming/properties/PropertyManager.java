@@ -1,8 +1,8 @@
 package com.streaming.properties;
 
-import java.util.Properties;
-
 import com.streaming.constant.Provider;
+
+import java.util.Properties;
 
 /**
  * @author customfurnish.com
@@ -53,5 +53,9 @@ public final class PropertyManager {
             return getProperty("config.otp.verify.zain");
         }
         return getProperty("config.otp.verify.ooredoo");
+    }
+
+    public static String getPropValue(final String key) {
+        return getProperty(key);
     }
 }

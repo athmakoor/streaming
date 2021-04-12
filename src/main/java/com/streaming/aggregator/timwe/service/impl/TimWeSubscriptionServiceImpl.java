@@ -1,25 +1,26 @@
 package com.streaming.aggregator.timwe.service.impl;
 
-import com.gamesvas.aggregator.timwe.bean.*;
-import com.gamesvas.aggregator.timwe.constants.MtContext;
-import com.gamesvas.aggregator.timwe.constants.NotificationTypes;
-import com.gamesvas.aggregator.timwe.constants.ServiceCodes;
-import com.gamesvas.aggregator.timwe.constants.SubscriptionStatusCodes;
-import com.gamesvas.aggregator.timwe.service.TimWeSubscriptionService;
-import com.gamesvas.aggregator.timwe.subscription.TSubscription;
-import com.gamesvas.bean.jpa.CountryEntity;
-import com.gamesvas.constant.Provider;
-import com.gamesvas.repository.CountryRepository;
-import com.gamesvas.service.mapping.ServiceMapper;
-import com.gamesvas.subscription.bean.Subscription;
-import com.gamesvas.subscription.bean.jpa.SubscriptionEntity;
-import com.gamesvas.subscription.bean.jpa.SubscriptionPackEntity;
-import com.gamesvas.subscription.bean.jpa.SubscriptionRequestEntity;
-import com.gamesvas.subscription.repository.SubscriptionPackRepository;
-import com.gamesvas.subscription.repository.SubscriptionRepository;
-import com.gamesvas.subscription.repository.SubscriptionRequestRepository;
-import com.gamesvas.utils.IpUtil;
-import com.gamesvas.utils.TimeUtil;
+import com.streaming.aggregator.timwe.bean.*;
+import com.streaming.aggregator.timwe.constants.NotificationTypes;
+import com.streaming.aggregator.timwe.constants.ServiceCodes;
+import com.streaming.aggregator.timwe.constants.SubscriptionStatusCodes;
+import com.streaming.aggregator.timwe.service.TimWeSubscriptionService;
+import com.streaming.aggregator.timwe.subscription.TSubscription;
+import com.streaming.auth.bean.jpa.AuthRequestEntity;
+import com.streaming.auth.repository.AuthRequestRepository;
+import com.streaming.bean.jpa.CountryEntity;
+import com.streaming.constant.Provider;
+import com.streaming.repository.CountryRepository;
+import com.streaming.service.mapping.ServiceMapper;
+import com.streaming.subscription.bean.Subscription;
+import com.streaming.subscription.bean.jpa.SubscriptionEntity;
+import com.streaming.subscription.bean.jpa.SubscriptionPackEntity;
+import com.streaming.subscription.bean.jpa.SubscriptionRequestEntity;
+import com.streaming.subscription.repository.SubscriptionPackRepository;
+import com.streaming.subscription.repository.SubscriptionRepository;
+import com.streaming.subscription.repository.SubscriptionRequestRepository;
+import com.streaming.utils.IpUtil;
+import com.streaming.utils.TimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -47,7 +48,10 @@ public class TimWeSubscriptionServiceImpl implements TimWeSubscriptionService {
     private SubscriptionRequestRepository subscriptionRequestRepository;
 
     @Resource
-    private ServiceMapper<com.gamesvas.subscription.bean.Subscription, SubscriptionEntity> subscriptionMapper;
+    private ServiceMapper<Subscription, SubscriptionEntity> subscriptionMapper;
+
+    @Resource
+    private AuthRequestRepository authRequestRepository;
 
     @Resource
     private TSubscription tSubscription;
@@ -76,7 +80,7 @@ public class TimWeSubscriptionServiceImpl implements TimWeSubscriptionService {
                 SubscriptionStatus subscriptionStatus = checkSubscription(cgUrlRequest.getMsisdn());
                 String state = subscriptionStatus.getStatusCode();
 
-                if (state.equals(SubscriptionStatusCodes.NONE)) {
+                if (state.equals(SubscriptionStatusCodes.NONE) || state.equals(SubscriptionStatusCodes.UNSUBSCRIBE)) {
                     addSubscription(correlatedId, cgUrlRequest);
                     response.setServiceCode(ServiceCodes.IS_SUCCESS_REDIRECT);
                     response.setMessage("Subscription Request Submitted successfully");
@@ -87,6 +91,16 @@ public class TimWeSubscriptionServiceImpl implements TimWeSubscriptionService {
                     response.setServiceCode(ServiceCodes.IS_SUCCESS_ACTIVE);
                     response.setMessage("Your Subscription is in Active");
                 }
+
+                AuthRequestEntity authRequestEntity = new AuthRequestEntity();
+
+                authRequestEntity.setMsisdn(cgUrlRequest.getMsisdn());
+                authRequestEntity.setClickId(correlatedId);
+                authRequestEntity.setProvider(Provider.TIMWE);
+                authRequestEntity.setPackId(cgUrlRequest.getPackId());
+                authRequestEntity.setUserIp(IpUtil.getClientIpAddr(request));
+
+                authRequestRepository.save(authRequestEntity);
             }
 
         } catch (Exception exception) {
@@ -142,10 +156,14 @@ public class TimWeSubscriptionServiceImpl implements TimWeSubscriptionService {
                     }
 
                     if (!resStatus.equals("OPTOUT_NO_SUB") && !resStatus.equals("OPTOUT_MISSING_PARAM")) {
-                        String message = tSubscription.getMessage(entity.get(), NotificationTypes.OPT_OUT);
+                        String message = tSubscription.getMessage(entity.get(), NotificationTypes.OPT_OUT, null);
 
-                        MtResponse mtResponse = tSubscription.sendMessage(message, MtContext.SUBSCRIPTION);
-                        LOGGER.info("Timwe Mt Message response" , mtResponse.toString());
+                        entity.get().setStatus(SubscriptionStatusCodes.UNSUBSCRIBE);
+                        entity.get().setExpireAt(TimeUtil.getCurrentUTCTime().minusMinutes(1));
+                        subscriptionRepository.save(entity.get());
+
+                        //MtResponse mtResponse = tSubscription.sendMessage(message, MtContext.SUBSCRIPTION);
+                        //LOGGER.info("Timwe Mt Message response" , mtResponse.toString());
                     }
 
                 } else {
@@ -202,9 +220,12 @@ public class TimWeSubscriptionServiceImpl implements TimWeSubscriptionService {
         if (subscriptionStatus.getStatusCode().equals(SubscriptionStatusCodes.NONE)) {
             response.setServiceCode(ServiceCodes.NO_SUB);
             response.setMessage("Please Subscribe to access service.");
+        } else if (subscriptionStatus.getStatusCode().equals(SubscriptionStatusCodes.UNSUBSCRIBE)) {
+            response.setServiceCode(ServiceCodes.UN_SUB);
+            response.setMessage("Your Subscription was ended. Please Subscribe again to access service.");
         } else if (subscriptionStatus.getStatusCode().equals(SubscriptionStatusCodes.PARKING)) {
             response.setServiceCode(ServiceCodes.IS_SUCCESS_NOTIFICATION);
-            response.setMessage("Your Subscription request is in process.");
+            response.setMessage("Your Subscription request is in process.You will be notified with service url after successful charge");
         }  else {
             response.setServiceCode(ServiceCodes.IS_SUCCESS_ACTIVE);
             response.setMessage("Your Subscription is in Active");
@@ -238,7 +259,7 @@ public class TimWeSubscriptionServiceImpl implements TimWeSubscriptionService {
             SubscriptionEntity entity = new SubscriptionEntity();
             entity.setCreatedAt(TimeUtil.getCurrentUTCTime());
 
-            entity.setExpireAt(TimeUtil.getCurrentUTCTime().plusDays(7));
+            entity.setExpireAt(TimeUtil.getCurrentUTCTime().plusDays(1));
 
             entity.setStatus(status);
             entity.setClickId(clickId);
@@ -262,6 +283,7 @@ public class TimWeSubscriptionServiceImpl implements TimWeSubscriptionService {
     public Subscription save(final String status, final String clickId, final String msisdn, final String totalCharged, final String packId) {
         String currency = null;
         String price = null;
+        Integer days = null;
         SubscriptionEntity savedSubscription;
         Optional<SubscriptionPackEntity> subscriptionPackEntity = subscriptionPackRepository.findByProviderAndSku(Provider.TIMWE, packId);
 
@@ -270,37 +292,36 @@ public class TimWeSubscriptionServiceImpl implements TimWeSubscriptionService {
         if (subscriptionPackEntity.isPresent()) {
             currency = subscriptionPackEntity.get().getCurrency();
             price = subscriptionPackEntity.get().getPrice();
+            days = subscriptionPackEntity.get().getDays();
         }
 
         if (existing.isPresent()) {
             existing.get().setStatus(status);
-            existing.get().setExpireAt(TimeUtil.getCurrentUTCTime().plusDays(7));
             existing.get().setCurrency(currency);
             existing.get().setPrice(price);
-            existing.get().setTotalCharged(totalCharged);
+
+            if (days != null) {
+                existing.get().setExpireAt(TimeUtil.getCurrentUTCTime().plusDays(days));
+            }
 
             savedSubscription = subscriptionRepository.save(existing.get());
             LOGGER.info("Timwe Subscription update" , savedSubscription);
         } else {
             SubscriptionEntity entity = new SubscriptionEntity();
             entity.setCreatedAt(TimeUtil.getCurrentUTCTime());
-            entity.setExpireAt(TimeUtil.getCurrentUTCTime().plusDays(7));
+
+            if (days != null) {
+                entity.setExpireAt(TimeUtil.getCurrentUTCTime().plusDays(days));
+            }
+
             entity.setStatus(status);
             entity.setClickId(clickId);
             entity.setCurrency(currency);
             entity.setPrice(price);
             entity.setMsisdn(msisdn);
             entity.setProvider(Provider.TIMWE);
-            entity.setTotalCharged(totalCharged);
             savedSubscription = subscriptionRepository.save(entity);
             LOGGER.info("Timwe Subscription entry" , savedSubscription);
-        }
-
-        if("subscribe".equals(status) || "parking".equals(status)) {
-            String message = tSubscription.getMessage(savedSubscription, NotificationTypes.OPT_IN);
-
-            MtResponse mtResponse = tSubscription.sendMessage(message, MtContext.SUBSCRIPTION);
-            LOGGER.info("Timwe Mt Message response" , mtResponse.toString());
         }
 
         return subscriptionMapper.mapEntityToDTO(savedSubscription, Subscription.class);
@@ -310,6 +331,7 @@ public class TimWeSubscriptionServiceImpl implements TimWeSubscriptionService {
     public Subscription save(final String status, final String clickId, final String msisdn, final String packId, final Boolean isRenew) {
         String currency = null;
         String price = null;
+        Integer days = null;
         SubscriptionEntity savedSubscription;
         Optional<SubscriptionPackEntity> subscriptionPackEntity = subscriptionPackRepository.findByProviderAndSku(Provider.TIMWE, packId);
 
@@ -318,29 +340,48 @@ public class TimWeSubscriptionServiceImpl implements TimWeSubscriptionService {
         if (subscriptionPackEntity.isPresent()) {
             currency = subscriptionPackEntity.get().getCurrency();
             price = subscriptionPackEntity.get().getPrice();
+            days = subscriptionPackEntity.get().getDays();
         }
 
         if (existing.isPresent() && isRenew) {
             existing.get().setStatus(status);
-            existing.get().setExpireAt(TimeUtil.getCurrentUTCTime().plusDays(7));
+
+            if (days != null) {
+                existing.get().setExpireAt(TimeUtil.getCurrentUTCTime().plusDays(days));
+            }
+
             existing.get().setCurrency(currency);
             existing.get().setPrice(price);
+            existing.get().setPackId(subscriptionPackEntity.get().getSku());
 
             savedSubscription = subscriptionRepository.save(existing.get());
             LOGGER.info("Timwe Subscription ReNew:" , savedSubscription);
         } else {
             SubscriptionEntity entity = new SubscriptionEntity();
             entity.setCreatedAt(TimeUtil.getCurrentUTCTime());
-            entity.setExpireAt(TimeUtil.getCurrentUTCTime().plusDays(7));
+            if (days != null) {
+                entity.setExpireAt(TimeUtil.getCurrentUTCTime().plusDays(days));
+            }
             entity.setStatus(status);
             entity.setClickId(clickId);
             entity.setCurrency(currency);
             entity.setPrice(price);
             entity.setMsisdn(msisdn);
+            entity.setPackId(subscriptionPackEntity.get().getSku());
             entity.setProvider(Provider.TIMWE);
             savedSubscription = subscriptionRepository.save(entity);
             LOGGER.info("Timwe Subscription entry:" , savedSubscription);
         }
+
+//        if (SubscriptionStatusCodes.RENEWAL.equals(status)) {
+//            String message = tSubscription.getMessage(savedSubscription, NotificationTypes.RE_NEWED);
+//            try {
+//                MtResponse mtResponse = tSubscription.sendMessage(message, MtContext.SUBSCRIPTION, existing.get().getPackId(), existing.get().getMsisdn());
+//                LOGGER.info("Timwe Mt Message response", mtResponse.toString());
+//            } catch(Exception ex){
+//                    LOGGER.info("Timwe Mt Message server connection failed", ex.getMessage());
+//                }
+//            }
 
         return subscriptionMapper.mapEntityToDTO(savedSubscription, Subscription.class);
     }
@@ -350,6 +391,9 @@ public class TimWeSubscriptionServiceImpl implements TimWeSubscriptionService {
 
         Optional<SubscriptionPackEntity> packEntity = subscriptionPackRepository.findByProviderAndSku(Provider.TIMWE, subscriptionRequest.getPackId());
 
+        SubscriptionEntity entity = new SubscriptionEntity();
+        entity.setCreatedAt(TimeUtil.getCurrentUTCTime());
+
         if(packEntity.isPresent()) {
             subscriptionRequest.setProductId(packEntity.get().getProductId());
             subscriptionRequest.setPricepointId(packEntity.get().getSku());
@@ -357,9 +401,7 @@ public class TimWeSubscriptionServiceImpl implements TimWeSubscriptionService {
             subscriptionRequest.setPrice(packEntity.get().getPrice());
         }
 
-        SubscriptionEntity entity = new SubscriptionEntity();
-        entity.setCreatedAt(TimeUtil.getCurrentUTCTime());
-        entity.setExpireAt(TimeUtil.getCurrentUTCTime().plusDays(7));
+        entity.setExpireAt(TimeUtil.getCurrentUTCTime().plusDays(1));
         entity.setStatus("new");
         entity.setClickId(subscriptionRequest.getCorrelatorId());
         entity.setCurrency(subscriptionRequest.getCurrency());
@@ -374,7 +416,7 @@ public class TimWeSubscriptionServiceImpl implements TimWeSubscriptionService {
         addSubscriptionRequest(subscriptionRequest);
 
         LOGGER.info("Timwe Subscription entry:" , savedSubscription);
-        return subscriptionMapper.mapEntityToDTO(savedSubscription, com.gamesvas.subscription.bean.Subscription.class);
+        return subscriptionMapper.mapEntityToDTO(savedSubscription, Subscription.class);
     }
 
     private void addSubscriptionRequest(TimWeSubscriptionRequest request) {
@@ -402,7 +444,7 @@ public class TimWeSubscriptionServiceImpl implements TimWeSubscriptionService {
             subscriptionStatus.setStatus(SubscriptionStatusCodes.EXPIRED);
 
             if (!isActive || status.equals(SubscriptionStatusCodes.UNSUBSCRIBE)) {
-                subscriptionStatus.setStatusCode(SubscriptionStatusCodes.NONE);
+                subscriptionStatus.setStatusCode(SubscriptionStatusCodes.UNSUBSCRIBE);
                 subscriptionStatus.setStatus(SubscriptionStatusCodes.UNSUBSCRIBE);
             } else if (isActive && (status.equals(SubscriptionStatusCodes.NEW) || status.equals(SubscriptionStatusCodes.PARKING))) {
                 subscriptionStatus.setStatusCode(SubscriptionStatusCodes.PARKING);

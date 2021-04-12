@@ -1,16 +1,9 @@
 package com.streaming.subscription.bean.jpa;
 
-import java.time.ZonedDateTime;
-
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import com.streaming.UTCDateTimeConverter;
+
+import javax.persistence.*;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "notifications")
@@ -22,7 +15,7 @@ public class NotificationEntity {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "response_message")
+    @Column(name = "response_message",columnDefinition="LONGTEXT")
     private String responseMessage;
 
     @Column(name = "type")
@@ -46,9 +39,18 @@ public class NotificationEntity {
     @Column(name = "charge_status")
     private String chargeStatus;
 
+    @Column(name = "click_id")
+    private String clickId;
+
     @Column(name = "created_at")
     @Convert(converter = UTCDateTimeConverter.class)
     private ZonedDateTime createdAt;
+
+    @Column(name = "entry_channel")
+    private String entryChannel;
+
+    @Column(name = "total_charged")
+    private String totalCharged;
 
     public Integer getId() {
         return id;
@@ -128,5 +130,29 @@ public class NotificationEntity {
 
     public void setPartner(String partner) {
         this.partner = partner;
+    }
+
+    public String getClickId() {
+        return clickId;
+    }
+
+    public void setClickId(String clickId) {
+        this.clickId = clickId;
+    }
+
+    public String getEntryChannel() {
+        return entryChannel;
+    }
+
+    public void setEntryChannel(String entryChannel) {
+        this.entryChannel = entryChannel;
+    }
+
+    public String getTotalCharged() {
+        return totalCharged;
+    }
+
+    public void setTotalCharged(String totalCharged) {
+        this.totalCharged = totalCharged;
     }
 }

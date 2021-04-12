@@ -136,7 +136,7 @@ public class NotificationChargeRequest {
     @Override
     public String toString() {
         return "NotificationChargeRequest{" +
-                "productId=" + productId +
+                "productId=" + productId.toString() +
                 ", pricepointId=" + pricepointId +
                 ", mcc='" + mcc + '\'' +
                 ", mnc='" + mnc + '\'' +

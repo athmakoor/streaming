@@ -11,6 +11,8 @@ public interface TimWeNotificationService {
 
     NotificationResponse save(HttpServletRequest request, NotificationUserOptinRequest data, String provide, String subType);
 
+    NotificationResponse save(HttpServletRequest request, NotificationRenewalRequest data, String provide, String subType);
+
     NotificationResponse save(HttpServletRequest request, NotificationUserOptoutRequest data, String provide, String subType);
 
     NotificationResponse save(HttpServletRequest request, NotificationDNRequest data, String provide, String subType);

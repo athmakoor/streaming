@@ -1,0 +1,4 @@
+export const discalimers = {
+    EN_SUBSCRIPTION: 'You will subscribe in FUNDOO GAMES for {price} Egyptian pound per {frequency} auto-renewed. To cancel your subscription, for {operator} subscribers please send UNSUB FUNDOO to {CODE} for free. To cancel from the site please go to http://fundoogames.mobi/ar_EG/unsubscribe/tpay and click on unsubscribe. For any inquires please contact us by email at contact@vkandigital.com Internet usage is deducted from your internet bundle. ',
+    AR_SUBSCRIPTION: 'ستشترك في FUNDOO GAMES مقابل {price} جنيه مصري لكل {Frequency} يتم تجديدها تلقائيًا. لإلغاء اشتراكك ، لمشتركي {worker} ، يرجى إرسال UNSUB FUNDOO إلى {CODE} مجانًا. للإلغاء من الموقع ، يرجى الانتقال إلى http://fundoogames.mobi/ar_EG/unsubscribe/tpay والنقر على إلغاء الاشتراك. لأية استفسارات ، يرجى الاتصال بنا عبر البريد الإلكتروني على contact@vkandigital.com يتم خصم استخدام الإنترنت من حزمة الإنترنت الخاصة بك.'
+};

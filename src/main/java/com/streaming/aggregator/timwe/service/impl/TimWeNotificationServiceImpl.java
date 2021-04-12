@@ -1,27 +1,27 @@
 package com.streaming.aggregator.timwe.service.impl;
 
-import com.gamesvas.aggregator.timwe.bean.MtResponse;
-import com.gamesvas.aggregator.timwe.bean.SubscriptionStatus;
-import com.gamesvas.aggregator.timwe.bean.TimWeSubscriptionRequest;
-import com.gamesvas.aggregator.timwe.bean.notication.*;
-import com.gamesvas.aggregator.timwe.constants.MNODeliveryCodes;
-import com.gamesvas.aggregator.timwe.constants.MtContext;
-import com.gamesvas.aggregator.timwe.constants.NotificationTypes;
-import com.gamesvas.aggregator.timwe.constants.SubscriptionStatusCodes;
-import com.gamesvas.aggregator.timwe.service.TimWeNotificationService;
-import com.gamesvas.aggregator.timwe.subscription.TSubscription;
-import com.gamesvas.constant.Provider;
-import com.gamesvas.subscription.bean.SubscriptionRequest;
-import com.gamesvas.subscription.bean.jpa.NotificationEntity;
-import com.gamesvas.subscription.bean.jpa.SubscriptionEntity;
-import com.gamesvas.subscription.bean.jpa.SubscriptionPackEntity;
-import com.gamesvas.subscription.bean.jpa.SubscriptionRequestEntity;
-import com.gamesvas.subscription.repository.NotificationsRepository;
-import com.gamesvas.subscription.repository.SubscriptionPackRepository;
-import com.gamesvas.subscription.repository.SubscriptionRepository;
-import com.gamesvas.subscription.repository.SubscriptionRequestRepository;
-import com.gamesvas.subscription.service.SubscriptionRequestService;
-import com.gamesvas.utils.TimeUtil;
+import com.streaming.aggregator.timwe.bean.MtResponse;
+import com.streaming.aggregator.timwe.bean.SubscriptionStatus;
+import com.streaming.aggregator.timwe.bean.TimWeSubscriptionRequest;
+import com.streaming.aggregator.timwe.bean.notication.*;
+import com.streaming.aggregator.timwe.constants.MNODeliveryCodes;
+import com.streaming.aggregator.timwe.constants.MtContext;
+import com.streaming.aggregator.timwe.constants.NotificationTypes;
+import com.streaming.aggregator.timwe.constants.SubscriptionStatusCodes;
+import com.streaming.aggregator.timwe.service.TimWeNotificationService;
+import com.streaming.aggregator.timwe.subscription.TSubscription;
+import com.streaming.constant.Provider;
+import com.streaming.subscription.bean.SubscriptionRequest;
+import com.streaming.subscription.bean.jpa.NotificationEntity;
+import com.streaming.subscription.bean.jpa.SubscriptionEntity;
+import com.streaming.subscription.bean.jpa.SubscriptionPackEntity;
+import com.streaming.subscription.bean.jpa.SubscriptionRequestEntity;
+import com.streaming.subscription.repository.NotificationsRepository;
+import com.streaming.subscription.repository.SubscriptionPackRepository;
+import com.streaming.subscription.repository.SubscriptionRepository;
+import com.streaming.subscription.repository.SubscriptionRequestRepository;
+import com.streaming.subscription.service.SubscriptionRequestService;
+import com.streaming.utils.TimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -96,6 +96,7 @@ public class TimWeNotificationServiceImpl implements TimWeNotificationService {
         entity.setMsisdn(data.getMsisdn());
         entity.setProvider(Provider.TIMWE);
         entity.setEntryChannel(data.getEntryChannel());
+        entity.setTotalCharged(data.getTotalCharged());
 
         SubscriptionUpdateModel updateModel = new SubscriptionUpdateModel();
         updateModel.setMsisdn(data.getMsisdn());
@@ -104,28 +105,104 @@ public class TimWeNotificationServiceImpl implements TimWeNotificationService {
             updateModel.setPackId(data.getPricepointId().toString());
         }
 
-        if (subType.equals(NotificationTypes.OPT_IN)) {
+        try {
             entity.setSyncType(NotificationTypes.OPT_IN);
 
             updateModel.setClickId(correlatedId);
             updateModel.setUpdateType(NotificationTypes.OPT_IN);
             updateModel.setStatus(SubscriptionStatusCodes.PARKING);
-        } else if(subType.equals(NotificationTypes.RE_NEWED)) {
-            entity.setSyncType(NotificationTypes.RE_NEWED);
 
-            updateModel.setClickId(correlatedId);
-            updateModel.setUpdateType(NotificationTypes.RE_NEWED);
-            updateModel.setStatus(SubscriptionStatusCodes.RENEWAL);
+            tSubscription.updateSubscription(updateModel, entity);
+            notificationsRepository.save(entity);
+
+            notificationResponseBody.setCorrelationId(correlatedId);
+            notificationResponse.setRequestId(generateType1UUID().toString());
+            notificationResponseBody.setTransactionUUID(data.getTransactionUUID());
+            notificationResponse.setPartnerNotifResponseBody(notificationResponseBody);
+        } catch (Exception ex) {
+            LOGGER.error("Timwe Subscribe Exception:" + data.getMsisdn(), ex.getMessage());
+            notificationResponseBody.setCorrelationId(correlatedId);
+            notificationResponse.setInError(true);
+            notificationResponse.setCode("FAILED");
+            notificationResponse.setMessage("Failed to update subscription");
+            notificationResponse.setRequestId(generateType1UUID().toString());
+            notificationResponseBody.setTransactionUUID(data.getTransactionUUID());
+            notificationResponse.setPartnerNotifResponseBody(notificationResponseBody);
+        }
+
+        return notificationResponse;
+    }
+
+    @Override
+    public NotificationResponse save(HttpServletRequest request, NotificationRenewalRequest data, String provide, String subType) {
+        NotificationEntity entity = new NotificationEntity();
+        NotificationResponse notificationResponse = new NotificationResponse();
+        NotificationResponseBody notificationResponseBody = new NotificationResponseBody();
+        String correlatedId = "";
+
+        SubscriptionStatus subscriptionStatus = tSubscription.getSubStatus(data.getMsisdn());
+        Optional<SubscriptionPackEntity> packEntity = subscriptionPackRepository.findByProviderAndSku(Provider.TIMWE, String.valueOf(data.getPricepointId()));
+
+        String state = subscriptionStatus.getStatusCode();
+
+        if (state.equals(SubscriptionStatusCodes.NONE)) {
+            if (data.getTrackingId() == null && subscriptionStatus.getCorrelatedId().isEmpty()) {
+                correlatedId = new Date().getTime() + "_" + data.getMsisdn();
+            } else {
+                correlatedId = subscriptionStatus.getCorrelatedId();
+            }
+        } else {
+            correlatedId = subscriptionStatus.getCorrelatedId();
+        }
+
+        entity.setCreatedAt(TimeUtil.getCurrentUTCTime());
+        entity.setResponseMessage(data.toString());
+        entity.setType("notification");
+        entity.setClickId(correlatedId);
+        entity.setMsisdn(data.getMsisdn());
+        entity.setProvider(Provider.TIMWE);
+        entity.setEntryChannel(data.getEntryChannel());
+        entity.setTotalCharged(data.getTotalCharged());
+
+        SubscriptionUpdateModel updateModel = new SubscriptionUpdateModel();
+        updateModel.setMsisdn(data.getMsisdn());
+
+        if (packEntity.isPresent()) {
+            updateModel.setPackId(data.getPricepointId().toString());
         }
 
         try {
-            if (data.getMnoDeliveryCode().equals(MNODeliveryCodes.SUCCESS)) {
+            if (data.getMnoDeliveryCode().equals(MNODeliveryCodes.DELIVERED)) {
+                entity.setSyncType(NotificationTypes.RE_NEWED);
+
+                updateModel.setClickId(correlatedId);
+                updateModel.setUpdateType(NotificationTypes.RE_NEWED);
+                updateModel.setStatus(SubscriptionStatusCodes.RENEWAL);
+                updateModel.setPackId(packEntity.get().getSku());
+
                 tSubscription.updateSubscription(updateModel, entity);
                 notificationsRepository.save(entity);
+
                 notificationResponseBody.setCorrelationId(correlatedId);
-                notificationResponse.setInError(false);
-                notificationResponse.setCode("SUCCESS");
-                notificationResponse.setMessage("Subcription request successfully proccessed");
+
+                try {
+                    Optional<SubscriptionEntity> existing = subscriptionRepository.findFirstByMsisdnOrderByIdDesc(data.getMsisdn());
+                    String message = tSubscription.getMessage(existing.get(), NotificationTypes.RE_NEWED, packEntity.get());
+
+                    MtResponse mtResponse = tSubscription.sendMessage(message, MtContext.RENEW, existing.get().getPackId(), existing.get().getMsisdn());
+                    LOGGER.info("Timwe Mt Message response", mtResponse.toString());
+
+                    notificationResponse.setInError(false);
+                    notificationResponse.setCode("SUCCESS");
+                    notificationResponse.setMessage("Subcription request successfully proccessed");
+                } catch (Exception ex) {
+                    LOGGER.info("Timwe Mt Exception", ex.getMessage());
+                    notificationResponse.setCode("FAILED");
+                    notificationResponse.setInError(true);
+                    notificationResponse.setMessage("Failed to send Mt message " + ex.getMessage());
+                }
+
+
                 notificationResponse.setRequestId(generateType1UUID().toString());
                 notificationResponseBody.setTransactionUUID(data.getTransactionUUID());
                 notificationResponse.setPartnerNotifResponseBody(notificationResponseBody);
@@ -134,17 +211,17 @@ public class TimWeNotificationServiceImpl implements TimWeNotificationService {
                 notificationResponseBody.setCorrelationId(correlatedId);
                 notificationResponse.setInError(false);
                 notificationResponse.setCode("SUCCESS");
-                notificationResponse.setMessage("Mno Delivery failed");
+                notificationResponse.setMessage("NO BALANCE");
                 notificationResponse.setRequestId(generateType1UUID().toString());
                 notificationResponseBody.setTransactionUUID(data.getTransactionUUID());
                 notificationResponse.setPartnerNotifResponseBody(notificationResponseBody);
             }
         } catch (Exception ex) {
-            LOGGER.error("Timwe OPT_IN Exception:" + data.getMsisdn() , ex.getMessage());
+            LOGGER.error("Timwe Subscribe Exception:" + data.getMsisdn() , ex.getMessage());
             notificationResponseBody.setCorrelationId(correlatedId);
             notificationResponse.setInError(true);
             notificationResponse.setCode("FAILED");
-            notificationResponse.setMessage("Failed to update subscription");
+            notificationResponse.setMessage("Failed to update subscription.");
             notificationResponse.setRequestId(generateType1UUID().toString());
             notificationResponseBody.setTransactionUUID(data.getTransactionUUID());
             notificationResponse.setPartnerNotifResponseBody(notificationResponseBody);
@@ -177,7 +254,6 @@ public class TimWeNotificationServiceImpl implements TimWeNotificationService {
             SubscriptionUpdateModel updateModel = new SubscriptionUpdateModel();
 
             updateModel.setMsisdn(data.getMsisdn());
-            updateModel.setPackId(data.getPricepointId().toString());
             updateModel.setClickId(correlatedId);
             updateModel.setUpdateType(NotificationTypes.OPT_OUT);
 
@@ -185,15 +261,6 @@ public class TimWeNotificationServiceImpl implements TimWeNotificationService {
                 updateModel.setStatus(SubscriptionStatusCodes.UNSUBSCRIBE);
 
                 tSubscription.updateSubscription(updateModel, entity);
-
-                if (!data.equals("OPTOUT_NO_SUB") && !data.equals("OPTOUT_MISSING_PARAM")) {
-                    Optional<SubscriptionEntity> existing = subscriptionRepository.findFirstByMsisdnOrderByIdDesc(data.getMsisdn());
-                    String message = tSubscription.getMessage(existing.get(), NotificationTypes.OPT_OUT);
-
-                    MtResponse mtResponse = tSubscription.sendMessage(message, MtContext.SUBSCRIPTION);
-                    LOGGER.info("Timwe Mt Message response" , mtResponse.toString());
-                }
-
                 notificationsRepository.save(entity);
 
                 notificationResponseBody.setCorrelationId(correlatedId);
@@ -212,7 +279,7 @@ public class TimWeNotificationServiceImpl implements TimWeNotificationService {
                 notificationResponse.setRequestId(generateType1UUID().toString());
                 notificationResponse.setPartnerNotifResponseBody(notificationResponseBody);
 
-                LOGGER.error("Timwe OPT_OUT Exception:" + data.getMsisdn(), ex.getMessage());
+                LOGGER.error("Timwe unsub Exception:" + data.getMsisdn(), ex.getMessage());
             }
         } else {
             entity.setCreatedAt(TimeUtil.getCurrentUTCTime());
@@ -345,27 +412,35 @@ public class TimWeNotificationServiceImpl implements TimWeNotificationService {
              updateModel.setPackId(data.getPricepointId().toString());
          }
 
-        if ("SUCCESS".equals(data.getMnoDeliveryCode())) {
+        if ("DELIVERED".equals(data.getMnoDeliveryCode())) {
+            entity.setTotalCharged(data.getTotalCharged());
+
             updateModel.setStatus("subscribe");
             updateModel.setTotalCharged(data.getTotalCharged());
             updateModel.setUpdateType(NotificationTypes.FIRST_CHARGE);
             tSubscription.updateSubscription(updateModel, entity);
 
-
-            Optional<SubscriptionEntity> existing = subscriptionRepository.findFirstByMsisdnOrderByIdDesc(data.getMsisdn());
-            String message = tSubscription.getMessage(existing.get(), NotificationTypes.FIRST_CHARGE);
-
-            MtResponse mtResponse = tSubscription.sendMessage(message, MtContext.SUBSCRIPTION);
-            LOGGER.info("Timwe Mt Message response", mtResponse.toString());
-
             notificationResponse.setCode("SUCCESS");
             notificationResponse.setMessage("Sucessfully Charged the subscription");
+
+            notificationsRepository.save(entity);
+
+            try {
+                Optional<SubscriptionEntity> existing = subscriptionRepository.findFirstByMsisdnOrderByIdDesc(data.getMsisdn());
+                String message = tSubscription.getMessage(existing.get(), NotificationTypes.FIRST_CHARGE, packEntity.get());
+
+                MtResponse mtResponse = tSubscription.sendMessage(message, MtContext.STATE_LESS, existing.get().getPackId(), existing.get().getMsisdn());
+                LOGGER.info("Timwe Mt Message response", mtResponse.toString());
+
+            } catch (Exception ex) {
+                notificationResponse.setCode("FAILED");
+                notificationResponse.setMessage("Failed to send Mt message" + ex.getMessage());
+            }
         } else {
             notificationResponse.setCode("SUCCESS");
             notificationResponse.setMessage("No Changes in subscription charge");
+            notificationsRepository.save(entity);
         }
-
-        notificationsRepository.save(entity);
 
         notificationResponseBody.setCorrelationId(correlatedId);
         notificationResponse.setInError(false);

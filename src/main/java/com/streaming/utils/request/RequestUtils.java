@@ -1,14 +1,15 @@
 package com.streaming.utils.request;
 
+import org.springframework.http.HttpStatus;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import org.json.JSONObject;
-import org.springframework.http.HttpStatus;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class RequestUtils {
     private static final Integer FORBIDDEN = 403;
@@ -72,6 +73,90 @@ public final class RequestUtils {
 
         } catch (IOException e) {
             e.printStackTrace();
+            throw new RequestException("error connection to Server " + request.getPath());
+        } finally {
+            try {
+                if (br != null) {
+                    br.close();
+                }
+
+                if (connection != null) {
+                    connection.disconnect();
+                }
+
+                if (os != null) {
+                    os.flush();
+                    os.close();
+                }
+
+            } catch (IOException e) {
+                throw new RequestException("close connections error");
+            }
+        }
+
+        return sb.toString();
+    }
+
+    public static String getResponse(final Request request, final String cookieString, HashMap<String, String> headers) {
+        BufferedReader br = null;
+        OutputStream os = null;
+        String url = request.getPath();
+
+        StringBuilder sb = new StringBuilder();
+
+        HttpURLConnection connection = null;
+        try {
+            connection = (HttpURLConnection) (new URL(url).openConnection());
+            connection.setRequestMethod(request.getMethod());
+            connection.setRequestProperty("Connection", "Keep-Alive");
+            if (cookieString != null) {
+                connection.addRequestProperty("Cookie", cookieString);
+            }
+
+            if (request.getData() != null) {
+                if (!headers.isEmpty()) {
+                    for (Map.Entry<String,String> entry : headers.entrySet()) {
+                        connection.setRequestProperty(entry.getKey(), entry.getValue());
+                    }
+                }
+
+                connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                connection.setDoOutput(true);
+                connection.setDoInput(true);
+                os = connection.getOutputStream();
+                os.write(request.getData().getBytes("UTF-8"));
+            } else {
+                connection.connect();
+            }
+
+            if (connection.getResponseCode() == HttpStatus.OK.value()) {
+                br = new BufferedReader(new InputStreamReader((connection.getInputStream())));
+                String output;
+
+                while ((output = br.readLine()) != null) {
+                    sb.append(output);
+                }
+            } else if (connection.getResponseCode() == FORBIDDEN) {
+                br = new BufferedReader(new InputStreamReader((connection.getErrorStream())));
+                String output;
+
+                while ((output = br.readLine()) != null) {
+                    sb.append(output);
+                }
+
+                throw new RequestException("403 Exception " + sb.toString());
+            } else if (connection.getResponseCode() == HttpStatus.BAD_REQUEST.value()) {
+                br = new BufferedReader(new InputStreamReader((connection.getErrorStream())));
+                String output;
+
+                while ((output = br.readLine()) != null) {
+                    sb.append(output);
+                }
+
+                throw new RequestException("400 Exception " + sb.toString());
+            }
+
+        } catch (IOException e) {
             throw new RequestException("error connection to Server " + request.getPath());
         } finally {
             try {

@@ -1,13 +1,7 @@
 package com.streaming.auth.bean.jpa;
 
+import javax.persistence.*;
 import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "auth_request")
@@ -36,6 +30,9 @@ public class AuthRequestEntity  implements Serializable {
 
     @Column(name = "user_ip")
     private String userIp;
+
+    @Column(name = "pack_id")
+    private String packId;
 
     public Integer getId() {
         return id;
@@ -91,5 +88,13 @@ public class AuthRequestEntity  implements Serializable {
 
     public void setPartnerTransactionId(String partnerTransactionId) {
         this.partnerTransactionId = partnerTransactionId;
+    }
+
+    public String getPackId() {
+        return packId;
+    }
+
+    public void setPackId(String packId) {
+        this.packId = packId;
     }
 }

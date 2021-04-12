@@ -1,17 +1,10 @@
 package com.streaming.subscription.bean.jpa;
 
+import com.streaming.UTCDateTimeConverter;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import com.streaming.UTCDateTimeConverter;
 
 @Entity
 @Table(name = "subscription_request")
@@ -49,6 +42,9 @@ public class SubscriptionRequestEntity implements Serializable {
 
     @Column(name = "partner_transaction_id")
     private String partnerTransactionId;
+
+    @Column(name = "subscription_contract_id")
+    private String subscriptionContractId;
 
     @Column(name = "created_at")
     @Convert(converter = UTCDateTimeConverter.class)

@@ -1,4 +1,4 @@
-package com.streaming.subscription.notification.timwe;
+package com.streaming.subscription.notification;
 
 import com.streaming.aggregator.timwe.bean.notication.*;
 import com.streaming.aggregator.timwe.constants.NotificationTypes;
@@ -65,7 +65,7 @@ public class NotificationController {
     }
 
     @PostMapping("/renewed/{partnerRole}")
-    public NotificationResponse getReNewNotification(@Valid @RequestBody final NotificationUserOptinRequest data, @PathVariable("partnerRole") final String roleId, final HttpServletRequest request) throws UnsupportedEncodingException {
+    public NotificationResponse getReNewNotification(@Valid @RequestBody final NotificationRenewalRequest data, @PathVariable("partnerRole") final String roleId, final HttpServletRequest request) throws UnsupportedEncodingException {
         System.out.println("Timwe RENEW Notification Response: " + request.getQueryString());
         LOGGER.debug(getFullURL(request));
         LOGGER.info(data.toString());
