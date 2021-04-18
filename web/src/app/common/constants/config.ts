@@ -10,12 +10,10 @@ export const Config = {
     TIMWE: providers.TIMWE,
     UNSUBS: unSub,
     REDIRECT_URL: redirectUrl,
-    SUPPORTED_COUNTRIES: ['AE', 'EG', 'KE', 'IN'],
+    SUPPORTED_COUNTRIES: ['AE', 'IN'],
     COUNTRY_ZONE: {
         AE: 'ar_AE',
-        EG: 'ar_EG',
-        KE: 'en_KE',
-        IN: 'ar_EG',
+        IN: 'ar_AE',
     },
     PROVIDER_BY_LOCALE: {
         ar_EG: providers.TPAY,

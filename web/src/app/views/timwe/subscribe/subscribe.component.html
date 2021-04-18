@@ -1,1 +1,67 @@
-<p>subscribe works!</p>
+<div class="container-sm">
+    <div class="row row-cols-sm-1 row-cols-lg-1 row-cols-md-1">
+        <mat-card class="banner-card">
+            <img mat-card-image class="game-card-banner" [src]='bannerImage' alt="banner">
+            <mat-card-title class="banner-title">
+                SOCCER MANIA
+            </mat-card-title>
+        </mat-card>
+    </div>
+
+    <div class="row row-cols-1 row-cols-lg-1 row-cols-md-1 subscribe-height">
+        <mat-card class="game-card margin-top-bottom ">           
+            <mat-card-content class="subscribe-cnf" *ngIf="subscribeOp">
+                <mat-card-title class="subscribe-title">                  
+                </mat-card-title>
+                <div class="form-group w-100">
+                    <form [formGroup]="subscribe" (ngSubmit)="onSubmit()">
+                        <mat-form-field class="w-100">
+                            <mat-label>Choose Operator</mat-label>
+                            <mat-select formControlName="operator">
+                              <mat-option *ngFor="let op of country.operators" value="op.operator" (onSelectionChange)="onOperatorChange(op)">{{op.operator}}</mat-option>                            
+                            </mat-select>                            
+                        </mat-form-field>
+                        <mat-form-field class="w-100" *ngIf="packs.length > 0">
+                            <mat-label>Choose Pack</mat-label>
+                            <mat-select formControlName="package">
+                              <mat-option *ngFor="let pack of packs" [value]="pack.sku" (onSelectionChange)="onPackChange(pack)">{{pack.name + '  ' + pack.chargeAmount + '/' + pack.currency + ' for ' + pack.frequency}} VAT inclusive</mat-option>                            
+                            </mat-select>                            
+                        </mat-form-field>
+                        <mat-form-field class="w-25">
+                            <input matInput placeholder="Contry Code" readonly value="{{'+' + country.country.dialingCode }}">   
+                        </mat-form-field>
+                        <mat-form-field class="w-75">
+                            <mat-label class="label-float">Mobile Number</mat-label>                                                     
+                            <input matInput #mobilenumber placeholder="Mobile Number" formControlName="mdn">
+                        </mat-form-field>
+                        <p class="subscribe-price">
+                           
+                        </p>
+                        <button mat-raised-button color="primary" [disabled]="!subscribe.valid" class="play-button w-75">SUBSCRIBE</button>
+                        <div class="form-control-feedback" *ngIf="subscribeFormControl.mdn.errors && (subscribeFormControl.mdn.dirty || subscribeFormControl.mdn.touched)">
+                            <p *ngIf="subscribeFormControl.mdn.errors.required">Mobile Number required.</p>
+                            <p *ngIf="subscribeFormControl.mdn.errors.pattern">Enter a valid mobile number.</p>
+                        </div>
+                        <div class="form-control-feedback" *ngIf="subscribeFormControl.operator.errors && (subscribeFormControl.operator.dirty || subscribeFormControl.operator.touched)">
+                            <p *ngIf="subscribeFormControl.operator.errors.required">Select a Operator</p>                            
+                        </div>
+                        <div class="form-control-feedback" *ngIf="subscribeFormControl.package.errors && (subscribeFormControl.package.dirty || subscribeFormControl.package.touched)">
+                            <p *ngIf="subscribeFormControl.package.errors.required">Select a Pack</p>                            
+                        </div>
+                        <p *ngIf="status" [ngClass]="{'status-error': 'error-message'}" class="status-message">
+                            {{status}}
+                        </p>
+                    </form>
+                </div>
+            </mat-card-content>
+            <mat-card-content>
+                <p class="subscribe-description">
+                    - Soccer Mania is a subscription service for which you would like recive premium videos to enjoy.
+                </p> 
+                <p class="subscribe-description" *ngIf="selectedPack"> Subscription would be renewal at {{selectedPack.chargeAmount}} {{selectedPack.currency}}/{{selectedPack.frequency}} VAT inclusive, automatically until you
+                    unsubscribe.
+                </p>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

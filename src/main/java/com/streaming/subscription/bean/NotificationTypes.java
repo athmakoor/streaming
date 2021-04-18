@@ -1,4 +1,4 @@
-package com.streaming.aggregator.timwe.constants;
+package com.streaming.subscription.bean;
 
 public class NotificationTypes {
     public static final String MOBILE_ORIGIN = "mo";

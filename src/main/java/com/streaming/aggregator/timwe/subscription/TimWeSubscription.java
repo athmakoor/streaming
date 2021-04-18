@@ -3,6 +3,7 @@ package com.streaming.aggregator.timwe.subscription;
 import com.streaming.aggregator.timwe.bean.*;
 import com.streaming.aggregator.timwe.bean.notication.NotificationUserOptinRequest;
 import com.streaming.aggregator.timwe.bean.notication.SubscriptionUpdateModel;
+import com.streaming.subscription.bean.SubscriptionStatus;
 import com.streaming.subscription.bean.jpa.NotificationEntity;
 import com.streaming.subscription.bean.jpa.SubscriptionEntity;
 import com.streaming.subscription.bean.jpa.SubscriptionPackEntity;

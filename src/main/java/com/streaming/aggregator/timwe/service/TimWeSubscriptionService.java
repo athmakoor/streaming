@@ -1,9 +1,9 @@
 package com.streaming.aggregator.timwe.service;
 
 import com.streaming.aggregator.timwe.bean.CgUrlRequest;
-import com.streaming.aggregator.timwe.bean.ServiceResponse;
-import com.streaming.aggregator.timwe.bean.SubscriptionStatus;
+import com.streaming.subscription.bean.ServiceResponse;
 import com.streaming.subscription.bean.Subscription;
+import com.streaming.subscription.bean.SubscriptionStatus;
 
 import javax.servlet.http.HttpServletRequest;
 

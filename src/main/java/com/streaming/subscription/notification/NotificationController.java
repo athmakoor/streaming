@@ -1,7 +1,7 @@
 package com.streaming.subscription.notification;
 
 import com.streaming.aggregator.timwe.bean.notication.*;
-import com.streaming.aggregator.timwe.constants.NotificationTypes;
+import com.streaming.subscription.bean.NotificationTypes;
 import com.streaming.aggregator.timwe.service.TimWeNotificationService;
 import com.streaming.constant.Provider;
 import org.slf4j.Logger;

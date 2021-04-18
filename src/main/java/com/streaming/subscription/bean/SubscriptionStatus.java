@@ -1,4 +1,4 @@
-package com.streaming.aggregator.timwe.bean;
+package com.streaming.subscription.bean;
 
 /**
  * Created by HARIKRISHNA on 2/23/2021.

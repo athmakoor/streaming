@@ -12,8 +12,10 @@ var getParameterByName = function (name, fallback) {
 };
 
 var fixMsisdn = function (msisdn) {
-    if (msisdn != null && msisdn != undefined && msisdn.length < 10) {
+    if (msisdn != null && msisdn != undefined && msisdn.length < 10 && window.provider != 'timwe') {
         return "965" + msisdn;
+    } else if (msisdn != null && msisdn != undefined && msisdn.length < 10 && window.provider === 'timwe') {
+        return msisdn;
     }
 
     return msisdn;
@@ -131,11 +133,16 @@ app.service('apiServices', function () {
 });
 
 app.controller("mainCtrl", ['$scope', 'apiServices', function ($scope, apiServices) {
-    if (window.provider != null && window.provider == "zain-kuwait") {
+    var provider = getParameterByName("msisdn");
+    if (window.provider != null && window.provider === "zain-kuwait") {
         $.cookie("ra", true, { path: '/' });
         $.cookie("provider", window.provider, { path: '/' });
         $.cookie("partner", window.partner, { path: '/' });
         $.cookie("pti", window.partnerTransactionId, { path: '/' });
+    } else if(window.provider != null && window.provider === "timwe") {
+       window.provider = 'timewe';
+       $.cookie("ra", true, { path: '/' });
+       $.cookie("provider", window.provider, { path: '/' });
     }
 
     if (window.msisdn != null) {

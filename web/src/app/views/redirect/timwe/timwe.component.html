@@ -1,1 +1,28 @@
-<p>timwe works!</p>
+<div class="container-sm">
+    <div class="row row-cols-sm-1 row-cols-lg-1 row-cols-md-1">
+        <mat-card class="banner-card">
+            <img mat-card-image class="game-card-banner" [src]='bannerImage' alt="banner">
+            <mat-card-title class="banner-title">
+                SOCCER MANIA
+            </mat-card-title>
+        </mat-card>
+    </div>
+
+    <div class="row row-cols-1 row-cols-lg-1 row-cols-md-1 subscribe-height">
+        <mat-card class="game-card margin-top-bottom ">
+            <mat-card-content class="subscribe-cnf">
+                <div class="form-group w-100">
+                    <p *ngIf="status" [ngClass]="{'status-error': statusType === 'error-message'}">
+                        {{status}}
+                    </p>
+                </div>
+
+            </mat-card-content>           
+            <mat-card-content>
+                <p class="subscribe-description">
+                    - Soccer Mania is a subscription service for which you would like recieve premium videos to enjoy.
+                </p>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

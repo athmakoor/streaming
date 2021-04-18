@@ -1,4 +1,4 @@
-package com.streaming.aggregator.timwe.constants;
+package com.streaming.subscription.constants;
 
 /**
  * Created by HARIKRISHNA on 2/23/2021.

@@ -3,9 +3,10 @@ package com.streaming.aggregator.timwe.subscription;
 import com.streaming.aggregator.timwe.bean.*;
 import com.streaming.aggregator.timwe.bean.notication.NotificationUserOptinRequest;
 import com.streaming.aggregator.timwe.bean.notication.SubscriptionUpdateModel;
-import com.streaming.aggregator.timwe.constants.NotificationTypes;
 import com.streaming.aggregator.timwe.service.TimWeSubscriptionService;
 import com.streaming.properties.PropertyManager;
+import com.streaming.subscription.bean.NotificationTypes;
+import com.streaming.subscription.bean.SubscriptionStatus;
 import com.streaming.subscription.bean.jpa.NotificationEntity;
 import com.streaming.subscription.bean.jpa.SubscriptionEntity;
 import com.streaming.subscription.bean.jpa.SubscriptionPackEntity;
@@ -185,17 +186,17 @@ public class TSubscription implements TimWeSubscription {
 
         switch (type) {
             case NotificationTypes.OPT_IN:
-                message = "Welcome to fundoo. To login click .To login click http://fundoogames.mobi/timwe/ar_AE/games?msisdn=" + entity.getMsisdn();
+                message = "Welcome to Scoccer Mania. To login click .To login click http://soccer.mooddit.com?msisdn=" + entity.getMsisdn() + "&provider=timwe";
                 break;
             case NotificationTypes.OPT_OUT:
-                message = "You have successfully Unsubscribed from fundoo Service on the mobile number " + entity.getMsisdn();
+                message = "You have successfully Unsubscribed from Soccer Mania Service on the mobile number " + entity.getMsisdn();
                 break;
             case NotificationTypes.FIRST_CHARGE:
-                message = "You have successfully subscribed to fundoo Service.Your Account has been charged  with " + packEntity.getChargeAmount() + " " + packEntity.getCurrency() +
-                        " for "+ packEntity.getDays() + " day(s) VAT inclusive.To login click http://fundoogames.mobi/timwe/ar_AE/games?msisdn=" + entity.getMsisdn();
+                message = "You have successfully subscribed to Soccer Mania Service.Your Account has been charged  with " + packEntity.getChargeAmount() + " " + packEntity.getCurrency() +
+                        " for "+ packEntity.getDays() + " day(s) VAT inclusive.To login click http://soccer.mooddit.com?msisdn="  + entity.getMsisdn()+ "&provider=timwe";
                 break;
             case NotificationTypes.RE_NEWED:
-                message = "Keep enjoying your favorite games by login click http://fundoogames.mobi/timwe/ar_AE/games?msisdn=" + entity.getMsisdn();
+                message = "Keep enjoying your favorite videos by login click http://soccer.mooddit.com?msisdn="  + entity.getMsisdn()+ "&provider=timwe";
                 break;
         }
 

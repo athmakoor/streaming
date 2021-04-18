@@ -1,4 +1,4 @@
-package com.streaming.aggregator.timwe.bean;
+package com.streaming.subscription.bean;
 
 import java.io.Serializable;
 
