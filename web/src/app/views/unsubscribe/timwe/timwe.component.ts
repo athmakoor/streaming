@@ -67,7 +67,7 @@ export class TimweComponent implements OnInit {
                 this.status = 'Unsubscription successfull';
                 this.statusType = 'ok';
                 this.clearMsisdn();
-                this.router.navigate(['?msisdn=' + pData.msisdn + '&provider=' + Config.TIMWE]);
+                window.location.href = Config.APP_URL + '?msisdn=' + data.data + '&provider=' + Config.TIMWE;
               } else {
                 this.status = 'Unsubscription Failed.Try again later.';
                 this.statusType = 'error-message';

@@ -61,7 +61,7 @@ export class TimweComponent implements OnInit {
           this.status = 'Subscription Added SuccessFully';
           this.statusType = 'ok';
           this.validated = true;
-          this.router.navigate(['?msisdn=' + data.data + '&provider=' + Config.TIMWE ]);
+          window.location.href = Config.APP_URL + '?msisdn=' + data.data + '&provider=' + Config.TIMWE;
         } else {
           this.status = data.errorMessage;
           this.statusType = 'error-message';

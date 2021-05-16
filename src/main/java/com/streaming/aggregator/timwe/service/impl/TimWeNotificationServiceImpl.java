@@ -241,7 +241,8 @@ public class TimWeNotificationServiceImpl implements TimWeNotificationService {
 
         String state = subscriptionStatus.getStatusCode();
 
-        if ((state.equals(SubscriptionStatusCodes.PARKING) || state.equals(SubscriptionStatusCodes.SUBSCRIBE))) {
+        if ((state.equals(SubscriptionStatusCodes.PARKING) || state.equals(SubscriptionStatusCodes.RENEWAL)
+                || state.equals(SubscriptionStatusCodes.SUBSCRIBE))) {
             correlatedId = subscriptionStatus.getCorrelatedId();
             entity.setCreatedAt(TimeUtil.getCurrentUTCTime());
             entity.setResponseMessage(data.toString());

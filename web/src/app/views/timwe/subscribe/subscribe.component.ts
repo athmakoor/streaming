@@ -91,8 +91,7 @@ export class SubscribeComponent implements OnInit {
       this.subsciptionService.checkSubscription(this.msisdn).subscribe(
         data => {
           if (data.serviceCode === 3) {
-            this.router.navigate(['?msisdn=' + this.msisdn + '&provider=' + Config.TIMWE ], {
-            });
+            window.location.href = Config.APP_URL + '?msisdn=' + data.data + '&provider=' + Config.TIMWE;
           } else if (data.serviceCode === 8) {
             const dialogConfig = new MatDialogConfig();
             dialogConfig.autoFocus = true;
@@ -108,8 +107,7 @@ export class SubscribeComponent implements OnInit {
 
             dialogRef.afterClosed().subscribe(d => {
               if (d) {
-                this.router.navigate(['?msisdn=' + this.msisdn + '&provider=' + Config.TIMWE ], {
-              });
+                window.location.href = Config.APP_URL + '?msisdn=' + data.data + '&provider=' + Config.TIMWE;
               }
             });
           }
@@ -157,8 +155,7 @@ export class SubscribeComponent implements OnInit {
 
                   dialogRef.afterClosed().subscribe(d => {
                     if (d) {
-                      this.router.navigate(['?msisdn=' + this.rData.msisdn + '&provider=' + Config.TIMWE], {
-                      });
+                      window.location.href = Config.APP_URL + '?msisdn=' + data.data + '&provider=' + Config.TIMWE;
                     }
                   });
                 }
@@ -172,8 +169,7 @@ export class SubscribeComponent implements OnInit {
           this.status = data.message;
           this.cookieService.setMdn(this.rData.msisdn);
           this.localStorageService.setPackData(this.rData.msisdn, this.selectedPack);
-          this.router.navigate(['?msisdn=' + this.rData.msisdn + '&provider=' + Config.TIMWE], {
-          });
+          window.location.href = Config.APP_URL + '?msisdn=' + data.data + '&provider=' + Config.TIMWE;
         }
       });
   }

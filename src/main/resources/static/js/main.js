@@ -15,7 +15,7 @@ var fixMsisdn = function (msisdn) {
     if (msisdn != null && msisdn != undefined && msisdn.length < 10 && window.provider != 'timwe') {
         return "965" + msisdn;
     } else if (msisdn != null && msisdn != undefined && msisdn.length < 10 && window.provider === 'timwe') {
-        return msisdn;
+        return "971+ + msisdn;
     }
 
     return msisdn;

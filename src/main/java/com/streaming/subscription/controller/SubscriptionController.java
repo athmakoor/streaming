@@ -1,23 +1,17 @@
 package com.streaming.subscription.controller;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.time.ZonedDateTime;
-import java.util.Map;
-import java.util.Optional;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
+import com.streaming.aggregator.timwe.bean.CgUrlRequest;
+import com.streaming.aggregator.timwe.bean.SubscriptionConsent;
+import com.streaming.aggregator.timwe.service.TimWeSubscriptionService;
+import com.streaming.auth.bean.AuthRequest;
 import com.streaming.auth.service.AuthService;
 import com.streaming.constant.Provider;
-import com.streaming.partner.bean.PartnerRequest;
 import com.streaming.partner.service.PartnerRequestService;
 import com.streaming.partner.service.PartnerService;
+import com.streaming.subscription.bean.*;
 import com.streaming.subscription.service.DigitalMarketingService;
-import com.streaming.subscription.service.impl.DigitalMarketingServiceImpl;
+import com.streaming.subscription.service.NotificationsService;
+import com.streaming.subscription.service.SubscriptionService;
 import com.streaming.utils.IpUtil;
 import com.streaming.utils.TimeUtil;
 import org.slf4j.Logger;
@@ -25,16 +19,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
-import com.streaming.subscription.bean.GenerateOTPRequest;
-import com.streaming.subscription.bean.GenerateOTPResponse;
-import com.streaming.subscription.bean.VerifyOTPRequest;
-import com.streaming.subscription.bean.VerifyOTPResponse;
-import com.streaming.subscription.service.NotificationsService;
-import com.streaming.subscription.service.SubscriptionService;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.time.ZonedDateTime;
+import java.util.Map;
 
 
 @RestController
 @RequestMapping("/api/subscribe")
+@CrossOrigin(origins = "http://localhost:4200")
 public class SubscriptionController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SubscriptionController.class);
 
@@ -51,8 +48,22 @@ public class SubscriptionController {
     @Resource
     private PartnerService partnerService;
 
+    @Resource
+    private TimWeSubscriptionService timWeSubscriptionService;
+
     @Value("${web.url}")
     private String webUrl;
+
+    public static String getFullURL(HttpServletRequest request) {
+        StringBuilder requestURL = new StringBuilder(request.getRequestURL().toString());
+        String queryString = request.getQueryString();
+
+        if (queryString == null) {
+            return requestURL.toString();
+        } else {
+            return requestURL.append('?').append(queryString).toString();
+        }
+    }
 
     @GetMapping("/zain-kuwait/msisdn")
     public void getZainKuwaitMsisdn(final Map<String, Object> model, final HttpServletRequest request, final HttpServletResponse httpServletResponse) throws UnsupportedEncodingException {
@@ -166,5 +177,34 @@ public class SubscriptionController {
     @GetMapping("/test-partner-notification/{partnerTransactionId}")
     public void testPartnerNotification(@PathVariable("partnerTransactionId") final String partnerTransactionId) {
         digitalMarketingService.sendPartnerNotification( partnerTransactionId);
+    }
+
+    @PostMapping("/timwe/consentUrl")
+    public ServiceResponse getConsentUrl(@Valid @RequestBody final CgUrlRequest cgUrlRequest, final HttpServletRequest request) {
+        LOGGER.debug(getFullURL(request));
+        return timWeSubscriptionService.getCGSource(cgUrlRequest, request);
+    }
+
+    @PostMapping("/unSubscribe")
+    public ServiceResponse unSubscribe(@Valid @RequestBody final AuthRequest data, HttpServletRequest request) throws IOException {
+        LOGGER.debug(getFullURL(request));
+
+        if (data.getProvider().equals(Provider.TIMWE)) {
+            return timWeSubscriptionService.unSubscribe(data.getMsisdn(), request);
+        }
+
+        return  null;
+    }
+
+    @PostMapping("/timwe/updateStatus")
+    public ServiceResponse updateStatus(@Valid @RequestBody final SubscriptionConsent consent, HttpServletRequest request) throws  IOException {
+        LOGGER.debug(getFullURL(request));
+        return timWeSubscriptionService.updateStatus(consent.getCorrelatorId(), consent.getStatusCode());
+    }
+
+    @GetMapping("/status")
+    public ServiceResponse checkStatus(@RequestParam("msisdn") final String msisdn, HttpServletRequest request) throws IOException {
+        LOGGER.debug(getFullURL(request));
+        return timWeSubscriptionService.checkSub(msisdn);
     }
 }

@@ -24,7 +24,7 @@ export class Urls {
     public static readonly SIGNATURE = Urls.AUTH_API_PREFIX + '/digest';
 
     /*-------------------------SUBSCRIPTIONS--------------------*/
-    private static readonly SUBSCRIBE_API_PREFIX = Urls.API_PREFIX + 'subscribe';
+    private static readonly SUBSCRIBE_API_PREFIX = Urls.API_PREFIX + 'api/subscribe';
     public  static readonly CHECK_SUBSCRIPTION_STATUS = Urls.SUBSCRIBE_API_PREFIX + '/status/';
     public static readonly ADD_SUBSCRIPTION_CONTRACT = Urls.SUBSCRIBE_API_PREFIX + '/AddSubscriptionContract';
     public static readonly TIMWE_CONSENT_URL = Urls.SUBSCRIBE_API_PREFIX + '/timwe/consentUrl';
