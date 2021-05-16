@@ -11,6 +11,6 @@ export class HomeComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    window.location.href = Config.APP_URL + '&provider=' + Config.TIMWE;
+    window.location.href = Config.APP_URL + '?provider=' + Config.TIMWE;
   }
 }
