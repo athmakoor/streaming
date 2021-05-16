@@ -25,7 +25,7 @@ export class TimweComponent implements OnInit {
 
   constructor(private readonly route: ActivatedRoute, private readonly router: Router,
               private readonly cookieService: AuthCookieService, private readonly subscriptionService: SubscriptionService) {
-    this.bannerImage = Config.S3_ROOT_WITH_BUCKET + 'game-landing-banner.jpg';
+    this.bannerImage = Config.S3_ROOT_WITH_BUCKET + 'banner-2.png';
     this.route.queryParams.subscribe(qParams => {
       this.paramData = qParams;
       this.verifyValues();

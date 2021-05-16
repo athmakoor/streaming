@@ -155,6 +155,10 @@ app.controller("mainCtrl", ['$scope', 'apiServices', function ($scope, apiServic
         }
     }
 
+    if ((window.msisdn == null || window.msisdn == undefined && window.provider === "timwe") {
+        window.location.href = "/timwe/ar_AE/subscribe";
+    }
+
     if (window.alertMessage != null) {
         alert(window.alertMessage);
     }

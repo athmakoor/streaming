@@ -47,7 +47,7 @@ public class TSubscription implements TimWeSubscription {
         String mtUrl = PropertyManager.getPropValue("timwe.mtMessage");
 
         mtRequest.setLargeAccount(PropertyManager.getPropValue("timwe.largeAccount"));
-        mtRequest.setProductId(PropertyManager.getPropValue("timwe.product.fundoo"));
+        mtRequest.setProductId(PropertyManager.getPropValue("timwe.product.soccermania"));
         mtRequest.setMcc(PropertyManager.getPropValue("timwe.mcc"));
         mtRequest.setMnc(PropertyManager.getPropValue("timwe.mnc"));
 
@@ -89,7 +89,7 @@ public class TSubscription implements TimWeSubscription {
         vals.put("{MSISDN}", cgUrlRequest.getMsisdn());
         vals.put("{COUNTRYID}", cgUrlRequest.getCountryId());
         vals.put("{CHANNEL}", PropertyManager.getPropValue("timwe.entryChannel"));
-        vals.put("{PRODUCTID}", PropertyManager.getPropValue("timwe.product.fundoo"));
+        vals.put("{PRODUCTID}", PropertyManager.getPropValue("timwe.product.soccermania"));
         vals.put("{CORRELATORID}", correlatedId);
         vals.put("{APIKEY}",  URLEncoder.encode(PropertyManager.getPropValue("timwe.cg.apikey"), "UTF-8"));
 
@@ -110,7 +110,7 @@ public class TSubscription implements TimWeSubscription {
        unSubscribeRequest.setLargeAccount(PropertyManager.getPropValue("timwe.largeAccount"));
        unSubscribeRequest.setMcc(PropertyManager.getPropValue("timwe.mcc"));
        unSubscribeRequest.setMnc(PropertyManager.getPropValue("timwe.mnc"));
-       unSubscribeRequest.setProductId(PropertyManager.getPropValue("timwe.product.fundoo"));
+       unSubscribeRequest.setProductId(PropertyManager.getPropValue("timwe.product.soccermania"));
        unSubscribeRequest.setSubKeyword(PropertyManager.getPropValue("timwe.subKeyword"));
        unSubscribeRequest.setEntryChannel(PropertyManager.getPropValue("timwe.entryChannel"));
 
@@ -128,7 +128,7 @@ public class TSubscription implements TimWeSubscription {
     public TimWeSubscriptionRequest getSubscription(String correlatedId, CgUrlRequest request) {
         TimWeSubscriptionRequest subscriptionRequest = new TimWeSubscriptionRequest();
 
-        subscriptionRequest.setProductId(PropertyManager.getPropValue("timwe.product.fundoo"));
+        subscriptionRequest.setProductId(PropertyManager.getPropValue("timwe.product.soccermania"));
         subscriptionRequest.setCorrelatorId(correlatedId);
         subscriptionRequest.setPackId(request.getPackId());
         subscriptionRequest.setRoleId(PropertyManager.getPropValue("timwe.roleId"));
@@ -140,7 +140,7 @@ public class TSubscription implements TimWeSubscription {
     public TimWeSubscriptionRequest getSubscription(String correlatedId, NotificationUserOptinRequest request) {
         TimWeSubscriptionRequest subscriptionRequest = new TimWeSubscriptionRequest();
 
-        subscriptionRequest.setProductId(PropertyManager.getPropValue("timwe.product.fundoo"));
+        subscriptionRequest.setProductId(PropertyManager.getPropValue("timwe.product.soccermania"));
         subscriptionRequest.setCorrelatorId(correlatedId);
         subscriptionRequest.setPackId(request.getPricepointId().toString());
         subscriptionRequest.setRoleId(PropertyManager.getPropValue("timwe.roleId"));

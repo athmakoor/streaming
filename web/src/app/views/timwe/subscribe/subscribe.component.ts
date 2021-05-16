@@ -51,7 +51,7 @@ export class SubscribeComponent implements OnInit {
     this.urlParser.extractValues(this.router, this.router.url, 'subscribe');
     this.packs = [];
 
-    this.bannerImage = Config.S3_ROOT_WITH_BUCKET + 'game-landing-banner.jpg';
+    this.bannerImage = Config.S3_ROOT_WITH_BUCKET + + 'banner-2.png';
     this.subscribeOp = false;
 
     if (this.localStorageService.getContent(this.cookieService.getLocale())) {

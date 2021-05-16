@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Config } from 'src/app/common/constants/config';
 import { AuthCookieService } from 'src/app/common/services/cookie/auth-cookie.service';
 import { NavService } from '../components/nav.service';
 
@@ -27,7 +28,6 @@ export class HeaderComponent implements OnInit {
   }
 
   onHomeClick(): void {
-    this.router.navigate(['/' + this.provider + '/' + this.locale + '/games/'], {
-    });
+    window.location.href = Config.APP_URL + '?msisdn=' + this.mdn + '&provider=' + Config.TIMWE;
   }
 }

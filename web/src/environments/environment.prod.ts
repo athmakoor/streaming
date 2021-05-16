@@ -3,7 +3,7 @@ export const environment = {
 };
 
 export const apiURL = 'http://soccer.mooddit.com/api/';
-export const appUrl = 'http://soccer.mooddit.com/';
+export const appUrl = 'http://soccer.mooddit.com';
 export const imageBucket = 'https://vkangames.s3.ap-south-1.amazonaws.com/';
 export const redirectUrl = appUrl + '/redirect/enriched';
 export const providers = {
