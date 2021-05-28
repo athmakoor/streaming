@@ -1,0 +1,47 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+html {
+    width: 100vw;
+    align-content: center;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+body {   
+	margin: 0 auto !important; 
+	float: none !important; 
+    align-content: center;
+    height: 100vh;      
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: beige;
+}
+
+@media (min-width: 1200px) {
+    body.container {
+        max-width: 767px; 
+        margin: 0 auto !important; 
+        float: none !important; 
+        align-content: center;
+    }
+}
+
+.page-wrapper {
+    padding-top: 10px;
+}
+
+.margin-top-bottom {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.status-message {
+    color: green;
+}
