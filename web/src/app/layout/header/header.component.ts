@@ -1,13 +1,14 @@
+import { ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
+import { MatDrawer } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
-import { Config } from 'src/app/common/constants/config';
 import { AuthCookieService } from 'src/app/common/services/cookie/auth-cookie.service';
 import { NavService } from '../components/nav.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
   provider: any;
@@ -28,6 +29,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onHomeClick(): void {
-    window.location.href = Config.APP_URL + '?msisdn=' + this.mdn + '&provider=' + Config.TIMWE;
+    this.router.navigate(['/home'], {
+    });
   }
 }

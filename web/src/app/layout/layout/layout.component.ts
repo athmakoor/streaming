@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthCookieService } from 'src/app/common/services/cookie/auth-cookie.service';
 import { NavService } from '../components/nav.service';
@@ -13,7 +13,7 @@ interface ScrollPositionRestore {
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss']
+  styleUrls: ['./layout.component.css']
 })
 export class LayoutComponent implements OnInit, AfterViewInit {
   @ViewChild('contentArea') private contentArea: ElementRef<HTMLElement>;

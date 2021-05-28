@@ -16,7 +16,7 @@ import { MessageComponent } from '../../dialog/message/message.component';
 @Component({
   selector: 'app-subscribe',
   templateUrl: './subscribe.component.html',
-  styleUrls: ['./subscribe.component.scss']
+  styleUrls: ['./subscribe.component.css']
 })
 export class SubscribeComponent implements OnInit {
 
@@ -51,7 +51,7 @@ export class SubscribeComponent implements OnInit {
     this.urlParser.extractValues(this.router, this.router.url, 'subscribe');
     this.packs = [];
 
-    this.bannerImage = Config.S3_ROOT_WITH_BUCKET + + 'banner-2.png';
+    this.bannerImage = '/assets/img/banner-2.png';
     this.subscribeOp = false;
 
     if (this.localStorageService.getContent(this.cookieService.getLocale())) {
@@ -91,7 +91,8 @@ export class SubscribeComponent implements OnInit {
       this.subsciptionService.checkSubscription(this.msisdn).subscribe(
         data => {
           if (data.serviceCode === 3) {
-            window.location.href = Config.APP_URL + '?msisdn=' + data.data + '&provider=' + Config.TIMWE;
+            this.router.navigate(['/'], {
+            });
           } else if (data.serviceCode === 8) {
             const dialogConfig = new MatDialogConfig();
             dialogConfig.autoFocus = true;
@@ -107,7 +108,8 @@ export class SubscribeComponent implements OnInit {
 
             dialogRef.afterClosed().subscribe(d => {
               if (d) {
-                window.location.href = Config.APP_URL + '?msisdn=' + data.data + '&provider=' + Config.TIMWE;
+                this.router.navigate(['/'], {
+              });
               }
             });
           }
@@ -155,7 +157,8 @@ export class SubscribeComponent implements OnInit {
 
                   dialogRef.afterClosed().subscribe(d => {
                     if (d) {
-                      window.location.href = Config.APP_URL + '?msisdn=' + data.data + '&provider=' + Config.TIMWE;
+                      this.router.navigate(['/'], {
+                      });
                     }
                   });
                 }
@@ -169,7 +172,8 @@ export class SubscribeComponent implements OnInit {
           this.status = data.message;
           this.cookieService.setMdn(this.rData.msisdn);
           this.localStorageService.setPackData(this.rData.msisdn, this.selectedPack);
-          window.location.href = Config.APP_URL + '?msisdn=' + data.data + '&provider=' + Config.TIMWE;
+          this.router.navigate(['/'], {
+          });
         }
       });
   }

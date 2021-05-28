@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Config } from 'protractor';
 import { AuthCookieService } from 'src/app/common/services/cookie/auth-cookie.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { GamesService } from 'src/app/services/data/games.service';
 import { NavService } from '../components/nav.service';
 
 @Component({
   selector: 'app-side-menu',
   templateUrl: './side-menu.component.html',
-  styleUrls: ['./side-menu.component.scss']
+  styleUrls: ['./side-menu.component.css']
 })
 export class SideMenuComponent implements OnInit {
   mdn: any;
@@ -48,4 +51,3 @@ export class SideMenuComponent implements OnInit {
     this.navService.toggleNav();
  }
 }
-

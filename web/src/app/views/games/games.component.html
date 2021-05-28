@@ -1,0 +1,22 @@
+<div class="container-sm">
+    <div class="row row-cols-sm-1 row-cols-lg-1 row-cols-md-1">
+        <mat-card class="banner-card">
+            <img mat-card-image class="game-card-banner" [src]='bannerImage' alt="banner">
+        </mat-card>
+    </div>
+</div>
+<div class="container-sm" *ngFor="let game of games | keyvalue">
+    <div class="category-heading">
+        <div class="vertical-strip">&nbsp;</div>
+        <h3 class="carousel-header ng-binding"> {{game.key | uppercase}}</h3>
+        <a class="view-more" routerLink='category/{{game.key}}'>More >></a>
+    </div>
+    <div class="row" *ngIf="games; else noGames">
+        <app-game-card [pageSize]="pageSize" [hasSubScription]="hasSubScription" [gamesGroup]="game.value"></app-game-card>
+    </div>
+</div>
+<ng-template #noGames>
+    <div class="no-games">
+        No Games found at this time!
+    </div>
+</ng-template>

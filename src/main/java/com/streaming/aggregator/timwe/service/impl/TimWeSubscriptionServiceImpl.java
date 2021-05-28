@@ -143,20 +143,20 @@ public class TimWeSubscriptionServiceImpl implements TimWeSubscriptionService {
                             response.setMessage("Unsubscribed SuccessFully");
                             break;
                         case "OPTOUT_ALREADY_CANCELED":
-                            response.setMessage("Already Unsubscribed from fundoo games service.");
+                            response.setMessage("Already Unsubscribed from soccer mania service.");
                             break;
                         case "OPTOUT_ALL_CANCELED_OK":
-                            response.setMessage("Unsubscribed from all subscriptions of fundoo games service.");
+                            response.setMessage("Unsubscribed from all subscriptions of soccer mania service.");
                             break;
                         case "OPTOUT_ALL_ALREADY_CANCELED":
-                            response.setMessage("Already All subscriptions are Unsubscribed from fundoo games service.");
+                            response.setMessage("Already All subscriptions are Unsubscribed from soccer mania service.");
                             break;
                         case "OPTOUT_MISSING_PARAM":
                             response.setHasError(true);
                             response.setMessage("Unsubscribe failed due to invalid data");
                             break;
                         case "OPTOUT_NO_SUB":
-                            response.setMessage("No Subscription found for the fundoo games on the mobile number");
+                            response.setMessage("No Subscription found for the soccer mania on the mobile number");
                             break;
                     }
 
@@ -195,8 +195,14 @@ public class TimWeSubscriptionServiceImpl implements TimWeSubscriptionService {
 
         if("1".equals(statusCode)) {
             if (existing.isPresent()) {
+                Optional<SubscriptionPackEntity> subscriptionPackEntity = subscriptionPackRepository.findByProviderAndSku(existing.get().getProvider(), existing.get().getPackId());
                 existing.get().setStatus("parking");
-                existing.get().setExpireAt(TimeUtil.getCurrentUTCTime());
+
+                if (subscriptionPackEntity.isPresent()) {
+                    existing.get().setExpireAt(TimeUtil.getCurrentUTCTime().plusDays(subscriptionPackEntity.get().getDays()));
+                } else {
+                    existing.get().setExpireAt(TimeUtil.getCurrentUTCTime());
+                }
 
                 savedSubscription = subscriptionRepository.save(existing.get());
                 LOGGER.info("Timwe Subscription update" , savedSubscription);

@@ -7,7 +7,7 @@ import { ZoneUtils } from 'src/app/common/utils/zoneUtils';
 @Component({
   selector: 'app-timwe',
   templateUrl: './timwe.component.html',
-  styleUrls: ['./timwe.component.scss']
+  styleUrls: ['./timwe.component.css']
 })
 export class TimweComponent implements OnInit {
   paramData: any;
@@ -25,10 +25,11 @@ export class TimweComponent implements OnInit {
 
   setInitialData(paramData: any): void {
     const zoneUtils = new ZoneUtils();
-    const locale = zoneUtils.getCountryLocale() || paramData.locale || Config.COUNTRY_ZONE.AE;
+    const locale = zoneUtils.getCountryLocale() || paramData.locale || Config.COUNTRY_ZONE.EG;
     this.cookieService.setLocale(locale);
     this.cookieService.setProvider(Config.PROVIDER_BY_LOCALE[locale]);
 
     return this.cookieService.getProvider();
   }
+
 }

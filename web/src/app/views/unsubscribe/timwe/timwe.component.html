@@ -1,1 +1,37 @@
-<p>timwe works!</p>
+<div class="container-sm">
+    <div class="row row-cols-sm-1 row-cols-lg-1 row-cols-md-1">
+        <mat-card class="banner-card">
+            <img mat-card-image class="game-card-banner" [src]='bannerImage' alt="banner">
+            <mat-card-title class="banner-title">
+              SOCCER MANIA
+            </mat-card-title>
+        </mat-card>
+    </div>
+
+    <div class="row row-cols-1 row-cols-lg-1 row-cols-md-1 subscribe-height">
+        <mat-card class="game-card margin-top-bottom ">
+            <mat-card-content class="subscribe-btn">
+                <p class="subscribe-price">
+                    Click UNSUBSCRIBE to end subscription.
+                </p>
+
+                <button mat-raised-button color="primary" (click)="onUnSubscribe()"
+                    class="play-button w-75">UN SUBSCRIBE</button>
+                    <p class="subscribe-price" *ngIf="pack">
+                        Actie Pack: {{pack.chargeAmount}} {{pack.currency}}/{{pack.frequency}} VAT inclusive (Auto-Renewed)
+                    </p>
+                    <p *ngIf="status" [ngClass]="{'status-error': 'error-message'}" class="status-message">
+                        {{status}}
+                    </p>
+            </mat-card-content>
+            <mat-card-content>
+                <p class="subscribe-description">
+                    - SOCCER MANIA is a subscription service for which you would like recive premium videos to enjoy.
+                </p>
+                <p class="subscribe-description" *ngIf="pack"> Subscription would be renewal at {{pack.chargeAmount}} {{pack.currency}}/{{pack.frequency}} VAT inclusive, automatically until you
+                    unsubscribe.
+                </p>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

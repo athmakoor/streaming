@@ -11,7 +11,7 @@ import { SubscriptionService } from 'src/app/services/auth/subscription.service'
 @Component({
   selector: 'app-timwe',
   templateUrl: './timwe.component.html',
-  styleUrls: ['./timwe.component.scss']
+  styleUrls: ['./timwe.component.css']
 })
 export class TimweComponent implements OnInit {
 
@@ -25,7 +25,7 @@ export class TimweComponent implements OnInit {
 
   constructor(private readonly route: ActivatedRoute, private readonly router: Router,
               private readonly cookieService: AuthCookieService, private readonly subscriptionService: SubscriptionService) {
-    this.bannerImage = Config.S3_ROOT_WITH_BUCKET + 'banner-2.png';
+    this.bannerImage = '/assets/img/banner-2.png';
     this.route.queryParams.subscribe(qParams => {
       this.paramData = qParams;
       this.verifyValues();
@@ -61,7 +61,7 @@ export class TimweComponent implements OnInit {
           this.status = 'Subscription Added SuccessFully';
           this.statusType = 'ok';
           this.validated = true;
-          window.location.href = Config.APP_URL + '?msisdn=' + data.data + '&provider=' + Config.TIMWE;
+          this.router.navigate(['/']);
         } else {
           this.status = data.errorMessage;
           this.statusType = 'error-message';
@@ -77,7 +77,7 @@ export class TimweComponent implements OnInit {
   }
 
   proceed(): void {
-    this.router.navigate(['?msisdn=' + this.cookieService.getMdn() + '&provider=' + Config.TIMWE]);
+    this.router.navigate(['/']);
   }
 
   ngOnInit(): void {

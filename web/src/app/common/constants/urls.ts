@@ -12,6 +12,8 @@ export class Urls {
     public static readonly GAMES_GROUP_BY_CATEGORIES = Urls.GAME_API_PREFIX + '/home';
     public static readonly GAMES_BY_ID = Urls.GAME_API_PREFIX + '/id/';
     public static readonly GAMES_BY_CATEGORY = Urls.GAME_API_PREFIX + '/category/';
+    public static readonly HOME_VIDEOS_API = Urls.API_PREFIX + 'api/video/home';
+    public static readonly HOME_VIDEOS_API_CATEGORY = Urls.API_PREFIX + 'api/video/category/';
 
     /*-------------------------AUTH--------------------*/
     private static readonly AUTH_API_PREFIX = Urls.API_PREFIX + 'auth';

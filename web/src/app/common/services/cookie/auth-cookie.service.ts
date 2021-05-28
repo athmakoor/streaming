@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { CustomCookieService } from '../cookie/custom-cookie.service';
 import { Subject } from 'rxjs';
-import { CustomCookieService } from './custom-cookie.service';
 
 @Injectable({
   providedIn: 'root'

@@ -10,6 +10,7 @@ import com.streaming.service.CountryService;
 import com.streaming.service.OperatorService;
 import com.streaming.service.mapping.ServiceMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+@Transactional
 public class CountryServiceImpl implements CountryService {
     @Resource
     private ServiceMapper<Country, CountryEntity> countryServiceMapper;

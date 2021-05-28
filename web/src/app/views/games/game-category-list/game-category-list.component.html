@@ -1,0 +1,14 @@
+<div class="container-sm" *ngIf="games && games.length > 0; else noGames">
+    <div class="category-heading">
+        <div class="vertical-strip">&nbsp;</div>
+        <h3 class="carousel-header ng-binding"> {{category | uppercase}}</h3>        
+    </div>
+    <div class="row">
+        <app-game-card [pageSize]="pageSize" [hasSubScription]="hasSubScription" [gamesGroup]="games"></app-game-card>
+    </div>
+</div>
+<ng-template #noGames>
+    <div class="no-games">
+        No Games found at this time!
+    </div>
+</ng-template>

@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GameCardComponent } from './components/game-card/game-card.component';
+import { SubscriptionCardComponent } from './components/Subscription-card/Subscription-card.component';
 import { HeadingComponent } from './heading/heading.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,7 +14,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import {MatDividerModule} from '@angular/material/divider';
 
 const DECLARATIONS = [
-  HeadingComponent
+  HeadingComponent,
+  GameCardComponent,
+  SubscriptionCardComponent
 ];
 
 const IMPORTS = [

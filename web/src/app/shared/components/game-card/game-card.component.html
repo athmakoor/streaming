@@ -1,0 +1,19 @@
+<div class="container-sm" *ngIf="gamesGroup && gamesGroup.length > 0; else noGames">
+  <div class="row row-cols-1 row-cols-lg-2 row-cols-md-2">
+    <mat-card class="game-card" *ngFor="let game of gamesGroup | slice:0:pageSize" (click)="onPlay(game)">
+      <div class="game-card-image">
+        <img mat-card-md-image [src]='bucketUrl + game.category + path + game.imageUrl' alt="game.displayName">
+        <img src='./../../../assets/img/video.png' class="play-icon">
+      </div>
+      <mat-card-title class="game-card-title">
+        <p>{{game.displayName | uppercase}}</p>
+      </mat-card-title>
+    </mat-card>
+  </div>
+</div>
+
+<ng-template #noGames>
+  <div class="no-games">
+    No Videos found at this time!
+  </div>
+</ng-template>

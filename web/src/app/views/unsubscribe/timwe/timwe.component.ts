@@ -6,12 +6,13 @@ import { AuthCookieService } from 'src/app/common/services/cookie/auth-cookie.se
 import { LocalStorageService } from 'src/app/common/services/localStorage/localstorage.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { SubscriptionService } from 'src/app/services/auth/subscription.service';
+import { CommonService } from 'src/app/services/data/common.service';
 import { ConfirmComponent } from '../../dialog/confirm/confirm.component';
 
 @Component({
   selector: 'app-timwe',
   templateUrl: './timwe.component.html',
-  styleUrls: ['./timwe.component.scss']
+  styleUrls: ['./timwe.component.css']
 })
 export class TimweComponent implements OnInit {
 
@@ -27,7 +28,7 @@ export class TimweComponent implements OnInit {
   constructor(private readonly route: ActivatedRoute, private readonly router: Router, private dialog: MatDialog,
               private readonly subscriptionService: SubscriptionService, private readonly localStorageService: LocalStorageService,
               private readonly cookieService: AuthCookieService, private readonly authService: AuthService) {
-    this.bannerImage = Config.S3_ROOT_WITH_BUCKET + 'game-landing-banner.jpg';
+    this.bannerImage = '/assets/img/banner-2.png';
     this.mdn = this.cookieService.getMdn();
     this.provider = this.cookieService.getProvider() || Config.TPAY;
     this.pack = localStorageService.getPackData(this.mdn);
@@ -67,7 +68,8 @@ export class TimweComponent implements OnInit {
                 this.status = 'Unsubscription successfull';
                 this.statusType = 'ok';
                 this.clearMsisdn();
-                window.location.href = Config.APP_URL + '?msisdn=' + data.data + '&provider=' + Config.TIMWE;
+                this.router.navigate(['/' + this.cookieService.getProvider() + '/' + this.cookieService.getLocale() + '/games'], {
+                });
               } else {
                 this.status = 'Unsubscription Failed.Try again later.';
                 this.statusType = 'error-message';
@@ -86,4 +88,5 @@ export class TimweComponent implements OnInit {
   clearMsisdn(): void {
     this.cookieService.setMdn('');
   }
+
 }

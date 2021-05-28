@@ -1,7 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Urls } from 'src/app/common/constants/urls';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -66,4 +66,3 @@ export class AuthService {
     return rBody;
   }
 }
-

@@ -1,0 +1,29 @@
+// Angular material theme
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+//Slick carousel
+@import "~slick-carousel/slick/slick.scss";
+@import "~slick-carousel/slick/slick-theme.scss";
+
+@import "~plyr/dist/plyr.css";
+
+/* vjs-player.component.css */
+@import '~video.js/dist/video-js.css';
+
+// City
+@import '~@videojs/themes/dist/city/index.css';
+
+// Fantasy
+@import '~@videojs/themes/dist/fantasy/index.css';
+
+// Forest
+@import '~@videojs/themes/dist/forest/index.css';
+
+// Sea
+@import '~@videojs/themes/dist/sea/index.css';
+
+@import "./variables";
+@import "./common";
+@import "./layout";
+
+@import "./components/components.scss";

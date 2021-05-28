@@ -1,1 +1,8 @@
-<p>message works!</p>
+<div class="dialog-block">   
+    <div mat-dialog-content>
+      <p>{{data.message}}</p>  
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button cdkFocusInitial (click)="onYes()">OK</button>     
+    </div>
+</div>

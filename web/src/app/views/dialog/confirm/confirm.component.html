@@ -1,1 +1,9 @@
-<p>confirm works!</p>
+<div class="dialog-block">   
+    <div mat-dialog-content>
+      <p>To Confirm your unsubscribe click YES.</p>  
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button cdkFocusInitial (click)="onYes()">YES</button>
+      <button mat-button  (click)="close()">No</button>
+    </div>
+</div>

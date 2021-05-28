@@ -26,7 +26,7 @@ export class ZoneUtils {
             }
         }
 
-        return locale;
+        return 'ar_AE';
     }
 
     getZoneAlliases(zone: string): any {

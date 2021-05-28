@@ -1,0 +1,66 @@
+.home-carousel-container {
+    .carousel.slick-slider {
+        margin-bottom: 12px;
+        
+        .slick-next {
+            right: 15px !important;
+        }
+
+        .slick-prev {
+            left: 15px !important;
+        }
+
+        .slick-arrow {
+            z-index: 1;
+            display: none !important;
+        }
+
+        .slick-list {
+            .slick-track {
+                .slick-slide {
+                    cursor: pointer;
+                    width: 100%;
+                    height: calc(100vw * 0.55);
+
+                    img.slider-img, video {
+                        width: 100% !important;
+                        height: 100% !important;
+                        padding: 0;
+                    }
+
+                    &:focus,
+                    img.slider-img:focus {
+                        outline: none;
+                    }
+                }
+            }
+        }
+
+        .slick-dots {
+            bottom: 10px;
+
+            li {
+                &, button {
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                }
+
+                &.slick-active {
+                    button {
+                        background-color: $app-primary-color;
+                    }
+                }
+
+                button {
+                    padding: 0;
+                    background-color: #fff;
+
+                    &::before {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}
