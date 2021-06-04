@@ -1,0 +1,25 @@
+.page-layout {
+    &.hide-app-menu {
+        #sideNavContainer {
+            transform: translateX(-100%);
+        }
+    }
+
+    &.expand-app-menu {
+        #sideNavContainer {
+            transform: translateX(0);
+        }
+    }
+
+    .page-container {
+        min-height: calc(100vh - 64px);
+
+        &.page-mobile {
+            min-height: calc(100vh - 56px);
+        }
+
+        .page-wrapper {
+            min-height: 100%;
+        }
+    }
+}
