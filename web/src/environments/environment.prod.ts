@@ -2,8 +2,8 @@ export const environment = {
   production: true
 };
 
-export const apiURL = 'http://fundoogames.mobi/api/';
-export const appUrl = 'http://fundoogames.mobi';
+export const apiURL = 'http://dusoccer.mooddit.com/api/';
+export const appUrl = 'http://dusoccer.mooddit.com';
 export const imageBucket = 'https://vkangames.s3.ap-south-1.amazonaws.com/';
 export const redirectUrl = appUrl + '/redirect/enriched';
 export const providers = {
