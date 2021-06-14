@@ -13,7 +13,7 @@ import com.streaming.service.VideoService;
 
 @RestController
 @RequestMapping("/api/video")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins="*",allowedHeaders="*")
 public class VideoController {
     @Resource
     private VideoService videoService;

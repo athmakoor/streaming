@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/data")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins="*",allowedHeaders="*")
 public class DataProviderController {
     @Resource
     private CountryService countryService;

@@ -31,7 +31,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/subscribe")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins="*",allowedHeaders="*")
 public class SubscriptionController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SubscriptionController.class);
 
