@@ -1,5 +1,6 @@
 package com.streaming.auth.service.impl;
 
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
@@ -7,7 +8,21 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
+import com.streaming.bean.UnSubscribeRequest;
+import com.streaming.bean.UnSubscribeResponse;
+import com.streaming.properties.PropertyManager;
+import com.streaming.subscription.SubscriptionUtils;
+import com.streaming.subscription.bean.jpa.SubscriptionEntity;
+import com.streaming.subscription.repository.SubscriptionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -28,6 +43,8 @@ import com.streaming.utils.IpUtil;
 import com.streaming.utils.request.Request;
 import com.streaming.utils.request.RequestException;
 import com.streaming.utils.request.RequestUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -37,6 +54,8 @@ public class AuthServiceImpl implements AuthService {
     private AuthRequestRepository authRequestRepository;
     @Resource
     private DigitalMarketingService digitalMarketingService;
+    @Resource
+    private SubscriptionRepository subscriptionRepository;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthServiceImpl.class);
 
@@ -160,5 +179,11 @@ public class AuthServiceImpl implements AuthService {
         }
 
         return authResponse;
+    }
+
+    @Override
+    public Boolean unSubscribe(String msisdn) {
+
+        return false;
     }
 }

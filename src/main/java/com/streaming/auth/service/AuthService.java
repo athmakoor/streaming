@@ -15,4 +15,6 @@ public interface AuthService {
     Boolean verifyOTP(String msisdn, String otpText, HttpServletRequest request) throws UnsupportedEncodingException;
 
     AuthResponse regenerateOTP(String msisdn, HttpServletRequest request);
+
+    public Boolean unSubscribe(String msisdn);
 }
